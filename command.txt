@@ -1,0 +1,17 @@
+1. python -m venv env
+
+2. env\Scripts\activate
+
+3 If don't active then open power shell and run
+	Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+	then navigate to cmd and  run
+		env\Scripts\activate
+
+4.install Django ->(pip install Django)
+
+5.django-admin startprojct projectname . ->
+	if need then, 
+	     (check version: django-admin --version)
+
+6.get running url by below command->
+	python manage.py runserver

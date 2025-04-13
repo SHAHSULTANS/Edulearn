@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Template</title>
+</head>
+<body>
+    {% if is_authenticated%}
+        <h1>Hello {{username}}</h1>
+    {%else%}
+    <h1>Hello User</h1>
+    {%endif%}
+    <h2>I am  almost {{age}} years old</h2>
+    <h3>My list object is {{myFirstList.0}}</h3>
+    <h2>{{tempObject.x}}</h2>
+    <h2>Fruits List is:</h2>
+    <ul>
+        {% for item in myFirstList %}
+            <li>item</li>
+        {% endfor %}
+        
+    </ul>
+    
+    
+</body>
+</html>

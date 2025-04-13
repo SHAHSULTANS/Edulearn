@@ -1,0 +1,28 @@
+{% extends "courses/base.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  <h1 style="text-align: center; color: #2c3e50;">Welcome to My Learning Platform</h1>
+
+  <div style="margin-top: 30px;">
+    <h2 style="color: #34495e;">👤 About Me</h2>
+    <ul style="line-height: 1.8; font-size: 16px;">
+      <li><strong>Name:</strong> Shah Sultan</li>
+      <li><strong>Email:</strong> shah.sultan@example.com</li>
+      <li><strong>University:</strong> Jahangirnagar University</li>
+      <li><strong>Department:</strong> Computer Science</li>
+      <li><strong>Student ID:</strong> JU2024101</li>
+      <li><strong>Academic Year:</strong> 2024</li>
+      <li><strong>Technologies:</strong> HTML, CSS, JavaScript, Python, Django, MySQL</li>
+      <li><strong>Projects:</strong> Quiz App, Movie API Search, Chat Application</li>
+    </ul>
+  </div>
+
+  <div style="margin-top: 40px; text-align: center;">
+    <a href="{% url 'home' %}" 
+       style="padding: 12px 24px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 8px; font-size: 18px;">
+      📚 View Available Courses
+    </a>
+  </div>
+</div>
+{% endblock content %}

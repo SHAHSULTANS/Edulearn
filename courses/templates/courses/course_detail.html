@@ -1,0 +1,109 @@
+{% extends "courses/base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f7f9fc;
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .course-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .course-description {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .progress {
+        height: 25px;
+        background-color: #e4eaf0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .progress-bar {
+        background-color: #28a745;
+        font-weight: bold;
+    }
+
+    .lesson-item {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .lesson-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .lesson-content {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    .lesson-actions a,
+    .lesson-actions span {
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-secondary {
+        background-color: #6c757d;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="course-title">{{ course.title }}</h1>
+        <p class="course-description">{{ course.description }}</p>
+    </div>
+
+    <div class="progress mb-5">
+        <div class="progress-bar" role="progressbar" style="width: {{ progress }}%" 
+             aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+            {{ progress|floatformat:0 }}% Complete
+        </div>
+    </div>
+
+    <h2 class="mb-4">Lessons</h2>
+    {% for lesson in course.lessons.all %}
+        <div class="lesson-item">
+            <div class="lesson-title">{{ lesson.title }}</div>
+            <div class="lesson-content">{{ lesson.content|truncatewords:30 }}</div>
+            <div class="lesson-actions d-flex flex-wrap align-items-center">
+                {% if lesson in student.completed_lessons.all %}
+                    <span class="badge badge-success">Completed</span>
+                {% else %}
+                    <span class="badge badge-secondary">Not Completed</span>
+                    <a href="{% url 'mark_lesson_complete' lesson.id %}" class="btn btn-sm btn-outline-success">
+                        Mark Complete
+                    </a>
+                {% endif %}
+                {% if lesson.video_url %}
+                    <a href="{{ lesson.video_url }}" class="btn btn-sm btn-outline-info" target="_blank">
+                        Watch Video
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>No lessons available for this course.</p>
+    {% endfor %}
+</div>
+{% endblock %}
