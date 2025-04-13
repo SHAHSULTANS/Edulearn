@@ -1,28 +1,274 @@
 {% extends "courses/base.html" %}
 
 {% block content %}
-<div style="max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  <h1 style="text-align: center; color: #2c3e50;">Welcome to My Learning Platform</h1>
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="profile-info">
+            <div class="name-and-btn">
+                <h1>Shah Sultan</h1>
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <i class="fas fa-book-open me-2"></i>Explore My Courses
+                </a>
+            </div>
+            <p class="text-muted">Computer Science Student | IoT Enthusiast</p>
+            <div class="profile-badges">
+                <span class="badge bg-primary">Web Development</span>
+                <span class="badge bg-success">IoT</span>
+                <span class="badge bg-info">Data Analysis</span>
+            </div>
+        </div>
+    </div>
 
-  <div style="margin-top: 30px;">
-    <h2 style="color: #34495e;">👤 About Me</h2>
-    <ul style="line-height: 1.8; font-size: 16px;">
-      <li><strong>Name:</strong> Shah Sultan</li>
-      <li><strong>Email:</strong> shah.sultan@example.com</li>
-      <li><strong>University:</strong> Jahangirnagar University</li>
-      <li><strong>Department:</strong> Computer Science</li>
-      <li><strong>Student ID:</strong> JU2024101</li>
-      <li><strong>Academic Year:</strong> 2024</li>
-      <li><strong>Technologies:</strong> HTML, CSS, JavaScript, Python, Django, MySQL</li>
-      <li><strong>Projects:</strong> Quiz App, Movie API Search, Chat Application</li>
-    </ul>
-  </div>
+    <div class="profile-grid">
+        <!-- About Section -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2><i class="fas fa-user me-2"></i>About Me</h2>
+            </div>
+            <div class="card-body">
+                <p class="profile-bio">
+                    Frontend developer skilled in building responsive web applications and IoT solutions with expertise in HTML, CSS, JavaScript, and tools like Arduino and ESP8266. I've developed a range of projects, including real-time chat apps, interactive quizzes, and IoT-based environmental monitoring systems.
+                </p>
+                <div class="profile-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>shah.sultan@example.com</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-id-card"></i>
+                        <span>JU2024101</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <div style="margin-top: 40px; text-align: center;">
-    <a href="{% url 'home' %}" 
-       style="padding: 12px 24px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 8px; font-size: 18px;">
-      📚 View Available Courses
-    </a>
-  </div>
+        <!-- Education Section -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2><i class="fas fa-graduation-cap me-2"></i>Education</h2>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-point"></div>
+                        <div class="timeline-content">
+                            <h5>BSc in Computer Science</h5>
+                            <p class="text-muted">Jahangirnagar University</p>
+                            <small>2020 - 2024</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-point"></div>
+                        <div class="timeline-content">
+                            <h5>Edge IoT & Robotics</h5>
+                            <p class="text-muted">Jahangirnagar University</p>
+                            <small>Specialization</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2><i class="fas fa-code me-2"></i>Technologies</h2>
+            </div>
+            <div class="card-body">
+                <div class="skills-grid">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">Arduino</span>
+                    <span class="skill-tag">ESP8266</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2><i class="fas fa-project-diagram me-2"></i>Projects</h2>
+            </div>
+            <div class="card-body">
+                <ul class="project-list">
+                    <li>Real-time Chat Application</li>
+                    <li>Interactive Quiz Platform</li>
+                    <li>IoT Environmental Monitoring</li>
+                    <li>Movie API Search Engine</li>
+                    <li>25+ Mini Projects</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+
+<style>
+    .profile-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .profile-avatar {
+        font-size: 5rem;
+        color: #4361ee;
+    }
+
+    .profile-badges {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        padding: 1.25rem 1.5rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .profile-bio {
+        line-height: 1.7;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #666;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+    }
+
+    .timeline-point {
+        position: absolute;
+        left: -1.5rem;
+        top: 0.25rem;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #4361ee;
+    }
+
+    .timeline-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: -1.44rem;
+        top: 1.25rem;
+        bottom: 0;
+        width: 2px;
+        background: #e0e0e0;
+    }
+
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .skill-tag {
+        padding: 0.35rem 0.75rem;
+        background: #f0f4ff;
+        color: #4361ee;
+        border-radius: 50px;
+        font-size: 0.85rem;
+    }
+
+    .project-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .project-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .project-list li:last-child {
+        border-bottom: none;
+    }
+
+    .name-and-btn {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-badges {
+            justify-content: center;
+        }
+
+        .name-and-btn {
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
