@@ -9,7 +9,7 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     duration = models.IntegerField(help_text="Duration in hours")
-    thumbnail = models.ImageField(upload_to='course_thumbnails/', null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='course_thumbnail/', null=True, blank=True)
     created_at = models.DateTimeField( default=timezone.now)
 
     def __str__(self):

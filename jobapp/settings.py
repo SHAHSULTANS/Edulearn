@@ -24,7 +24,7 @@ CSRF_TRUSTED_ORIGINS= ["https://edulearn-production-624e.up.railway.app"]
 SECRET_KEY = 'django-insecure-pnkfl*x^4y!a_a9-3h_2(qdmsp))kw%$_r-6a+68nhh^wfpyz+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
