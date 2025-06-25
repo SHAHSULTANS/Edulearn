@@ -6,6 +6,6 @@ from users import views
 
 
 urlpatterns = [
-   path("login",views.login_view,name="user_login")
+   path('login/', views.UserLoginView.as_view(), name='login'),
     
 ]
