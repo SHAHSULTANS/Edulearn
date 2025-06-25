@@ -39,17 +39,29 @@
         --text-color: #2d2f31;
         --border-color: #d1d7dc;
       }
+      html {
+        scroll-behavior: smooth;
+      }
 
       body {
         font-family: "Roboto", sans-serif;
         color: var(--text-color);
         background-color: var(--secondary-color);
+        padding-top: 80px; /* Match the height of the navbar */
       }
 
       .navbar {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
         padding: 0.5rem 0;
         background-color: var(--light-color) !important;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        transition: top 0.3s;
+        z-index: 1030; /* Above everything */
       }
 
       .navbar-brand {
@@ -317,6 +329,24 @@
       var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
+      let lastScrollTop = 0;
+      const navbar = document.querySelector(".navbar");
+
+      window.addEventListener("scroll", function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+          // scrolling down
+          navbar.style.top = "-80px"; // Hide navbar
+        } else {
+          // scrolling up
+          navbar.style.top = "0"; // Show navbar
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Avoid negative scroll
+      });
+
+      
     </script>
 
     {% block extra_js %}{% endblock %}
