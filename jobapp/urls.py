@@ -25,7 +25,7 @@ from users.views import home_dashbord
 urlpatterns = [
    
     path('admin/', admin.site.urls),
-    path("",home_dashbord,),
+    path("",home_dashbord, name="home"),
     path("user/", include('users.urls')),
     # path('',include('app.urls')),
     # path('',main_hompage,name="index"),
