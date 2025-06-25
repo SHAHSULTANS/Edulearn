@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'courses.apps.CoursesConfig',
+    # 'courses.apps.CoursesConfig',
     'rest_framework',
     'users',
 
@@ -142,9 +142,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 # Authentication settings
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
-LOGIN_URL = '/courses/login/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/login/'
+# LOGIN_URL = '/courses/login/'
 
 # Email settings (for password reset)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

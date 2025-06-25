@@ -18,15 +18,15 @@ from django.contrib import admin
 from django.urls import include, path
 from jobapp import settings
 from django.conf.urls.static import static
-from courses.views import main_hompage
+# from courses.views import main_hompage
 
 
 urlpatterns = [
    
     path('admin/', admin.site.urls),
     # path('',include('app.urls')),
-    path('',main_hompage,name="index"),
-    path("courses/",include("courses.urls")),
+    # path('',main_hompage,name="index"),
+    # path("courses/",include("courses.urls")),
     
 ]
 
