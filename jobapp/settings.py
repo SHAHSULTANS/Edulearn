@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'courses.apps.CoursesConfig',
     'rest_framework',
+    'users',
 
 ]
 
@@ -137,8 +138,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
+#Custom User Model.
+AUTH_USER_MODEL = 'users.User'
 
 # Authentication settings
 LOGIN_REDIRECT_URL = '/'
