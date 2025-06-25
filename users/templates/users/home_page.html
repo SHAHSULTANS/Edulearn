@@ -1,0 +1,207 @@
+{% extends "base.html" %} {% block content %}
+<div class="container py-5">
+  <!-- Section Header -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2 class="fw-bold">Popular Courses</h2>
+      <p class="text-muted">Learn from industry experts</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+      <a href="#" class="btn btn-outline-primary">View All Courses</a>
+    </div>
+  </div>
+
+  <!-- Course Grid -->
+  <div class="row">
+    <!-- Card 1: Python -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="course-card card h-100 border-0 shadow-sm">
+        <div class="position-relative">
+          <img
+            src="https://via.placeholder.com/300x170/5624d0/ffffff?text=Python"
+            class="card-img-top"
+            alt="Python Course"
+          />
+          <span class="badge bg-danger position-absolute top-10 start-10"
+            >Bestseller</span
+          >
+        </div>
+        <div class="card-body p-3">
+          <h5 class="card-title mb-1">
+            <a href="#" class="text-dark text-decoration-none"
+              >Python for Beginners 2024</a
+            >
+          </h5>
+          <p class="text-muted small mb-2">Alex Johnson • Developer</p>
+          <div class="d-flex align-items-center mb-2">
+            <span class="text-warning small"
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star-half-alt"></i
+            ></span>
+            <span class="text-muted small ms-1">4.7 (8,241)</span>
+          </div>
+          <div class="course-meta d-flex small text-muted mb-2">
+            <span class="me-2"><i class="far fa-clock me-1"></i> 18 hours</span>
+            <span><i class="fas fa-signal me-1"></i> Beginner</span>
+          </div>
+          <div class="d-flex align-items-center mt-3">
+            <span class="h5 mb-0 text-dark">$14.99</span>
+            <span class="ms-2 text-decoration-line-through text-muted small"
+              >$149.99</span
+            >
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+          <button class="btn btn-primary w-100">
+            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Web Design -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="course-card card h-100 border-0 shadow-sm">
+        <div class="position-relative">
+          <img
+            src="https://via.placeholder.com/300x170/2d2f31/ffffff?text=Web+Design"
+            class="card-img-top"
+            alt="Web Design Course"
+          />
+          <span class="badge bg-success position-absolute top-10 start-10"
+            >New</span
+          >
+        </div>
+        <div class="card-body p-3">
+          <h5 class="card-title mb-1">
+            <a href="#" class="text-dark text-decoration-none"
+              >Modern Web Design with Figma</a
+            >
+          </h5>
+          <p class="text-muted small mb-2">Sarah Lee • UI/UX Designer</p>
+          <div class="d-flex align-items-center mb-2">
+            <span class="text-warning small"
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="far fa-star"></i
+            ></span>
+            <span class="text-muted small ms-1">4.5 (3,112)</span>
+          </div>
+          <div class="course-meta d-flex small text-muted mb-2">
+            <span class="me-2"
+              ><i class="far fa-clock me-1"></i> 10.5 hours</span
+            >
+            <span><i class="fas fa-signal me-1"></i> Intermediate</span>
+          </div>
+          <div class="d-flex align-items-center mt-3">
+            <span class="h5 mb-0 text-dark">$19.99</span>
+            <span class="ms-2 text-decoration-line-through text-muted small"
+              >$99.99</span
+            >
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+          <button class="btn btn-primary w-100">
+            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Data Science -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="course-card card h-100 border-0 shadow-sm">
+        <div class="position-relative">
+          <img
+            src="https://via.placeholder.com/300x170/a435f0/ffffff?text=Data+Science"
+            class="card-img-top"
+            alt="Data Science Course"
+          />
+        </div>
+        <div class="card-body p-3">
+          <h5 class="card-title mb-1">
+            <a href="#" class="text-dark text-decoration-none"
+              >Data Science Bootcamp 2024</a
+            >
+          </h5>
+          <p class="text-muted small mb-2">Dr. Michael Chen • Data Scientist</p>
+          <div class="d-flex align-items-center mb-2">
+            <span class="text-warning small"
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i
+            ></span>
+            <span class="text-muted small ms-1">4.9 (5,678)</span>
+          </div>
+          <div class="course-meta d-flex small text-muted mb-2">
+            <span class="me-2"><i class="far fa-clock me-1"></i> 32 hours</span>
+            <span><i class="fas fa-signal me-1"></i> Advanced</span>
+          </div>
+          <div class="d-flex align-items-center mt-3">
+            <span class="h5 mb-0 text-dark">$24.99</span>
+            <span class="ms-2 text-decoration-line-through text-muted small"
+              >$199.99</span
+            >
+            <span class="ms-2 badge bg-success small">87% off</span>
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+          <button class="btn btn-primary w-100">
+            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Mobile Dev -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="course-card card h-100 border-0 shadow-sm">
+        <div class="position-relative">
+          <img
+            src="https://via.placeholder.com/300x170/1c1d1f/ffffff?text=Flutter"
+            class="card-img-top"
+            alt="Mobile Dev Course"
+          />
+          <span
+            class="badge bg-warning text-dark position-absolute top-10 start-10"
+            >Hot</span
+          >
+        </div>
+        <div class="card-body p-3">
+          <h5 class="card-title mb-1">
+            <a href="#" class="text-dark text-decoration-none"
+              >Flutter & Firebase Masterclass</a
+            >
+          </h5>
+          <p class="text-muted small mb-2">David Park • Mobile Developer</p>
+          <div class="d-flex align-items-center mb-2">
+            <span class="text-warning small"
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i><i class="fas fa-star"></i
+              ><i class="fas fa-star"></i
+            ></span>
+            <span class="text-muted small ms-1">5.0 (2,845)</span>
+          </div>
+          <div class="course-meta d-flex small text-muted mb-2">
+            <span class="me-2"><i class="far fa-clock me-1"></i> 22 hours</span>
+            <span><i class="fas fa-signal me-1"></i> Intermediate</span>
+          </div>
+          <div class="d-flex align-items-center mt-3">
+            <span class="h5 mb-0 text-dark">$17.99</span>
+            <span class="ms-2 text-decoration-line-through text-muted small"
+              >$179.99</span
+            >
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+          <button class="btn btn-primary w-100">
+            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
