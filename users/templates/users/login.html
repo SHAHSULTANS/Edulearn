@@ -1,43 +1,408 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="login-container">
+  <div class="login-card">
+    <!-- Left Illustration -->
+    <div class="login-illustration">
+      <img
+        src="{% static 'images/edulearn-illustration.svg' %}"
+        alt="Edulearn"
+        class="illustration-img"
+      />
+      <div class="illustration-text">
+        <h3>Edulearn</h3>
+        <p>Learn Anytime, Anywhere — Upskill Yourself!</p>
+      </div>
+    </div>
 
-{% block content %}
-<div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-4 text-center">Login</h2>
+    <!-- Right Form -->
+    <div class="login-form">
+      <div class="text-center mb-4">
+        <img
+          src="{% static 'images/edulearn-logo.png' %}"
+          alt="Edulearn Logo"
+          class="login-logo"
+        />
+      </div>
 
-    <form method="post" novalidate>
-        {% csrf_token %}
-        
-        {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ form.non_field_errors }}
-            </div>
+      <h2 class="login-title">Welcome Back to Edulearn</h2>
+      <p class="login-subtitle">Login to access your learning dashboard</p>
+
+      <!-- Social Login -->
+      <div class="social-login">
+        <a href="#" class="social-btn google-btn">
+          <img src="{% static 'images/google-icon.svg' %}" alt="Google" />
+          Continue with Google
+        </a>
+        <a href="#" class="social-btn facebook-btn">
+          <img src="{% static 'images/facebook-icon.svg' %}" alt="Facebook" />
+          Continue with Facebook
+        </a>
+      </div>
+
+      <div class="divider"><span>OR</span></div>
+
+      <!-- Form Start -->
+      <form method="post" novalidate class="mt-3">
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle me-2"></i> {{
+          form.non_field_errors }}
+        </div>
         {% endif %}
 
-        <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+        <div class="form-group">
+          <label for="{{ form.username.id_for_label }}" class="form-label">
+            <i class="fas fa-user"></i> Username or Email
+          </label>
+          <div class="input-group">
             {{ form.username }}
-            {% if form.username.errors %}
-                <div class="text-danger small">
-                    {{ form.username.errors.0 }}
-                </div>
-            {% endif %}
+            <span class="input-group-text"
+              ><i class="fas fa-envelope"></i
+            ></span>
+          </div>
+          {% if form.username.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.username.errors.0 }}
+          </div>
+          {% endif %}
         </div>
 
-        <div class="mb-3">
-            <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+        <div class="form-group">
+          <label for="{{ form.password.id_for_label }}" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <div class="input-group">
             {{ form.password }}
-            {% if form.password.errors %}
-                <div class="text-danger small">
-                    {{ form.password.errors.0 }}
-                </div>
-            {% endif %}
+            <button class="input-group-text toggle-password" type="button">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          {% if form.password.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.password.errors.0 }}
+          </div>
+          {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
+        <div class="d-flex justify-content-between mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe" />
+            <label class="form-check-label" for="rememberMe">Remember me</label>
+          </div>
+          <a href="" class="forgot-password">Forgot password?</a>
+        </div>
 
-    <div class="mt-3 text-center">
-        <a href="">Forgot password?</a>
+        <button type="submit" class="btn btn-primary w-100 login-btn">
+          <i class="fas fa-sign-in-alt me-2"></i> Login
+        </button>
+
+        <div class="text-center mt-4">
+          <p>
+            Don't have an account? <a href="" class="signup-link">Sign up</a>
+          </p>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
+
+<!-- Loading Spinner -->
+<div class="login-loading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Keep Your Existing CSS & JS -->
+<style>
+  :root {
+    --primary-color: #4caf50;
+    --secondary-color: #2e7d32;
+    --accent-color: #8bc34a;
+    --text-color: #333;
+    --light-gray: #f5f5f5;
+    --border-radius: 12px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    background-color: #f9f9f9;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .login-card {
+    display: flex;
+    max-width: 900px;
+    width: 100%;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+  }
+
+  .login-illustration {
+    flex: 1;
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--secondary-color)
+    );
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+  .illustration-img {
+    max-width: 80%;
+    margin-bottom: 30px;
+  }
+
+  .illustration-text h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .illustration-text p {
+    opacity: 0.9;
+  }
+
+  .login-form {
+    flex: 1;
+    padding: 50px;
+  }
+
+  .login-logo {
+    height: 50px;
+    margin-bottom: 20px;
+  }
+
+  .login-title {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 5px;
+  }
+
+  .login-subtitle {
+    color: #666;
+    margin-bottom: 25px;
+  }
+
+  .social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .social-btn img {
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  .google-btn {
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+
+  .google-btn:hover {
+    background: #f5f5f5;
+  }
+
+  .facebook-btn {
+    background: #1877f2;
+    color: white;
+  }
+
+  .facebook-btn:hover {
+    background: #166fe5;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #999;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .divider::before {
+    margin-right: 10px;
+  }
+
+  .divider::after {
+    margin-left: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  .form-label i {
+    margin-right: 8px;
+    color: #666;
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  #id_username,
+  #id_password {
+    width: 100%;
+    padding: 12px 15px;
+    padding-left: 40px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+  }
+
+  #id_username:focus,
+  #id_password:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  }
+
+  .input-group-text {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+  }
+
+  .toggle-password {
+    left: auto !important;
+    right: 0;
+    background: none !important;
+  }
+
+  .forgot-password {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .forgot-password:hover {
+    color: var(--primary-color);
+  }
+
+  .login-btn {
+    padding: 12px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    background: var(--primary-color);
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .login-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+
+  .signup-link {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+
+  .login-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .login-card {
+      flex-direction: column;
+    }
+
+    .login-illustration {
+      display: none;
+    }
+
+    .login-form {
+      padding: 30px;
+    }
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.querySelector(".toggle-password");
+    const passwordField = document.querySelector("#id_password");
+
+    togglePassword.addEventListener("click", function () {
+      const type =
+        passwordField.getAttribute("type") === "password" ? "text" : "password";
+      passwordField.setAttribute("type", type);
+      this.innerHTML =
+        type === "password"
+          ? '<i class="fas fa-eye"></i>'
+          : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    const loginForm = document.querySelector("form");
+    const loadingIndicator = document.querySelector(".login-loading");
+
+    loginForm.addEventListener("submit", function () {
+      loadingIndicator.style.display = "flex";
+    });
+  });
+</script>
 {% endblock %}
