@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-
+from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
@@ -18,3 +18,7 @@ class UserLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy("home")
+    
+def custom_logout_view(request):
+    logout(request)
+    return redirect('login')
