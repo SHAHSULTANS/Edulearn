@@ -1,153 +1,161 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="registration-container">
-    <div class="registration-card">
-        <!-- Header -->
-        <div class="registration-header">
-            <h2>Join Now</h2>
-            <p>Start learning in minutes</p>
-        </div>
-
-        <!-- Social Login - Horizontal Layout -->
-        <div class="social-login-horizontal">
-            <a href="#" class="social-btn" title="Sign up with Google">
-                <img src="{% static "google.jpg" %}" alt="Google">
-            </a>
-            <a href="#" class="social-btn" title="Sign up with Facebook">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-            </a>
-            <a href="#" class="social-btn" title="Sign up with GitHub">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
-            </a>
-        </div>
-
-
-        <div class="divider">or</div>
-
-        <!-- Compact Registration Form -->
-        <form method="POST" class="compact-form">
-            {% csrf_token %}
-            
-            <div class="form-row">
-                <div class="form-group half-width">
-                    {{ user_form.first_name }}
-                    <label for="{{ user_form.first_name.id_for_label }}">First Name</label>
-                </div>
-                <div class="form-group half-width">
-                    {{ user_form.last_name }}
-                    <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                {{ user_form.email }}
-                <label for="{{ user_form.email.id_for_label }}">Email</label>
-                <div class="text-danger">{{ user_form.email.errors }}</div>
-            </div>
-
-            <div class="form-group">
-                {{ user_form.username }}
-                <label for="{{ user_form.username.id_for_label }}">Username</label>
-                <div class="text-danger">{{ user_form.username.errors }}</div>
-            </div>
-
-            <div class="form-group">
-                <div class="password-wrapper">
-                    {{ user_form.password1 }}
-                    <label for="{{ user_form.password1.id_for_label }}">Password</label>
-                    <button type="button" class="toggle-password" aria-label="Toggle password visibility">
-                        <i class="far fa-eye"></i>
-                    </button>
-                </div>
-                <div class="text-danger">{{ user_form.password1.errors }}</div>
-                <div class="password-strength">
-                    <div class="strength-bar"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="password-wrapper">
-                    {{ user_form.password2 }}
-                    <label for="{{ user_form.password2.id_for_label }}">Confirm Password</label>
-                </div>
-                <div class="text-danger">{{ user_form.password2.errors }}</div>
-            </div>
-
-            <div class="form-footer">
-                <button type="submit" class="submit-btn">
-                    Create Account <i class="fas fa-arrow-right"></i>
-                </button>
-                <div class="terms-agreement">
-                    By signing up, you agree to our 
-                    <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
-                </div>
-            </div>
-        </form>
-
-        <div class="login-redirect">
-            Already have an account? <a href="{% url 'login' %}">Sign In</a>
-        </div>
+  <div class="registration-card">
+    <!-- Header -->
+    <div class="registration-header">
+      <h2>Join Now</h2>
+      <p>Start learning in minutes</p>
     </div>
-</div>
-{% endblock %}
 
-{% block extra_css %}
+    <!-- Social Login - Horizontal Layout -->
+    <div class="social-login-horizontal">
+      <a href="#" class="social-btn" title="Sign up with Google">
+        <img src="{% static "google.jpg" %}" alt="Google">
+      </a>
+      <a href="#" class="social-btn" title="Sign up with Facebook">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+          alt="Facebook"
+        />
+      </a>
+      <a href="#" class="social-btn" title="Sign up with GitHub">
+        <img
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+          alt="GitHub"
+        />
+      </a>
+    </div>
+
+    <div class="divider">or</div>
+
+    <!-- Compact Registration Form -->
+    <form method="POST" class="compact-form">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          {{ user_form.first_name }}
+          <label for="{{ user_form.first_name.id_for_label }}"
+            >First Name</label
+          >
+        </div>
+        <div class="form-group half-width">
+          {{ user_form.last_name }}
+          <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ user_form.email }}
+        <label for="{{ user_form.email.id_for_label }}">Email</label>
+        <div class="text-danger">{{ user_form.email.errors }}</div>
+      </div>
+
+      <div class="form-group">
+        {{ user_form.username }}
+        <label for="{{ user_form.username.id_for_label }}">Username</label>
+        <div class="text-danger">{{ user_form.username.errors }}</div>
+      </div>
+
+      <div class="form-group">
+        <div class="password-wrapper">
+          {{ user_form.password1 }}
+          <label for="{{ user_form.password1.id_for_label }}">Password</label>
+          <button
+            type="button"
+            class="toggle-password"
+            aria-label="Toggle password visibility"
+          >
+            <i class="far fa-eye"></i>
+          </button>
+        </div>
+        <div class="text-danger">{{ user_form.password1.errors }}</div>
+        <div class="password-strength">
+          <div class="strength-bar"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="password-wrapper">
+          {{ user_form.password2 }}
+          <label for="{{ user_form.password2.id_for_label }}"
+            >Confirm Password</label
+          >
+        </div>
+        <div class="text-danger">{{ user_form.password2.errors }}</div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="submit-btn">
+          Create Account <i class="fas fa-arrow-right"></i>
+        </button>
+        <div class="terms-agreement">
+          By signing up, you agree to our
+          <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="login-redirect">
+      Already have an account? <a href="{% url 'login' %}">Sign In</a>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_css %}
 <style>
-:root {
+  :root {
     --primary-color: #5624d0;
     --accent-color: #a435f0;
     --light-color: #fff;
     --border-color: #d1d7dc;
-    --text-muted: #6a6f73;
-}
+    --text-muted:rgb(227, 231, 241);
+  }
 
-/* Base Styles */
-.registration-container {
+  /* Base Styles */
+  .registration-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-color: #f7f9fa;
-}
+    background-color:rgb(220, 211, 245);
+  }
 
-.registration-card {
+  .registration-card {
     background: var(--light-color);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     width: 100%;
     max-width: 440px;
     padding: 30px;
-}
+  }
 
-.registration-header {
+  .registration-header {
     text-align: center;
     margin-bottom: 24px;
-}
+  }
 
-.registration-header h2 {
+  .registration-header h2 {
     font-size: 1.8rem;
     font-weight: 700;
     color: #1c1d1f;
     margin-bottom: 8px;
-}
+  }
 
-.registration-header p {
+  .registration-header p {
     color: var(--text-muted);
     font-size: 0.95rem;
-}
+  }
 
-/* Social Login - Horizontal */
-.social-login-horizontal {
+  /* Social Login - Horizontal */
+  .social-login-horizontal {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin-bottom: 20px;
-}
+  }
 
-.social-btn {
+  .social-btn {
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -156,27 +164,27 @@
     justify-content: center;
     border: 1px solid var(--border-color);
     transition: all 0.2s ease;
-}
+  }
 
-.social-btn:hover {
+  .social-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 
-.social-btn img {
+  .social-btn img {
     width: 20px;
     height: 20px;
-}
+  }
 
-.divider {
+  .divider {
     position: relative;
     text-align: center;
     margin: 20px 0;
     color: var(--text-muted);
     font-size: 0.9rem;
-}
+  }
 
-.divider:before {
+  .divider:before {
     content: "";
     position: absolute;
     top: 50%;
@@ -185,51 +193,51 @@
     height: 1px;
     background-color: var(--border-color);
     z-index: 1;
-}
+  }
 
-.divider span {
+  .divider span {
     position: relative;
     z-index: 2;
     background: var(--light-color);
     padding: 0 12px;
-}
+  }
 
-/* Compact Form Styles */
-.compact-form {
+  /* Compact Form Styles */
+  .compact-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
+  }
 
-.form-row {
+  .form-row {
     display: flex;
     gap: 12px;
-}
+  }
 
-.half-width {
+  .half-width {
     flex: 1;
-}
+  }
 
-.form-group {
+  .form-group {
     position: relative;
-}
+  }
 
-.form-group input {
+  .form-group input {
     width: 100%;
     padding: 14px 16px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 0.95rem;
     transition: all 0.2s ease;
-}
+  }
 
-.form-group input:focus {
+  .form-group input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(86, 36, 208, 0.15);
     outline: none;
-}
+  }
 
-.form-group label {
+  .form-group label {
     position: absolute;
     left: 16px;
     top: 14px;
@@ -239,20 +247,20 @@
     pointer-events: none;
     background: var(--light-color);
     padding: 0 4px;
-}
+  }
 
-.form-group input:focus + label,
-.form-group input:not(:placeholder-shown) + label {
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label {
     top: -8px;
     font-size: 0.75rem;
     color: var(--primary-color);
-}
+  }
 
-.password-wrapper {
+  .password-wrapper {
     position: relative;
-}
+  }
 
-.toggle-password {
+  .toggle-password {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -261,29 +269,29 @@
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-}
+  }
 
-.password-strength {
+  .password-strength {
     height: 4px;
     background: #e0e0e0;
     border-radius: 2px;
     margin-top: 8px;
     overflow: hidden;
-}
+  }
 
-.strength-bar {
+  .strength-bar {
     height: 100%;
     width: 0%;
     background: #d32f2f;
     transition: width 0.3s ease, background 0.3s ease;
-}
+  }
 
-/* Form Footer */
-.form-footer {
+  /* Form Footer */
+  .form-footer {
     margin-top: 20px;
-}
+  }
 
-.submit-btn {
+  .submit-btn {
     width: 100%;
     padding: 14px;
     background: var(--primary-color);
@@ -298,169 +306,170 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-}
+  }
 
-.submit-btn:hover {
+  .submit-btn:hover {
     background: var(--accent-color);
     transform: translateY(-2px);
-}
+  }
 
-.submit-btn i {
+  .submit-btn i {
     transition: transform 0.2s ease;
-}
+  }
 
-.submit-btn:hover i {
+  .submit-btn:hover i {
     transform: translateX(3px);
-}
+  }
 
-.terms-agreement {
+  .terms-agreement {
     font-size: 0.8rem;
     color: var(--text-muted);
     text-align: center;
     margin-top: 12px;
-}
+  }
 
-.terms-agreement a {
+  .terms-agreement a {
     color: var(--primary-color);
     text-decoration: none;
-}
+  }
 
-.terms-agreement a:hover {
+  .terms-agreement a:hover {
     text-decoration: underline;
-}
+  }
 
-.login-redirect {
+  .login-redirect {
     text-align: center;
     margin-top: 20px;
     font-size: 0.95rem;
     color: var(--text-muted);
-}
+  }
 
-.login-redirect a {
+  .login-redirect a {
     color: var(--primary-color);
     font-weight: 500;
     text-decoration: none;
-}
+  }
 
-.login-redirect a:hover {
+  .login-redirect a:hover {
     text-decoration: underline;
-}
+  }
 
-/* Error States */
-.text-danger {
+  /* Error States */
+  .text-danger {
     font-size: 0.8rem;
     color: #d32f2f;
     margin-top: 4px;
-}
+  }
 
-.form-group.error input {
+  .form-group.error input {
     border-color: #d32f2f;
-}
+  }
 
-/* Responsive Adjustments */
-@media (max-width: 480px) {
+  /* Responsive Adjustments */
+  @media (max-width: 480px) {
     .registration-card {
-        padding: 24px;
+      padding: 24px;
     }
-    
-    .form-row {
-        flex-direction: column;
-        gap: 16px;
-    }
-    
-    .half-width {
-        width: 100%;
-    }
-}
-</style>
-{% endblock %}
 
-{% block extra_js %}
+    .form-row {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .half-width {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %} {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener("DOMContentLoaded", function () {
     // Floating labels functionality
-    const inputs = document.querySelectorAll('.form-group input');
-    inputs.forEach(input => {
-        // Add placeholder if empty to trigger float
-        if (!input.placeholder) input.placeholder = ' ';
-        
-        // Check if has value on load
-        if (input.value) {
-            input.dispatchEvent(new Event('input'));
-        }
+    const inputs = document.querySelectorAll(".form-group input");
+    inputs.forEach((input) => {
+      // Add placeholder if empty to trigger float
+      if (!input.placeholder) input.placeholder = " ";
+
+      // Check if has value on load
+      if (input.value) {
+        input.dispatchEvent(new Event("input"));
+      }
     });
 
     // Password visibility toggle
-    document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('input');
-            const icon = this.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        });
+    document.querySelectorAll(".toggle-password").forEach((button) => {
+      button.addEventListener("click", function () {
+        const input = this.parentElement.querySelector("input");
+        const icon = this.querySelector("i");
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      });
     });
 
     // Password strength indicator
     const passwordInput = document.querySelector('input[name="password1"]');
     if (passwordInput) {
-        passwordInput.addEventListener('input', function() {
-            const strengthBar = this.closest('.form-group').querySelector('.strength-bar');
-            const password = this.value;
-            let strength = 0;
-            
-            if (password.length > 7) strength++;
-            if (/\d/.test(password)) strength++;
-            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
-            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-            
-            const width = ['0%', '25%', '50%', '75%', '100%'][strength];
-            const colors = ['#d32f2f', '#ff5722', '#ffc107', '#4caf50', '#388e3c'];
-            
-            strengthBar.style.width = width;
-            strengthBar.style.backgroundColor = colors[strength];
-        });
+      passwordInput.addEventListener("input", function () {
+        const strengthBar =
+          this.closest(".form-group").querySelector(".strength-bar");
+        const password = this.value;
+        let strength = 0;
+
+        if (password.length > 7) strength++;
+        if (/\d/.test(password)) strength++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+
+        const width = ["0%", "25%", "50%", "75%", "100%"][strength];
+        const colors = ["#d32f2f", "#ff5722", "#ffc107", "#4caf50", "#388e3c"];
+
+        strengthBar.style.width = width;
+        strengthBar.style.backgroundColor = colors[strength];
+      });
     }
 
     // Form validation
-    const form = document.querySelector('.compact-form');
+    const form = document.querySelector(".compact-form");
     if (form) {
-        form.addEventListener('submit', function(e) {
-            let isValid = true;
-            
-            document.querySelectorAll('.form-group input[required]').forEach(input => {
-                if (!input.value.trim()) {
-                    input.closest('.form-group').classList.add('error');
-                    isValid = false;
-                } else {
-                    input.closest('.form-group').classList.remove('error');
-                }
-            });
+      form.addEventListener("submit", function (e) {
+        let isValid = true;
 
-            const password1 = form.querySelector('input[name="password1"]');
-            const password2 = form.querySelector('input[name="password2"]');
-            
-            if (password1 && password2 && password1.value !== password2.value) {
-                password2.closest('.form-group').classList.add('error');
-                isValid = false;
+        document
+          .querySelectorAll(".form-group input[required]")
+          .forEach((input) => {
+            if (!input.value.trim()) {
+              input.closest(".form-group").classList.add("error");
+              isValid = false;
+            } else {
+              input.closest(".form-group").classList.remove("error");
             }
-            
-            if (!isValid) {
-                e.preventDefault();
-                const firstError = form.querySelector('.error');
-                if (firstError) {
-                    firstError.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                }
-            }
-        });
+          });
+
+        const password1 = form.querySelector('input[name="password1"]');
+        const password2 = form.querySelector('input[name="password2"]');
+
+        if (password1 && password2 && password1.value !== password2.value) {
+          password2.closest(".form-group").classList.add("error");
+          isValid = false;
+        }
+
+        if (!isValid) {
+          e.preventDefault();
+          const firstError = form.querySelector(".error");
+          if (firstError) {
+            firstError.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }
+      });
     }
-});
+  });
 </script>
 {% endblock %}
