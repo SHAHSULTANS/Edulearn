@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} 
+{% block title %}
+<title>EduLearn - Registration</title>
+{% endblock title %} 
+{% block content %}
 <div class="registration-container">
   <div class="registration-card">
     <!-- Header -->
@@ -91,7 +95,7 @@
         </button>
         <div class="terms-agreement">
           By signing up, you agree to our
-          <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+          <a href="{% url "terms_of_service" %}">Terms</a> and <a href="#">Privacy Policy</a>
         </div>
       </div>
     </form>

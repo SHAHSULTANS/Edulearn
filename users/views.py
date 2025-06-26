@@ -64,3 +64,11 @@ def register(request):
         'student_form': StudentProfileForm(),
         'instructor_form': InstructorProfileForm()
     })
+    
+    
+    
+    
+    
+
+def terms_of_service(request):
+    return render(request, 'legal/terms.html', {'title': 'Terms of Service'})

@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 <div class="container py-5">
   <!-- Section Header -->
   <div class="row mb-4">
@@ -17,11 +17,8 @@
     <div class="col-lg-3 col-md-6 mb-4">
       <div class="course-card card h-100 border-0 shadow-sm">
         <div class="position-relative">
-          <img
-            src="https://via.placeholder.com/300x170/5624d0/ffffff?text=Python"
-            class="card-img-top"
-            alt="Python Course"
-          />
+          <img src="{% static "edulearn.svg" %}" class="card-img-top"
+          alt="Python Course" />
           <span class="badge bg-danger position-absolute top-10 start-10"
             >Bestseller</span
           >
@@ -65,7 +62,7 @@
       <div class="course-card card h-100 border-0 shadow-sm">
         <div class="position-relative">
           <img
-            src="https://via.placeholder.com/300x170/2d2f31/ffffff?text=Web+Design"
+            src="{% static "edulearn.svg" %}""
             class="card-img-top"
             alt="Web Design Course"
           />
@@ -114,7 +111,7 @@
       <div class="course-card card h-100 border-0 shadow-sm">
         <div class="position-relative">
           <img
-            src="https://via.placeholder.com/300x170/a435f0/ffffff?text=Data+Science"
+            src="{% static "edulearn.svg" %}"
             class="card-img-top"
             alt="Data Science Course"
           />
@@ -159,7 +156,7 @@
       <div class="course-card card h-100 border-0 shadow-sm">
         <div class="position-relative">
           <img
-            src="https://via.placeholder.com/300x170/1c1d1f/ffffff?text=Flutter"
+            src="{% static "edulearn.svg" %}"
             class="card-img-top"
             alt="Mobile Dev Course"
           />
