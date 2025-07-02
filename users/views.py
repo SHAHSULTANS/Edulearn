@@ -72,3 +72,7 @@ def register(request):
 
 def terms_of_service(request):
     return render(request, 'legal/terms.html', {'title': 'Terms of Service'})
+
+
+def privacy_policy(request):
+    return render(request, 'legal/privacy_policy.html', {'title': 'Privacy Policy'})

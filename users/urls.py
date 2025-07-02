@@ -11,6 +11,7 @@ urlpatterns = [
    path('logout/', views.custom_logout_view, name='logout'),
    path('register/', views.register, name='register'),
    path('terms/', views.terms_of_service, name='terms_of_service'),
+   path('privacy/', views.privacy_policy, name='privacy_policy'),
     
 ]
 
