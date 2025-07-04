@@ -1,0 +1,722 @@
+{% extends 'base.html' %} {% load static %} {% block title %}
+<title>EduLearn - Cookie Policy</title>
+{% endblock %} {% block content %}
+<div class="legal-page">
+  <!-- Header with Navigation -->
+  <div class="legal-header">
+    <div class="container">
+      <a href="{% url 'home' %}" class="logo">
+        <img src="{% static 'edulear1n.svg' %}" alt="EduLearn Logo" />
+      </a>
+      <div class="legal-nav">
+        <a href="{% url 'privacy_policy' %}" class="nav-link">Privacy Policy</a>
+        <a href="{% url 'terms_of_service' %}" class="nav-link"
+          >Terms of Service</a
+        >
+        <a href="{% url 'cookie_policy' %}" class="nav-link active"
+          >Cookie Policy</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="legal-container">
+    <div class="legal-sidebar">
+      <div class="sidebar-content">
+        <h5>Table of Contents</h5>
+        <ul class="toc-list">
+          <li>
+            <a href="#what-are-cookies" class="toc-link">1. What Are Cookies</a>
+          </li>
+          <li>
+            <a href="#how-we-use" class="toc-link">2. How We Use Cookies</a>
+          </li>
+          <li>
+            <a href="#types-of-cookies" class="toc-link">3. Types of Cookies</a>
+          </li>
+          <li>
+            <a href="#third-party" class="toc-link">4. Third-Party Cookies</a>
+          </li>
+          <li>
+            <a href="#managing-cookies" class="toc-link">5. Managing Cookies</a>
+          </li>
+          <li><a href="#changes" class="toc-link">6. Changes to Policy</a></li>
+          <li><a href="#contact" class="toc-link">7. Contact Us</a></li>
+        </ul>
+
+        <div class="cookie-controls">
+          <h5>Cookie Preferences</h5>
+          <div class="cookie-option">
+            <label class="cookie-switch">
+              <input type="checkbox" checked disabled />
+              <span class="slider round"></span>
+              <span class="cookie-label">Necessary Cookies</span>
+            </label>
+            <p class="cookie-desc">Essential for site functionality</p>
+          </div>
+          <div class="cookie-option">
+            <label class="cookie-switch">
+              <input type="checkbox" checked />
+              <span class="slider round"></span>
+              <span class="cookie-label">Analytics Cookies</span>
+            </label>
+            <p class="cookie-desc">Help us improve our services</p>
+          </div>
+          <div class="cookie-option">
+            <label class="cookie-switch">
+              <input type="checkbox" checked />
+              <span class="slider round"></span>
+              <span class="cookie-label">Marketing Cookies</span>
+            </label>
+            <p class="cookie-desc">Personalize your experience</p>
+          </div>
+          <button class="btn btn-primary save-btn">Save Preferences</button>
+        </div>
+        <div class="sidebar-actions">
+            <button class="btn btn-outline-primary print-btn">
+            <i class="fas fa-print"></i> Print Policy
+            </button>
+            <button class="btn btn-outline-secondary download-btn">
+            <i class="fas fa-download"></i> Download PDF
+            </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="legal-content">
+      <div class="content-header">
+        <h1>EduLearn Cookie Policy</h1>
+        <div class="meta-info">
+          <span class="last-updated">
+            <i class="fas fa-calendar-alt"></i> Last Updated: {% now "F j, Y" %}
+          </span>
+          <span class="effective-date">
+            <i class="fas fa-check-circle"></i> Effective: {% now "F j, Y" %}
+          </span>
+        </div>
+      </div>
+
+      <div class="content-body">
+        <section id="what-are-cookies" class="legal-section">
+          <h2>1. What Are Cookies?</h2>
+          <p>
+            Cookies are small text files that are placed on your computer or
+            mobile device when you visit a website. They are widely used to make
+            websites work more efficiently and to provide information to the
+            site owners.
+          </p>
+
+          <div class="highlight-box info">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              Cookies cannot be used to run programs or deliver viruses to your
+              computer. They are uniquely assigned to you and can only be read
+              by the web server that issued the cookie.
+            </p>
+          </div>
+        </section>
+
+        <section id="how-we-use" class="legal-section">
+          <h2>2. How We Use Cookies</h2>
+          <p>EduLearn uses cookies for several purposes:</p>
+          <ul>
+            <li>To enable our website to function properly</li>
+            <li>To understand how visitors interact with our site</li>
+            <li>To personalize your experience</li>
+            <li>To improve our services and user experience</li>
+            <li>For security and fraud prevention</li>
+          </ul>
+        </section>
+
+        <section id="types-of-cookies" class="legal-section">
+          <h2>3. Types of Cookies We Use</h2>
+
+          <div class="cookie-type">
+            <h3>3.1 Strictly Necessary Cookies</h3>
+            <p>
+              These cookies are essential for you to browse the website and use
+              its features, such as accessing secure areas of the site.
+            </p>
+            <div class="cookie-examples">
+              <strong>Examples:</strong> Session cookies, authentication cookies
+            </div>
+          </div>
+
+          <div class="cookie-type">
+            <h3>3.2 Performance Cookies</h3>
+            <p>
+              These cookies collect information about how visitors use our
+              website, like which pages are visited most often.
+            </p>
+            <div class="cookie-examples">
+              <strong>Examples:</strong> Google Analytics cookies
+            </div>
+          </div>
+
+          <div class="cookie-type">
+            <h3>3.3 Functionality Cookies</h3>
+            <p>
+              These cookies allow our website to remember choices you make and
+              provide enhanced, more personal features.
+            </p>
+            <div class="cookie-examples">
+              <strong>Examples:</strong> Language preference cookies
+            </div>
+          </div>
+
+          <div class="cookie-type">
+            <h3>3.4 Targeting/Advertising Cookies</h3>
+            <p>
+              These cookies are used to deliver ads more relevant to you and
+              your interests.
+            </p>
+            <div class="cookie-examples">
+              <strong>Examples:</strong> Facebook Pixel cookies
+            </div>
+          </div>
+        </section>
+
+        <section id="third-party" class="legal-section">
+          <h2>4. Third-Party Cookies</h2>
+          <p>
+            We may also use various third-party cookies to report usage
+            statistics of the service, deliver advertisements, and provide other
+            services.
+          </p>
+
+          <div class="highlight-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>
+              Third-party cookies are not under our control. Please refer to the
+              respective privacy policies of these third parties for information
+              about their cookies.
+            </p>
+          </div>
+
+          <div class="third-party-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Purpose</th>
+                  <th>Privacy Policy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Google Analytics</td>
+                  <td>Website analytics</td>
+                  <td>
+                    <a
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                      >View Policy</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Facebook Pixel</td>
+                  <td>Advertising</td>
+                  <td>
+                    <a
+                      href="https://www.facebook.com/policy.php"
+                      target="_blank"
+                      >View Policy</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Hotjar</td>
+                  <td>User behavior analytics</td>
+                  <td>
+                    <a
+                      href="https://www.hotjar.com/legal/policies/privacy/"
+                      target="_blank"
+                      >View Policy</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="managing-cookies" class="legal-section">
+          <h2>5. Managing Cookies</h2>
+          <p>
+            You can control and/or delete cookies as you wish. You can delete
+            all cookies that are already on your computer and you can set most
+            browsers to prevent them from being placed.
+          </p>
+
+          <div class="browser-instructions">
+            <h3>Browser-Specific Instructions:</h3>
+            <div class="browser-tabs">
+              <button class="tab-btn active" onclick="openTab(event, 'chrome')">
+                Chrome
+              </button>
+              <button class="tab-btn" onclick="openTab(event, 'firefox')">
+                Firefox
+              </button>
+              <button class="tab-btn" onclick="openTab(event, 'safari')">
+                Safari
+              </button>
+              <button class="tab-btn" onclick="openTab(event, 'edge')">
+                Edge
+              </button>
+            </div>
+
+            <div id="chrome" class="tab-content" style="display: block">
+              <ol>
+                <li>Click the three dots in the top right corner</li>
+                <li>Select "Settings" then "Privacy and security"</li>
+                <li>Click "Cookies and other site data"</li>
+                <li>Adjust your preferences</li>
+              </ol>
+            </div>
+
+            <div id="firefox" class="tab-content">
+              <ol>
+                <li>Click the menu button and select "Options"</li>
+                <li>Select "Privacy & Security" panel</li>
+                <li>Under "Cookies and Site Data" adjust your preferences</li>
+              </ol>
+            </div>
+
+            <div id="safari" class="tab-content">
+              <ol>
+                <li>Choose Safari > Preferences</li>
+                <li>Click "Privacy"</li>
+                <li>Adjust your cookie preferences</li>
+              </ol>
+            </div>
+
+            <div id="edge" class="tab-content">
+              <ol>
+                <li>Click the three dots in the top right corner</li>
+                <li>Select "Settings" then "Cookies and site permissions"</li>
+                <li>Click "Manage and delete cookies and site data"</li>
+                <li>Adjust your preferences</li>
+              </ol>
+            </div>
+          </div>
+
+          <p>
+            If you do this, however, you may have to manually adjust some
+            preferences every time you visit a site and some services and
+            functionalities may not work.
+          </p>
+        </section>
+
+        <section id="changes" class="legal-section">
+          <h2>6. Changes to This Cookie Policy</h2>
+          <p>
+            We may update our Cookie Policy from time to time. We will notify
+            you of any changes by posting the new Cookie Policy on this page and
+            updating the "Last Updated" date.
+          </p>
+        </section>
+
+        <section id="contact" class="legal-section">
+          <h2>7. Contact Us</h2>
+          <p>
+            If you have any questions about this Cookie Policy, please contact
+            us:
+          </p>
+          <div class="contact-methods">
+            <p><i class="fas fa-envelope"></i> privacy@edulearn.com</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+  :root {
+    --primary-color: #5624d0;
+    --secondary-color: #f5f5f5;
+    --accent-color: #a435f0;
+    --text-color: #2d2f31;
+    --light-gray: #f8f9fa;
+    --border-color: #e1e1e1;
+  }
+
+  .legal-page {
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  .legal-header {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .legal-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  .legal-nav {
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-link {
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+  }
+
+  .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .nav-link.active:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+  }
+
+  .legal-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+
+  .legal-sidebar {
+    width: 280px;
+    padding-right: 30px;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .sidebar-content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 8px 12px;
+    color: #555;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: all 0.2s;
+  }
+
+  .toc-link:hover,
+  .toc-link:focus {
+    background: var(--light-gray);
+    color: var(--primary-color);
+  }
+
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: white;
+  }
+
+  .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .btn-outline-secondary {
+    border: 1px solid #ddd;
+    color: #555;
+    background: white;
+  }
+
+  .btn-outline-secondary:hover {
+    background: #f5f5f5;
+  }
+
+  .legal-content {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .content-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+
+  .content-header h1 {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 10px;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 20px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .meta-info i {
+    margin-right: 5px;
+  }
+
+  .legal-section {
+    margin-bottom: 40px;
+  }
+
+  .legal-section h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+
+  .legal-section h3 {
+    font-weight: 600;
+    margin: 20px 0 10px;
+    font-size: 1.2rem;
+  }
+
+  .legal-section p {
+    margin-bottom: 15px;
+  }
+
+  .highlight-box {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .highlight-box.warning {
+    border-left-color: #ffc107;
+    background: #fff8e1;
+  }
+
+  .highlight-box.info {
+    border-left-color: #17a2b8;
+    background: #e3f2fd;
+  }
+
+  .highlight-box i {
+    font-size: 1.2rem;
+    margin-top: 2px;
+  }
+
+  .refund-policy {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+  }
+
+  .refund-policy h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .refund-policy ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  .contact-methods {
+    margin-top: 15px;
+  }
+
+  .contact-methods p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .acceptance-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .acceptance-box {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .acceptance-box h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  .acceptance-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .legal-container {
+      flex-direction: column;
+    }
+
+    .legal-sidebar {
+      width: 100%;
+      position: static;
+      margin-bottom: 30px;
+      padding-right: 0;
+    }
+
+    .sidebar-actions {
+      flex-direction: row;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .legal-nav {
+      gap: 15px;
+    }
+
+    .legal-content {
+      padding: 20px;
+    }
+
+    .acceptance-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legal-header .container {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .legal-nav {
+      width: 100%;
+      justify-content: space-around;
+    }
+
+    .meta-info {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>
+{% endblock %} {% block extra_js %}
+<script>
+  function openTab(evt, tabName) {
+    // Hide all tab content
+    const tabContents = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < tabContents.length; i++) {
+      tabContents[i].style.display = "none";
+    }
+
+    // Remove active class from all tab buttons
+    const tabButtons = document.getElementsByClassName("tab-btn");
+    for (let i = 0; i < tabButtons.length; i++) {
+      tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+    }
+
+    // Show the current tab and add active class to the button
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  // Cookie preference saving
+  document.querySelector(".save-btn")?.addEventListener("click", function () {
+    const analyticsChecked = document.querySelector(
+      ".cookie-option:nth-child(2) input"
+    ).checked;
+    const marketingChecked = document.querySelector(
+      ".cookie-option:nth-child(3) input"
+    ).checked;
+
+    // In a real implementation, this would save to localStorage or make an API call
+    alert(
+      `Preferences saved!\nAnalytics: ${
+        analyticsChecked ? "ON" : "OFF"
+      }\nMarketing: ${marketingChecked ? "ON" : "OFF"}`
+    );
+
+    // You would typically reload the page or update the cookie consent banner
+    // location.reload();
+  });
+</script>
+{% endblock %}

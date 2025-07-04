@@ -76,3 +76,7 @@ def terms_of_service(request):
 
 def privacy_policy(request):
     return render(request, 'legal/privacy_policy.html', {'title': 'Privacy Policy'})
+
+
+def cookie_policy_view(request):
+    return render(request, 'legal/cookie_policy.html')
