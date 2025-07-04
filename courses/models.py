@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 
@@ -13,6 +15,33 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Course(models.Model):
+    LEVEL_CHOICES = [
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ]
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses_taught')
+    students = models.ManyToManyField(User, related_name='courses_enrolled', blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    thumbnail = models.ImageField(upload_to='course_thumbnails/',blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    level = models.CharField(max_length=20, choices=LEVEL_CHOICES, default='beginner')
+    requirements = models.TextField(blank=True)
+    what_you_will_learn = models.TextField()
+    is_published = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+    
+    
+    
 
 # from django.db import models
 # from django.utils import timezone
