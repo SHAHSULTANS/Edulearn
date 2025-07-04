@@ -1,6 +1,17 @@
+from courses.models import Course
+from django import forms
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'category', 'price', 'thumbnail', 
+                 'level', 'requirements', 'what_you_will_learn']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'requirements': forms.Textarea(attrs={'rows': 3}),
+            'what_you_will_learn': forms.Textarea(attrs={'rows': 3}),
+        }
 
 
-# from django import forms
 # from .models import Course, Lesson,Student
 # from django.contrib.auth.models import User
 
