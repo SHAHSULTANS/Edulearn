@@ -1,4 +1,4 @@
-from courses.models import Course
+from courses.models import Course, Section
 from django import forms
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -14,4 +14,16 @@ class CourseForm(forms.ModelForm):
             'level': forms.Select(attrs={'class': 'form-select'}),
             'requirements': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'what_you_will_learn': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+
+
+class SectionForm(forms.ModelForm):
+    class Meta:
+        model = Section
+        fields = ['course', 'title', 'order']
+        widgets = {
+            'course': forms.Select(attrs={'class': 'form-select'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control'}),
         }
