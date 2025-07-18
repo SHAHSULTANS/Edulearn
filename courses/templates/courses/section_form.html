@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Create Section | EduLearn</title>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0 rounded-4 animate__animated animate__fadeInUp">
+        <div class="card-body p-5">
+          <h2 class="mb-4 text-primary text-center fw-bold">
+            <i class="fas fa-layer-group me-2"></i> Create New Section
+          </h2>
+
+          <form method="POST" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-4">
+                <label class="form-label fw-semibold">
+                  {{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm transition">
+              <i class="fas fa-save me-1"></i> Save Section
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<style>
+  input, select, textarea {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(86, 36, 208, 0.25);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(86, 36, 208, 0.4);
+  }
+</style>
+{% endblock %}
