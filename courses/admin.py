@@ -1,12 +1,19 @@
 from django.contrib import admin
-from courses.models import Category
+from .models import Course, Category
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
 
-# from courses.models import Course, Lesson, Student
-
-# # Register your models here.
-
-# admin.site.register(Course)
-# admin.site.register(Lesson)
-# admin.site.register(Student)
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = (
+        'title', 'instructor', 'category', 'price',
+        'level', 'is_published', 'created_at',
+    )
+    list_filter = ('level', 'is_published', 'category', 'created_at')
+    search_fields = ('title', 'description', 'instructor__username')
+    autocomplete_fields = ('instructor', 'category', 'students')
+    filter_horizontal = ('students',)
+    date_hierarchy = 'created_at'
+    ordering = ('-created_at',)
