@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+import courses
 from .models import Course
 from django.contrib.auth.decorators import login_required
 
@@ -43,3 +45,12 @@ def instructor_dashboard(request):
     
     courses = Course.objects.filter(instructor=request.user)
     return render(request, 'courses/instructor_dashboard.html', {'courses': courses})
+
+
+class CourseDetailView(LoginRequiredMixin, DetailView):
+    model = courses
+    template_name = 'courses/course_detail.html'
+    context_object_name = 'course'
+
+    def get_queryset(self):
+        return Course.objects.filter(instructor=self.request.user)

@@ -2,12 +2,14 @@
 
 from django.urls import path
 from courses.views import CourseCreateView, instructor_dashboard, section_create
+from courses import views
 
 
 urlpatterns = [
     path('create/', CourseCreateView.as_view(), name='course_create'),
     path('sections/create/', section_create, name='section_create'),
     path('instructor-dashboard/', instructor_dashboard, name='instructor_dashboard'),
+    path('course/<int:pk>/', views.CourseDetailView.as_view(), name='course_detail'),
    
     # path("",home,name="home"),
     
