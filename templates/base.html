@@ -189,46 +189,47 @@
               </li>
             </ul>
 
-            <ul class="navbar-nav ms-auto">
+           <ul class="navbar-nav ms-auto">
               <li class="nav-item me-2">
-                <a class="nav-link" href="#">
-                  <i class="fas fa-shopping-cart"></i>
-                </a>
+                  <a class="nav-link" href="">
+                      <i class="fas fa-shopping-cart"></i>
+                  </a>
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="userDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                >
-                  <i class="fas fa-user-circle me-1"></i> {{ user.username }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="">My Profile</a></li>
-                  <li><a class="dropdown-item" href="">My Courses</a></li>
-                  {% if user.is_instructor %}
-                  <li><a class="dropdown-item" href="{% url "course_create" %}">Create Course</a></li>
-                  <li><a class="dropdown-item" href="">Instructor Dashboard</a></li>
-                  {% endif %}
-                  <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                  </li>
-              </ul>
+                  <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="userDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                  >
+                      <i class="fas fa-user-circle me-1"></i> {{ user.username }}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="">My Profile</a></li>
+                      <li><a class="dropdown-item" href="">My Courses</a></li>
+                      {% if user.is_instructor %}
+                      <li><a class="dropdown-item" href="{% url 'courses:course_create' %}">Create Course</a></li>
+                      <li><a class="dropdown-item" href="{% url 'courses:instructor_dashboard' %}">Instructor Dashboard</a></li>
+                      {% endif %}
+                      <li><a class="dropdown-item" href="">Wishlist</a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                      </li>
+                  </ul>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="btn btn-outline-primary me-2" href="{% url "login" %}">Login</a>
+                  <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="btn btn-primary" href="{% url "register" %}">Sign Up</a>
+                  <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
               </li>
               {% endif %}
-            </ul>
+          </ul>
           </div>
         </div>
       </nav>

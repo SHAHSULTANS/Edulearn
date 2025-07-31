@@ -1,71 +1,22 @@
-
-
 from django.urls import path
-from courses.views import CourseCreateView, instructor_dashboard, section_create
-from courses import views
+from courses.views import (
+    CourseCreateView, CourseDetailView, CourseEditView, instructor_dashboard,
+    section_create, SectionEditView, SectionDeleteView, LessonCreateView,
+    LessonEditView, LessonDeleteView,manage_course
+)
 
+app_name = 'courses'
 
 urlpatterns = [
-    path('create/', CourseCreateView.as_view(), name='course_create'),
-    path('sections/create/', section_create, name='section_create'),
     path('instructor-dashboard/', instructor_dashboard, name='instructor_dashboard'),
-    path('course/<int:pk>/', views.CourseDetailView.as_view(), name='course_detail'),
-   
-    # path("",home,name="home"),
-    
-    # path('course/<int:course_id>/', course_detail, name='course_detail'),
-    # path('lesson/<int:lesson_id>/complete/', mark_lesson_complete, name='mark_lesson_complete'),
-
-    # path('create/', course_create, name='course_create'),
-    # path('<int:course_id>/update/', course_update, name='course_update'),
-    # path('<int:course_id>/delete/', course_delete, name='course_delete'),
-    # path('<int:course_id>/lesson/create/', lesson_create, name='lesson_create'),
-    
-    # path('lesson/<int:lesson_id>/update/', lesson_update, name='lesson_update'),
-    # path('lesson/<int:lesson_id>/delete/', lesson_delete, name='lesson_delete'),
-    
-    # path('enroll/',enroll_student, name='enroll_student'),
-    
-    # path('courses/<int:course_id>/students/', view_students, name='view_students'),
-    
+    path('create/', CourseCreateView.as_view(), name='course_create'),
+    path('course/<int:pk>/', CourseDetailView.as_view(), name='course_detail'),
+    path('course/<int:pk>/edit/', CourseEditView.as_view(), name='course_edit'),
+    path('course/<int:pk>/manage/', manage_course, name='manage_course'),
+    path('course/<int:course_id>/section/create/', section_create, name='section_create'),
+    path('course/<int:course_id>/section/<int:pk>/edit/', SectionEditView.as_view(), name='section_edit'),
+    path('course/<int:course_id>/section/<int:pk>/delete/', SectionDeleteView.as_view(), name='section_delete'),
+    path('course/<int:course_id>/section/<int:section_id>/lesson/create/', LessonCreateView.as_view(), name='lesson_create'),
+    path('course/<int:course_id>/section/<int:section_id>/lesson/<int:pk>/edit/', LessonEditView.as_view(), name='lesson_edit'),
+    path('course/<int:course_id>/section/<int:section_id>/lesson/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
 ]
-
-
-# from django.contrib.auth import views as auth_views
-# from .views import register, user_login, user_logout, profile
-
-# urlpatterns += [
-#     path('register/', register, name='register'),
-#     path('login/', user_login, name='login'),
-#     path('logout/', user_logout, name='logout'),
-#     path('profile/', profile, name='profile'),
-    
-#     # Password change views
-#     path('password_change/', auth_views.PasswordChangeView.as_view(
-#         template_name='courses/password_change.html'), name='password_change'),
-#     path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(
-#         template_name='courses/password_change_done.html'), name='password_change_done'),
-    
-#     # Password reset views
-#     path('password_reset/', auth_views.PasswordResetView.as_view(
-#         template_name='courses/password_reset.html'), name='password_reset'),
-#     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(
-#         template_name='courses/password_reset_done.html'), name='password_reset_done'),
-#     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-#         template_name='courses/password_reset_confirm.html'), name='password_reset_confirm'),
-#     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
-#         template_name='courses/password_reset_complete.html'), name='password_reset_complete'),
-# ]
-
-
-
-# #___________________________________
-# #lab 9
-
-# from .views import CourseListAPI, CourseDetailAPI,EnrollStudentAPI
-
-# urlpatterns += [
-#     path('api/courses/', CourseListAPI.as_view(), name='api_course_list'),
-#     path('api/courses/<int:pk>/', CourseDetailAPI.as_view(), name='api_course_detail'),
-#     path('api/enroll/', EnrollStudentAPI.as_view(), name='api_enroll_student'),
-# ]

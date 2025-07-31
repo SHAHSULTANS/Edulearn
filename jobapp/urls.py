@@ -29,7 +29,8 @@ urlpatterns = [
     path("user/", include('users.urls')),
     # path('',include('app.urls')),
     # path('',main_hompage,name="index"),
-    path("courses/",include("courses.urls")),
+    path('courses/', include(('courses.urls', 'courses'), namespace='courses')),
+
     
 ]
 
