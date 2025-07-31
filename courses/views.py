@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Course
+from django.contrib.auth.decorators import login_required
 
 from courses.forms import CourseForm, SectionForm
 
@@ -28,7 +29,17 @@ def section_create(request):
         form = SectionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('')
+            return redirect('home')
     else:
         form = SectionForm()
     return render(request, 'courses/section_form.html', {'form': form})
+
+
+
+@login_required
+def instructor_dashboard(request):
+    if not request.user.is_instructor:
+        return redirect('home')
+    
+    courses = Course.objects.filter(instructor=request.user)
+    return render(request, 'courses/instructor_dashboard.html', {'courses': courses})
