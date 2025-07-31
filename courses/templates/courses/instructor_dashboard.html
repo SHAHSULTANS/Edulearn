@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>EduLearn - Instructor Dashboard</title>
+{% endblock %}
+
+{% block content %}
+<div class="instructor-dashboard">
+    <div class="container py-5">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header mb-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Instructor Dashboard</h2>
+                <a href="{% url 'course_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create New Course
+                </a>
+            </div>
+            <hr class="mt-3">
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Courses</h6>
+                                <h3 class="mb-0">{{ courses.count }}</h3>
+                            </div>
+                            <div class="stat-icon bg-primary-light">
+                                <i class="fas fa-book text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Published Courses</h6>
+                                <h3 class="mb-0">{{ published_courses.count }}</h3>
+                            </div>
+                            <div class="stat-icon bg-success-light">
+                                <i class="fas fa-check-circle text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %}
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Students</h6>
+                                <h3 class="mb-0">{{ total_students }}</h3>
+                            </div>
+                            <div class="stat-icon bg-info-light">
+                                <i class="fas fa-users text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endcomment %}
+        </div>
+
+        <!-- Courses Table -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Your Courses</h5>
+            </div>
+            <div class="card-body">
+                {% if courses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Status</th>
+                                    <th>Students</th>
+                                    <th>Price</th>
+                                    <th>Level</th>
+                                    <th>Last Updated</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in courses %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if course.thumbnail %}
+                                                    <img src="{{ course.thumbnail.url }}"
+                                                         alt="{{ course.title }}"
+                                                         class="rounded me-3"
+                                                         width="60"
+                                                         height="40"
+                                                         style="object-fit: cover">
+                                                {% else %}
+                                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center"
+                                                         style="width: 60px; height: 40px">
+                                                        <i class="fas fa-book text-muted"></i>
+                                                    </div>
+                                                {% endif %}
+                                                <div>
+                                                    <h6 class="mb-0">{{ course.title }}</h6>
+                                                    <small class="text-muted">{{ course.category }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-{% if course.is_published %}success{% else %}warning{% endif %}">
+                                                {% if course.is_published %}Published{% else %}Draft{% endif %}
+                                            </span>
+                                        </td>
+                                        <td>{{ course.students.count }}</td>
+                                        <td>${{ course.price }}</td>
+                                        <td>{{ course.get_level_display }}</td>
+                                        <td>{{ course.updated_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <a href=""
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href=""
+                                                   class="btn btn-sm btn-outline-secondary"
+                                                   title="Manage">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                <a href=""
+                                                   class="btn btn-sm btn-outline-info"
+                                                   title="View">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <img src="{% static 'images/no-courses.png' %}"
+                             alt="No courses"
+                             class="img-fluid mb-4"
+                             style="max-width: 300px">
+                        <h5>You haven't created any courses yet</h5>
+                        <p class="text-muted">Get started by creating your first course</p>
+                        <a href="{% url 'course_create' %}" class="btn btn-primary mt-3">
+                            <i class="fas fa-plus me-2"></i>Create Course
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Students (Optional) -->
+        {% comment %}
+        {% if recent_students %}
+            <div class="card shadow-sm mt-5">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Recent Students</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for student in recent_students %}
+                            <div class="col-md-4 col-lg-3 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ student.profile.image.url|default:'/static/images/default-profile.png' }}"
+                                             class="rounded-circle"
+                                             width="50"
+                                             height="50"
+                                             alt="{{ student.username }}">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-0">{{ student.get_full_name|default:student.username }}</h6>
+                                        <small class="text-muted">{{ student.email }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endcomment %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .instructor-dashboard {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .stat-card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+
+    .bg-primary-light {
+        background-color: rgba(86, 36, 208, 0.1);
+    }
+
+    .bg-success-light {
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .bg-info-light {
+        background-color: rgba(23, 162, 184, 0.1);
+    }
+
+    .table th {
+        font-weight: 600;
+        color: #495057;
+        border-top: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .action-btn {
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dashboard-header .btn {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .table-responsive {
+            border: 0;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+
+        .table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table td:before {
+            content: attr(data-label);
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .table td:last-child {
+            border-bottom: 0;
+        }
+    }
+</style>
+{% endblock %}
