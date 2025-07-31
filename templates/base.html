@@ -209,14 +209,16 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li><a class="dropdown-item" href="">My Profile</a></li>
                   <li><a class="dropdown-item" href="">My Courses</a></li>
+                  {% if user.is_instructor %}
+                  <li><a class="dropdown-item" href="{% url "course_create" %}">Create Course</a></li>
+                  <li><a class="dropdown-item" href="">Instructor Dashboard</a></li>
+                  {% endif %}
                   <li><a class="dropdown-item" href="#">Wishlist</a></li>
                   <li><hr class="dropdown-divider" /></li>
                   <li>
-                    <a class="dropdown-item" href="{% url "logout" %}"
-                      >Logout</a
-                    >
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   </li>
-                </ul>
+              </ul>
               </li>
               {% else %}
               <li class="nav-item">
