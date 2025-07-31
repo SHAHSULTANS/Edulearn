@@ -1,4 +1,4 @@
-from courses.models import Course, Section
+from courses.models import Course, Lesson, Section
 from django import forms
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -26,4 +26,18 @@ class SectionForm(forms.ModelForm):
             'course': forms.Select(attrs={'class': 'form-select'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'order': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+        
+        
+class LessonForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['title', 'video_url', 'duration', 'order', 'is_preview', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'video_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'duration': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'HH:MM:SS'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
+            'is_preview': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }

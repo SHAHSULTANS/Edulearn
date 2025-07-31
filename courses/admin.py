@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Category
+from .models import Course, Category, Section
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -17,3 +17,5 @@ class CourseAdmin(admin.ModelAdmin):
     filter_horizontal = ('students',)
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
+
+admin.site.register(Section)

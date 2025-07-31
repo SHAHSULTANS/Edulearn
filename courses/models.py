@@ -1,11 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+
+
 
 User = get_user_model()
-
-
-
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -14,7 +13,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Course(models.Model):
     LEVEL_CHOICES = [
@@ -29,7 +27,7 @@ class Course(models.Model):
     students = models.ManyToManyField(User, related_name='courses_enrolled', blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    thumbnail = models.ImageField(upload_to='course_thumbnails/',blank=True,null=True)
+    thumbnail = models.ImageField(upload_to='course_thumbnails/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     level = models.CharField(max_length=20, choices=LEVEL_CHOICES, default='beginner')
@@ -39,9 +37,9 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
-    
+
+    def get_absolute_url(self):
+        return reverse("courses:course_detail", kwargs={"pk": self.pk})
 
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sections')
@@ -53,8 +51,7 @@ class Section(models.Model):
 
     def __str__(self):
         return f"{self.course.title} - {self.title}"
-    
-    
+
 class Lesson(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='lessons')
     title = models.CharField(max_length=200)
@@ -69,6 +66,3 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.section.course.title} - {self.title}"
-
-    
-
