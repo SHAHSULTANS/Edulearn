@@ -127,6 +127,8 @@ class SectionDeleteView(LoginRequiredMixin, InstructorRequiredMixin, DeleteView)
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
+from django.urls import reverse
+
 class LessonCreateView(LoginRequiredMixin, InstructorRequiredMixin, CreateView):
     model = Lesson
     form_class = LessonForm
@@ -141,9 +143,13 @@ class LessonCreateView(LoginRequiredMixin, InstructorRequiredMixin, CreateView):
     def form_valid(self, form):
         section = get_object_or_404(Section, pk=self.kwargs['section_id'], course__instructor=self.request.user)
         form.instance.section = section
-        response = super().form_valid(form)
         messages.success(self.request, 'Lesson added successfully!')
-        return redirect('courses:manage_course', pk=self.kwargs['course_id'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('courses:manage_course', kwargs={'pk': self.kwargs['course_id']})
+
+from django.urls import reverse
 
 class LessonEditView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
     model = Lesson
@@ -160,9 +166,11 @@ class LessonEditView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        response = super().form_valid(form)
         messages.success(self.request, 'Lesson updated successfully!')
-        return redirect('courses:manage_course', pk=self.kwargs['course_id'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('courses:manage_course', kwargs={'pk': self.kwargs['course_id']})
 
 class LessonDeleteView(LoginRequiredMixin, InstructorRequiredMixin, DeleteView):
     model = Lesson

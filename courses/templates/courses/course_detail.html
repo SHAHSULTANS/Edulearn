@@ -56,10 +56,10 @@
                 <p>{{ course.requirements|default:"No specific requirements" }}</p>
                 <hr>
                 <div class="d-flex gap-2">
-                    <a href="" class="btn btn-primary">
+                    <a href="{% url "courses:course_edit" course.id %}" class="btn btn-primary">
                         <i class="fas fa-edit me-2"></i>Edit Course
                     </a>
-                    <a href="" class="btn btn-outline-secondary">
+                    <a href="{% url "courses:manage_course" course.id %}" class="btn btn-outline-secondary">
                         <i class="fas fa-cog me-2"></i>Manage Course
                     </a>
                 </div>
