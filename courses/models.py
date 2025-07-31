@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
+from django.core.validators import MinValueValidator, RegexValidator,MaxValueValidator
 
 
 User = get_user_model()
@@ -66,3 +66,42 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.section.course.title} - {self.title}"
+    
+    
+class Enrollment(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+    progress = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('student', 'course')
+        indexes = [models.Index(fields=['student', 'course'])]
+
+    def __str__(self):
+        return f"{self.student.username} enrolled in {self.course.title}"
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+    progress = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('student', 'course')
+        indexes = [models.Index(fields=['student', 'course'])]
+
+    def __str__(self):
+        return f"{self.student.username} enrolled in {self.course.title}"
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('student', 'course')
+
+    def __str__(self):
+        return f"{self.student.username} enrolled in {self.course.title}"
