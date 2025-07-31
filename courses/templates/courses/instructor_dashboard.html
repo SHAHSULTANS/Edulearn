@@ -125,7 +125,7 @@
                                         <td>{{ course.updated_at|date:"M d, Y" }}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href=""
+                                                <a href="{% url "courses:course_edit" course.id %}"
                                                    class="btn btn-sm btn-outline-primary"
                                                    title="Edit">
                                                     <i class="fas fa-edit"></i>
