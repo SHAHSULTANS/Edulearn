@@ -18,14 +18,14 @@ from django.contrib import admin
 from django.urls import include, path
 from jobapp import settings
 from django.conf.urls.static import static
-from users.views import home_dashbord
+from users.views import home_dashboard
 # from courses.views import main_hompage
 
 
 urlpatterns = [
    
     path('admin/', admin.site.urls),
-    path("",home_dashbord, name="home"),
+    path("",home_dashboard, name="home"),
     path("user/", include('users.urls')),
     # path('',include('app.urls')),
     # path('',main_hompage,name="index"),

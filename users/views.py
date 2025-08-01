@@ -3,12 +3,21 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
+from courses.models import Category, Course
+
 # Create your views here.
 
 
-def home_dashbord(request):
-    return render(request,"users/home_page.html",{})
-
+def home_dashboard(request):
+    courses = Course.objects.filter()
+    # featured_courses = Course.objects.filter(is_published=True).order_by('-rating')[:6]
+    categories = Category.objects.all()
+    featured_courses=courses
+    return render(request, "users/home_page.html", {
+        "courses": courses,
+        "featured_courses": featured_courses,
+        "categories": categories,
+    })
 # def login_view(request):
     
 #     return render(request,"users/user_login.html",{})
