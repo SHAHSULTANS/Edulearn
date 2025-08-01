@@ -46,7 +46,7 @@
          data-rating="{{ course.rating }}" data-price="{{ course.price }}" data-date="{{ course.created_at|date:'Y-m-d' }}">
       <div class="course-card card h-100 border-0 shadow-sm hover-shadow-lg transition-all">
         <div class="position-relative">
-          <a href="{{ course.get_absolute_url }}">
+          <a href="{% url "courses:public_course_detail" course.id%}">
             <img src="{{ course.thumbnail.url|default:'/static/edulearn.svg' }}" 
                  class="card-img-top course-thumbnail" 
                  alt="{{ course.title }}"

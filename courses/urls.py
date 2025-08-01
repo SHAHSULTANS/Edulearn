@@ -1,6 +1,6 @@
 from django.urls import path
 from courses.views import (
-    CourseCreateView, CourseDetailView, CourseEditView, instructor_dashboard,
+    CourseCreateView, CourseDetailView, CourseEditView, PublicCourseDetailView, instructor_dashboard,
     section_create, SectionEditView, SectionDeleteView, LessonCreateView,
     LessonEditView, LessonDeleteView,manage_course
 )
@@ -11,6 +11,7 @@ urlpatterns = [
     path('instructor-dashboard/', instructor_dashboard, name='instructor_dashboard'),
     path('create/', CourseCreateView.as_view(), name='course_create'),
     path('course/<int:pk>/', CourseDetailView.as_view(), name='course_detail'),
+    path('pcourse/<int:pk>/', PublicCourseDetailView.as_view(), name='public_course_detail'),
     path('course/<int:pk>/edit/', CourseEditView.as_view(), name='course_edit'),
     path('course/<int:pk>/manage/', manage_course, name='manage_course'),
     path('course/<int:course_id>/section/create/', section_create, name='section_create'),
@@ -19,4 +20,7 @@ urlpatterns = [
     path('course/<int:course_id>/section/<int:section_id>/lesson/create/', LessonCreateView.as_view(), name='lesson_create'),
     path('course/<int:course_id>/section/<int:section_id>/lesson/<int:pk>/edit/', LessonEditView.as_view(), name='lesson_edit'),
     path('course/<int:course_id>/section/<int:section_id>/lesson/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
+    
+    
+    
 ]

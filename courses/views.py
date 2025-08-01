@@ -48,6 +48,7 @@ class CourseEditView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
         context['categories'] = Category.objects.all()
         return context
 
+#instructor details views
 class CourseDetailView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'courses/course_detail.html'
@@ -55,6 +56,35 @@ class CourseDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Course.objects.filter(instructor=self.request.user)
+    
+#single course detials views for all user
+
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+from .models import Course
+
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+from .models import Course
+
+class PublicCourseDetailView(DetailView):
+    model = Course
+    template_name = 'courses/public_course_detail.html'
+    context_object_name = 'course'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Course, pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_enrolled'] = False
+        if self.request.user.is_authenticated:
+            context['is_enrolled'] = self.request.user.courses_enrolled.filter(pk=self.object.pk).exists()
+        # Add related courses (same category, excluding current course)
+        context['related_courses'] = Course.objects.filter(
+            category=self.object.category
+        ).exclude(pk=self.object.pk)[:3]
+        return context
 
 def instructor_dashboard(request):
     if not request.user.is_instructor:

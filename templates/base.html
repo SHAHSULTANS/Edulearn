@@ -2,148 +2,149 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Learn new skills with our online courses - the Udemy alternative"
-    />
-    {% block title %}
-    <title>EduLearn - Online Courses</title>
-    {% endblock title %}
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Learn new skills with our online courses - the Udemy alternative" />
+  <title>{% block title %}EduLearn - Online Courses{% endblock title %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <style>
-      :root {
-        --primary-color: #5624d0;
-        --secondary-color: #f5f5f5;
-        --accent-color: #a435f0;
-        --dark-color: #1c1d1f;
-        --light-color: #fff;
-        --text-color: #2d2f31;
-        --border-color: #d1d7dc;
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary-color: #5624d0;
+      --secondary-color: #f5f5f5;
+      --accent-color: #a435f0;
+      --dark-color: #1c1d1f;
+      --light-color: #fff;
+      --text-color: #2d2f31;
+      --border-color: #d1d7dc;
+    }
+
+    html {
+      font-size: 80%; /* 16px */
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 768px) {
+      html {
+        font-size: 70.75%; /* 15px */
       }
-      *{
-        scroll-behavior: smooth;
-      }
+    }
 
-      body {
-        font-family: "Roboto", sans-serif;
-        color: var(--text-color);
-        background-color: var(--secondary-color);
-        padding-top: 80px; /* Match the height of the navbar */
+    @media (max-width: 576px) {
+      html {
+        font-size: 67.5%; /* 14px */
       }
+    }
 
-      .navbar {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-        padding: 0.5rem 0;
-        background-color: var(--light-color) !important;
-      }
+    body {
+      font-family: "Roboto", sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--secondary-color);
+      padding-top: 80px;
+    }
 
-      .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        transition: top 0.3s;
-        z-index: 1030; /* Above everything */
-      }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: var(--light-color) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 0;
+      z-index: 1030;
+      transition: top 0.3s;
+    }
 
-      .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: var(--primary-color) !important;
-      }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary-color) !important;
+    }
 
-      .nav-link {
-        font-weight: 500;
-        padding: 0.5rem 1rem !important;
-      }
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+    }
 
-      .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-      }
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
 
-      .btn-primary:hover {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-      }
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
 
-      .search-box {
-        border-radius: 50px;
-        border: 1px solid var(--border-color);
-        padding: 0.5rem 1rem;
-        width: 100%;
-        max-width: 500px;
-      }
+    .search-box {
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      width: 100%;
+      max-width: 500px;
+    }
 
-      .search-box:focus {
-        box-shadow: 0 0 0 0.25rem rgba(86, 36, 208, 0.25);
-        border-color: var(--primary-color);
-      }
+    .search-box:focus {
+      box-shadow: 0 0 0 0.25rem rgba(86, 36, 208, 0.25);
+      border-color: var(--primary-color);
+    }
 
-      .category-badge {
-        background-color: var(--light-color);
-        border: 1px solid var(--border-color);
-        border-radius: 50px;
-        padding: 0.5rem 1rem;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-        display: inline-block;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-      }
+    .category-badge {
+      background-color: var(--light-color);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
 
-      .category-badge:hover {
-        background-color: var(--primary-color);
-        color: var(--light-color);
-        cursor: pointer;
-      }
+    .category-badge:hover {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+      cursor: pointer;
+    }
 
-      footer {
-        background-color: var(--dark-color);
-        color: var(--light-color);
-        padding: 3rem 0;
-        margin-top: 3rem;
-      }
+    footer {
+      background-color: var(--dark-color);
+      color: var(--light-color);
+      padding: 3rem 0;
+      margin-top: 3rem;
+    }
 
-      .footer-links a {
-        color: var(--light-color);
-        text-decoration: none;
-        display: block;
-        margin-bottom: 0.5rem;
-      }
+    .footer-links a {
+      color: var(--light-color);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
 
-      .footer-links a:hover {
-        text-decoration: underline;
-      }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
 
-      .social-icon {
-        color: var(--light-color);
-        font-size: 1.5rem;
-        margin-right: 1rem;
-      }
-      {% block extra_css %}{% endblock %}
-    </style>
-    
+    .social-icon {
+      color: var(--light-color);
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
 
-  </head>
+    {% block extra_css %}{% endblock %}
+  </style>
+</head>
+
   <body>
     <!-- Header/Navigation -->
     <header>

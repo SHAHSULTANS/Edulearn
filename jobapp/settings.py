@@ -29,6 +29,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
+    "http://localhost",
+    "http://127.0.0.1",
+]
 
 # Application definition
 
@@ -166,7 +171,3 @@ SITE_NAME = "EduLearn"
 
 
 
-#for payment system
-STRIPE_PUBLIC_KEY = 'pk_test_51RrCFLAOakt0DipbZ9DjNvz4MsrveVpr6cgSGtgh4Y0kbMP8KVMEimEyXfOfnaOMSf7tUYbBvlrZKpfiIeg5sVSz00BHvB0saI'
-STRIPE_SECRET_KEY = 'sk_test_51RrCFLAOakt0DipbUPSptmZeqld6Tte6XXZpvURXow8QbVSCt96KgtPEHZAI0D8K5L9Mlytn3R0d6el5Rt0OlLjL00QNbRFAIV'
-STRIPE_WEBHOOK_SECRET = 'whsec_your_webhook_secret'
