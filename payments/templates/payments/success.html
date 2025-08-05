@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <i class="fas fa-check-circle text-success fa-5x mb-4"></i>
+    <h1>Payment Successful!</h1>
+    <p>You have successfully enrolled in <strong>{{ course.title }}</strong>.</p>
+    <a href="{% url 'courses:course_learning' course.slug %}" class="btn btn-primary btn-lg btn-gradient mt-3">
+        Start Learning
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Checkout for {{ course.title }}</h1>
+    <p>Price: ${{ course.discounted_price|default:course.price }}</p>
+    <form action="{% url 'payments:checkout' pk=course.id %}" method="post">
+        {% csrf_token %}
+        <script
+            src="https://js.stripe.com/v3/"
+            data-stripe-public-key="{{ STRIPE_PUBLIC_KEY }}"
+        ></script>
+        <button type="submit" class="btn btn-primary btn-lg">Proceed to Payment</button>
+    </form>
+</div>
+{% endblock %}

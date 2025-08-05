@@ -16,7 +16,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class CreateCheckoutSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         course = get_object_or_404(Course, pk=self.kwargs['pk'])
-        price = course.discounted_price if course.discounted_price else course.price
+        price = course.price
+        if hasattr(course, 'discounted_price') and course.discounted_price:
+            price = course.discounted_price
         
         try:
             checkout_session = stripe.checkout.Session.create(

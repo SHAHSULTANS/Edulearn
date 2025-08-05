@@ -101,9 +101,12 @@
                                 </div>
                                 
                                 {% if user.is_authenticated %}
-                                    <button class="btn btn-primary btn-lg w-100 mb-3 btn-enroll btn-gradient" data-course-id="{{ course.id }}">
-                                        Enroll Now
-                                    </button>
+                                    <form action="{% url 'payments:checkout' pk=course.id %}" method="post">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 btn-enroll btn-gradient" data-course-id="{{ course.id }}">
+                                            Enroll Now
+                                        </button>
+                                    </form>
                                 {% else %}
                                     <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100 mb-3 btn-gradient">
                                         Sign In to Enroll
