@@ -73,32 +73,6 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrolled_at = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
-    progress = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
-    completed_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        unique_together = ('student', 'course')
-        indexes = [models.Index(fields=['student', 'course'])]
-
-    def __str__(self):
-        return f"{self.student.username} enrolled in {self.course.title}"
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    enrolled_at = models.DateTimeField(auto_now_add=True)
-    completed = models.BooleanField(default=False)
-    progress = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
-    completed_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        unique_together = ('student', 'course')
-        indexes = [models.Index(fields=['student', 'course'])]
-
-    def __str__(self):
-        return f"{self.student.username} enrolled in {self.course.title}"
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    enrolled_at = models.DateTimeField(auto_now_add=True)
-    completed = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('student', 'course')
