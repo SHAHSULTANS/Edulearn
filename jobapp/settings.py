@@ -170,4 +170,5 @@ DEFAULT_FROM_EMAIL = 'noreply@edulearn.com'
 SITE_NAME = "EduLearn"
 
 
-
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
