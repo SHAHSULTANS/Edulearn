@@ -66,6 +66,9 @@ from .models import Course
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 from .models import Course
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView
+from .models import Course, Enrollment
 
 class PublicCourseDetailView(DetailView):
     model = Course
@@ -77,13 +80,21 @@ class PublicCourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+        course = self.object  # get_object() result
+
         context['is_enrolled'] = False
-        if self.request.user.is_authenticated:
-            context['is_enrolled'] = self.request.user.courses_enrolled.filter(pk=self.object.pk).exists()
-        # Add related courses (same category, excluding current course)
+        if user.is_authenticated:
+            # Enrollment মডেল ব্যবহার করে চেক করা
+            context['is_enrolled'] = Enrollment.objects.filter(student=user, course=course).exists()
+        
+        print(context["is_enrolled"])
+
+        # একই ক্যাটাগরির রিলেটেড কোর্স তিনটি (নিজের কোর্স বাদ দিয়ে)
         context['related_courses'] = Course.objects.filter(
-            category=self.object.category
-        ).exclude(pk=self.object.pk)[:3]
+            category=course.category
+        ).exclude(pk=course.pk)[:3]
+
         return context
 
 def instructor_dashboard(request):
