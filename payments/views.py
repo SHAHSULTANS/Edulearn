@@ -42,7 +42,7 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
                     reverse('payments:success', kwargs={'pk': course.id})
                 ),
                 cancel_url=request.build_absolute_uri(
-                    reverse('courses:course_detail', kwargs={'pk': course.id})
+                    reverse('courses:public_course_detail', kwargs={'pk': course.id})
                 ),
                 metadata={
                     'course_id': course.id,
@@ -63,7 +63,7 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
             return redirect(checkout_session.url)
         except stripe.error.StripeError as e:
             messages.error(request, f"Payment initiation failed: {str(e)}")
-            return redirect('courses:course_detail', pk=course.id)
+            return redirect('courses:public_course_detail', pk=course.id)
 
 class PaymentSuccessView(LoginRequiredMixin, TemplateView):
     template_name = 'payments/success.html'
