@@ -67,11 +67,11 @@
                 <!-- Right Column - Enrollment Card -->
                 <div class="col-lg-4">
                     <div class="enrollment-card">
-                        {% if user.is_authenticated and user in course.students.all %}
+                        {% if is_enrolled %}
                             <div class="enrolled-status text-center p-4">
                                 <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
                                 <h3 class="mb-3">You're Enrolled!</h3>
-                                <a href="{% url 'course_learning' course.slug %}" class="btn btn-primary btn-lg w-100 btn-gradient">
+                                <a href="" class="btn btn-primary btn-lg w-100 btn-gradient">
                                     Continue Learning
                                 </a>
                             </div>

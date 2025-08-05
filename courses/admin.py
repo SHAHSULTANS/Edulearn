@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Category, Section
+from .models import Course, Category, Enrollment, Section
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -19,3 +19,4 @@ class CourseAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 admin.site.register(Section)
+admin.site.register(Enrollment)
