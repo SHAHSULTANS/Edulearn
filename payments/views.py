@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, View
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from courses.models import Course
+from courses.models import Course, Enrollment
 from .models import Payment
 from django.contrib import messages
 
