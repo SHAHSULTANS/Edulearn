@@ -4,6 +4,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
+
+from reviews.forms import ReviewForm
+from reviews.models import Review
 from .models import Course, Progress, Section, Lesson
 from .forms import CourseForm, SectionForm, LessonForm
 from courses.models import Category
@@ -138,6 +141,13 @@ class CourseLearningView( DetailView):
         total_lessons = sum(section.lessons.count() for section in course.sections.all())
         completed_lessons = progress.filter(completed=True).count()
         context['completion_percentage'] = (completed_lessons / total_lessons * 100) if total_lessons > 0 else 0
+        
+      # রিভিউ ফর্ম যোগ করা
+        if user.is_authenticated and Enrollment.objects.filter(student=user, course=course).exists():
+            context['review_form'] = ReviewForm()
+            context['is_enrolled'] = True
+            context['has_reviewed'] = Review.objects.filter(user=user, course=course).exists()
+        
 
         # Get first accessible lesson (preview or enrolled)
         for section in course.sections.all():

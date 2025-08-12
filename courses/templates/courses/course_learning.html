@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% load static %}
+{% comment %} {% load widget_tweaks %} {% endcomment %}
+
 
 {% block title %}Learn {{ course.title }}{% endblock %}
 
@@ -127,6 +130,40 @@
                         </div>
                     </div>
                 </div>
+
+                        {% if is_enrolled and not has_reviewed %}
+                        <div class="review-form-container card shadow-sm border-0 p-4">
+                            <h3 class="section-title mb-3">Write a Review</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label class="form-label">Rating</label>
+                                    <div class="star-rating">
+                                        {% for choice in review_form.rating %}
+                                            <input type="radio" name="rating" value="{{ choice.choice_value }}" id="rating-{{ choice.choice_value }}" class="star-input" required>
+                                            <label for="rating-{{ choice.choice_value }}" class="star-label">
+                                                <i class="fas fa-star"></i>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ review_form.title.id_for_label }}" class="form-label">Review Title</label>
+                                    {{ review_form.title|add_class:"form-control" }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ review_form.content.id_for_label }}" class="form-label">Your Review</label>
+                                    {{ review_form.content|add_class:"form-control" }}
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-gradient">Submit Review</button>
+                                <button type="button" class="btn btn-outline-secondary ms-2" onclick="this.closest('.review-form-container').style.display='none'">Cancel</button>
+                            </form>
+                        </div>
+                    {% elif is_enrolled %}
+                        <p class="text-muted">আপনি ইতিমধ্যে এই কোর্সের জন্য রিভিউ দিয়েছেন।</p>
+                    {% else %}
+                        <p class="text-muted">কোর্সে এনরোল করুন রিভিউ দেওয়ার জন্য।</p>
+                    {% endif %}
             </div>
         </div>
     </section>
