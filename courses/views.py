@@ -103,7 +103,7 @@ class PublicCourseDetailView(DetailView):
 
 
 
-class CourseLearningView(LoginRequiredMixin, DetailView):
+class CourseLearningView( DetailView):
     model = Course
     template_name = 'courses/course_learning.html'
     context_object_name = 'course'
@@ -112,10 +112,14 @@ class CourseLearningView(LoginRequiredMixin, DetailView):
         return get_object_or_404(Course, pk=self.kwargs['pk'])
 
     def get(self, request, *args, **kwargs):
+        # লগইন না থাকলে → public course detail এ রিডাইরেক্ট
         course = self.get_object()
+        if not request.user.is_authenticated:
+            messages.info(request, "Please log in to enroll or access learning.")
+            return redirect('courses:public_course_detail', pk=course.pk)
         if not Enrollment.objects.filter(student=self.request.user, course=course).exists():
             messages.error(self.request, "You must be enrolled to access this course.")
-            return redirect('courses:course_detail', pk=course.pk)
+            return redirect('courses:public_course_detail', pk=course.pk)
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
