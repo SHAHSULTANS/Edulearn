@@ -71,7 +71,7 @@
                             <div class="enrolled-status text-center p-4">
                                 <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
                                 <h3 class="mb-3">You're Enrolled!</h3>
-                                <a href="" class="btn btn-primary btn-lg w-100 btn-gradient">
+                                <a href="{% url "courses:course_learning" course.id%}" class="btn btn-primary btn-lg w-100 btn-gradient">
                                     Continue Learning
                                 </a>
                             </div>

@@ -31,6 +31,8 @@ urlpatterns = [
     # path('',main_hompage,name="index"),
     path('courses/', include(('courses.urls', 'courses'), namespace='courses')),
     path('payments/', include('payments.urls', namespace='payments')),
+    path('reviews/', include('reviews.urls', namespace='reviews')),
+    
 
 
     
