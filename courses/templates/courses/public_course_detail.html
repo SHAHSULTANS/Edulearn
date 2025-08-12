@@ -30,7 +30,7 @@
                             </span>
                             <span class="d-flex align-items-center">
                                 <i class="fas fa-user-graduate me-2"></i>
-                                {{ course.students.count }} students
+                                {{ course.enrollment_set.count }} students
                             </span>
                             <span class="d-flex align-items-center">
                                 <i class="fas fa-clock me-2"></i>
@@ -179,7 +179,7 @@
                 <div class="instructor-card shadow-sm border-0">
                     <div class="instructor-info">
                         <div class="instructor-avatar">
-                            <img src="{{ course.instructor.profile.image.url|default:'/static/images/default-avatar.jpg' }}" 
+                            <img src="{{ course.instructor.profile.image.url|default:'/static/images/default_profile.jpg' }}" 
                                  alt="{{ course.instructor.get_full_name }}"
                                  class="rounded-circle">
                         </div>

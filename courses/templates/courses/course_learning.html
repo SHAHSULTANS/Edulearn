@@ -1,214 +1,217 @@
-{% extends "base.html" %} {% load static %} {% block title %}Learn {{
-course.title }}{% endblock %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Learn {{ course.title }}{% endblock %}
+
+{% block content %}
 <div class="learning-container">
-  <section class="learning-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h1 class="section-title">{{ course.title }}</h1>
-          <div class="progress mb-4">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              style="width: {{ completion_percentage }}%"
-              aria-valuenow="{{ completion_percentage }}"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {{ completion_percentage|floatformat:0 }}% Complete
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="learning-content">
-    <div class="container">
-      <div class="row">
-        <!-- Left Column: Lesson Content -->
-        <div class="col-lg-8">
-          {% if current_lesson %}
-          <div class="lesson-player card shadow-sm border-0 mb-4">
-            <div class="card-body">
-              <h2 class="lesson-title">{{ current_lesson.title }}</h2>
-              {% if current_lesson.video_url %}
-              <div class="video-container mb-3">
-                <iframe
-                  src="{{ current_lesson.video_url }}"
-                  frameborder="0"
-                  allowfullscreen
-                  class="w-100"
-                  style="height: 400px"
-                ></iframe>
-              </div>
-              {% else %}
-              <div class="lesson-content">
-                {{ current_lesson.content|linebreaks }}
-              </div>
-              {% endif %}
-              <form method="post" class="mt-3">
-                {% csrf_token %}
-                <input
-                  type="hidden"
-                  name="lesson_id"
-                  value="{{ current_lesson.id }}"
-                />
-                {% if progress.current_lesson.id %}
-                <button
-                  type="submit"
-                  class="btn btn-success btn-gradient"
-                  {%
-                  if
-                  progress.current_lesson.id
-                  %}disabled{%
-                  endif
-                  %}
-                >
-                  {% if progress.current_lesson.id %}Completed{% else %}Mark as
-                  Completed{% endif %}
-                </button>
-                {% endif %}
-              </form>
-            </div>
-          </div>
-          {% else %}
-          <p>No accessible lessons available.</p>
-          {% endif %}
-        </div>
-
-        <!-- Right Column: Course Content Navigation -->
-        <div class="col-lg-4">
-          <div class="course-navigation card shadow-sm border-0">
-            <div class="card-body">
-              <h3 class="section-title">Course Content</h3>
-              <div class="accordion" id="learningAccordion">
-                {% for section in sections %}
-                <div class="accordion-item shadow-sm border-0">
-                  <h3
-                    class="accordion-header"
-                    id="learningHeading{{ section.id }}"
-                  >
-                    <button
-                      class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#learningCollapse{{ section.id }}"
-                      aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
-                      aria-controls="learningCollapse{{ section.id }}"
-                    >
-                      <div class="section-header">
-                        <span class="section-title">{{ section.title }}</span>
-                        <span class="section-meta">
-                          {{ section.lessons.count }} lessons • {{
-                          section.duration }}
-                        </span>
-                      </div>
-                    </button>
-                  </h3>
-                  <div
-                    id="learningCollapse{{ section.id }}"
-                    class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
-                    aria-labelledby="learningHeading{{ section.id }}"
-                    data-bs-parent="#learningAccordion"
-                  >
-                    <div class="accordion-body">
-                      <ul class="lesson-list">
-                        {% for lesson in section.lessons.all %}
-                        <li
-                          class="lesson-item {% if lesson.is_preview %}preview-lesson{% endif %}"
-                        >
-                          <a
-                            href="#"
-                          >
-                            <div class="lesson-info">
-                              <i class="fas fa-play-circle lesson-icon"></i>
-                              <span class="lesson-title"
-                                >{{ lesson.title }}</span
-                              >
-                              {% if lesson.is_preview %}
-                              <span class="preview-badge">Preview</span>
-                              {% endif %}
-                            </div>
-                            <span class="lesson-duration">
-                              {{ lesson.duration }} {% if progress.lesson.id %}
-                              <i
-                                class="fas fa-check-circle text-success ms-2"
-                              ></i>
-                              {% endif %}
-                            </span>
-                          </a>
-                        </li>
-                        {% endfor %}
-                      </ul>
+    <section class="learning-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="section-title">{{ course.title }}</h1>
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-primary" role="progressbar" 
+                             style="width: {{ completion_percentage }}%" 
+                             aria-valuenow="{{ completion_percentage }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ completion_percentage|floatformat:0 }}% Complete
+                        </div>
                     </div>
-                  </div>
                 </div>
-                {% endfor %}
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="learning-content">
+        <div class="container">
+            <div class="row">
+                <!-- Left Column: Lesson Content -->
+                <div class="col-lg-8">
+                    {% if current_lesson %}
+                        <div class="lesson-player card shadow-sm border-0 mb-4">
+                            <div class="card-body">
+                                <h2 class="lesson-title">{{ current_lesson.title }}</h2>
+                                {% if current_lesson.video_url %}
+                                    {% if "youtube.com" in current_lesson.video_url or "youtu.be" in current_lesson.video_url %}
+                                        {% with current_lesson.video_url|cut:"https://youtu.be/"|cut:"https://www.youtube.com/watch?v=" as video_id %}
+                                            <div class="video-thumbnail position-relative" onclick="loadVideo(this, '{{ current_lesson.video_url }}')" style="cursor:pointer;">
+                                                <img src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg" class="w-100 rounded">
+                                                <div class="play-button position-absolute top-50 start-50 translate-middle text-white fs-1">▶</div>
+                                            </div>
+                                        {% endwith %}
+                                    {% else %}
+                                        <iframe src="{{ current_lesson.video_url }}"
+                                                frameborder="0"
+                                                allowfullscreen
+                                                class="w-100 rounded"
+                                                style="height: 400px"
+                                                loading="lazy"></iframe>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="lesson-content">
+                                        {{ current_lesson.content|linebreaks }}
+                                    </div>
+                                {% endif %}
+                                <form method="post" class="mt-3">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="lesson_id" value="{{ current_lesson.id }}"/>
+                                    <button type="submit" class="btn btn-success btn-gradient"
+                                            {% if progress.current_lesson.id %}disabled{% endif %}>
+                                        {% if progress.current_lesson.id %}Completed{% else %}Mark as Completed{% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>No accessible lessons available.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Right Column: Course Content Navigation -->
+                <div class="col-lg-4">
+                    <div class="course-navigation card shadow-sm border-0">
+                        <div class="card-body">
+                            <h3 class="section-title">Course Content</h3>
+                            <div class="accordion" id="learningAccordion">
+                                {% for section in sections %}
+                                <div class="accordion-item shadow-sm border-0">
+                                    <h3 class="accordion-header" id="learningHeading{{ section.id }}">
+                                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#learningCollapse{{ section.id }}"
+                                                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" 
+                                                aria-controls="learningCollapse{{ section.id }}">
+                                            <div class="section-header">
+                                                <span class="section-title">{{ section.title }}</span>
+                                                <span class="section-meta">
+                                                    {{ section.lessons.count }} lessons • {{ section.duration }}
+                                                </span>
+                                            </div>
+                                        </button>
+                                    </h3>
+                                    <div id="learningCollapse{{ section.id }}" 
+                                         class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                                         aria-labelledby="learningHeading{{ section.id }}" 
+                                         data-bs-parent="#learningAccordion">
+                                        <div class="accordion-body">
+                                            <ul class="lesson-list">
+                                                {% for lesson in section.lessons.all %}
+                                                <li class="lesson-item {% if lesson.is_preview %}preview-lesson{% endif %}">
+                                                    <a href="?lesson={{ lesson.id }}"
+                                                       class="lesson-link {% if lesson.id == current_lesson.id %}active{% endif %}">
+                                                        <div class="lesson-info">
+                                                            <i class="fas fa-play-circle lesson-icon"></i>
+                                                            <span class="lesson-title">{{ lesson.title }}</span>
+                                                            {% if lesson.is_preview %}
+                                                                <span class="preview-badge">Preview</span>
+                                                            {% endif %}
+                                                        </div>
+                                                        <span class="lesson-duration">
+                                                            {{ lesson.duration }}
+                                                            {% if progress.lesson.id %}
+                                                                <i class="fas fa-check-circle text-success ms-2"></i>
+                                                            {% endif %}
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
+<script>
+function loadVideo(element, videoUrl) {
+    element.innerHTML = `<iframe src="${videoUrl}" frameborder="0" allowfullscreen class="w-100 rounded" style="height: 400px" loading="lazy"></iframe>`;
+}
+</script>
+
 <style>
-  .learning-container {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif;
+.learning-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #1a202c;
     line-height: 1.6;
     background-color: #f9fafb;
-  }
+}
 
-  .learning-header {
+.learning-header {
     padding: 2.5rem 0;
     background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
     border-bottom: 1px solid #e2e8f0;
-  }
+}
 
-  .lesson-player {
+.lesson-player {
     border-radius: 12px;
     background: white;
-  }
+}
 
-  .lesson-title {
+.lesson-title {
     font-size: 1.5rem;
     font-weight: 700;
     color: #1a202c;
     margin-bottom: 1rem;
-  }
+}
 
-  .video-container {
+.video-container {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     height: 0;
     overflow: hidden;
-  }
+}
 
-  .video-container iframe {
+.video-container iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-  }
+}
 
-  .lesson-content {
+.video-thumbnail {
+    position: relative;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.play-button {
+    font-size: 3rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.play-button:hover {
+    opacity: 1;
+}
+
+.lesson-content {
     line-height: 1.7;
     color: #4a5568;
-  }
+}
 
-  .course-navigation {
+.course-navigation {
     position: sticky;
     top: 1.5rem;
     border-radius: 12px;
     background: white;
-  }
+}
 
-  .lesson-link {
+.lesson-link {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -216,58 +219,66 @@ course.title }}{% endblock %} {% block content %}
     color: #2d3748;
     text-decoration: none;
     transition: background 0.2s ease;
-  }
+}
 
-  .lesson-link:hover,
-  .lesson-link.active {
+.lesson-link:hover, .lesson-link.active {
     background: #f7fafc;
-  }
+}
 
-  .lesson-link .lesson-icon {
+.lesson-link .lesson-icon {
     color: #4a5568;
-  }
+}
 
-  .lesson-link.active .lesson-icon,
-  .preview-lesson .lesson-icon {
+.lesson-link.active .lesson-icon, .preview-lesson .lesson-icon {
     color: #3182ce;
-  }
+}
 
-  .btn-gradient {
+.btn-gradient {
     background: linear-gradient(90deg, #3182ce 0%, #63b3ed 100%);
     border: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+}
 
-  .btn-gradient:hover {
+.btn-gradient:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .btn-success {
+.btn-success {
     background: linear-gradient(90deg, #48bb78 0%, #68d391 100%);
-  }
+}
 
-  .btn-success:disabled {
+.btn-success:disabled {
     background: #a0aec0;
     cursor: not-allowed;
-  }
+}
 
-  /* Responsive Adjustments */
-  @media (max-width: 991.98px) {
+.btn-outline-secondary {
+    border-color: #718096;
+    color: #718096;
+}
+
+.btn-outline-secondary:hover {
+    background: #718096;
+    color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
     .course-navigation {
-      position: static;
-      margin-top: 2rem;
+        position: static;
+        margin-top: 2rem;
     }
-  }
+}
 
-  @media (max-width: 767.98px) {
+@media (max-width: 767.98px) {
     .lesson-title {
-      font-size: 1.25rem;
+        font-size: 1.25rem;
     }
-
-    .video-container iframe {
-      height: 200px;
+    
+    .video-container iframe, .video-thumbnail img {
+        height: 200px;
     }
-  }
+}
 </style>
 {% endblock %}
