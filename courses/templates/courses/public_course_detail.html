@@ -6,58 +6,59 @@
 {% block content %}
 <div class="course-detail-container">
     <!-- Top Section (Header) -->
-    <section class="course-header">
+    <section class="course-header" role="region" aria-label="Course Header">
         <div class="container">
             <div class="row">
                 <!-- Left Column - Course Info -->
                 <div class="col-lg-8">
-                    <h1 class="course-title">{{ course.title }}</h1>
+                    <h1 class="course-title text-white">{{ course.title }}</h1>
                     
                     <!-- Course Image -->
                     <div class="course-banner mb-4">
-                        <img src="{{ course.thumbnail.url|default:'/static/images/default-course.jpg' }}" 
-                             alt="{{ course.title }}" 
+                        <img src="{{ course.thumbnail.url|default:'/static/images/default-course.jpg' }}"
+                             srcset="{{ course.thumbnail.url|default:'/static/images/default-course.jpg' }} 1x, {{ course.thumbnail.url|default:'/static/images/default-course.jpg' }} 2x"
+                             alt="{{ course.title }}"
                              class="img-fluid rounded-lg"
-                             style="max-height: 200px; width: 100%; object-fit: cover;">
+                             loading="lazy">
                     </div>
                     
                     <!-- Course Metadata -->
                     <div class="course-meta mb-4">
-                        <div class="d-flex flex-wrap gap-3 text-muted">
-                            <span class="d-flex align-items-center">
-                                <i class="fas fa-star text-warning me-2"></i>
-                                {{ course.rating|floatformat:1 }} ({{ course.reviews.count }} reviews)
+                        <div class="d-flex flex-wrap gap-3 text-white-80">
+                            <span class="d-flex align-items-center" aria-label="Course rating">
+                                <i class="fas fa-star text-warning me-2" aria-hidden="true"></i>
+                                <span>{{ course.rating|floatformat:1 }} ({{ course.reviews.count }} reviews)</span>
                             </span>
-                            <span class="d-flex align-items-center">
-                                <i class="fas fa-user-graduate me-2"></i>
-                                {{ course.enrollment_set.count }} students
+                            <span class="d-flex align-items-center" aria-label="Number of students">
+                                <i class="fas fa-user-graduate me-2" aria-hidden="true"></i>
+                                <span>{{ course.enrollment_set.count }} students</span>
                             </span>
-                            <span class="d-flex align-items-center">
-                                <i class="fas fa-clock me-2"></i>
-                                {{ course.total_duration }} total length
+                            <span class="d-flex align-items-center" aria-label="Course duration">
+                                <i class="fas fa-clock me-2" aria-hidden="true"></i>
+                                <span>{{ course.total_duration }}</span>
                             </span>
-                            <span class="d-flex align-items-center">
-                                <i class="fas fa-signal me-2"></i>
-                                {{ course.get_level_display }}
+                            <span class="d-flex align-items-center" aria-label="Course level">
+                                <i class="fas fa-signal me-2" aria-hidden="true"></i>
+                                <span>{{ course.get_level_display }}</span>
                             </span>
                         </div>
                     </div>
                     
                     <!-- What You'll Learn -->
-                    <div class="card mb-4 shadow-sm border-0">
+                    <div class="card mb-4 shadow-sm border-0 bg-dark-800">
                         <div class="card-body">
-                            <h2 class="section-title">What You'll Learn</h2>
-                            <div class="learning-content">
+                            <h2 class="section-title text-white">What You'll Learn</h2>
+                            <div class="learning-content text-white-80">
                                 {{ course.what_you_will_learn|linebreaks }}
                             </div>
                         </div>
                     </div>
                     
                     <!-- Requirements -->
-                    <div class="card mb-4 shadow-sm border-0">
+                    <div class="card mb-4 shadow-sm border-0 bg-dark-800">
                         <div class="card-body">
-                            <h2 class="section-title">Requirements</h2>
-                            <div class="requirements-content">
+                            <h2 class="section-title text-white">Requirements</h2>
+                            <div class="requirements-content text-white-80">
                                 {{ course.requirements|linebreaks }}
                             </div>
                         </div>
@@ -66,12 +67,15 @@
                 
                 <!-- Right Column - Enrollment Card -->
                 <div class="col-lg-4">
-                    <div class="enrollment-card">
+                    <div class="enrollment-card bg-dark-900 border border-dark-700">
                         {% if is_enrolled %}
                             <div class="enrolled-status text-center p-4">
-                                <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
-                                <h3 class="mb-3">You're Enrolled!</h3>
-                                <a href="{% url "courses:course_learning" course.id%}" class="btn btn-primary btn-lg w-100 btn-gradient">
+                                <i class="fas fa-check-circle text-success fa-3x mb-3" aria-hidden="true"></i>
+                                <h3 class="mb-3 text-white">You're Enrolled!</h3>
+                                <div class="progress mb-3" role="progressbar" aria-label="Course progress" aria-valuenow="{{ course.progress_percent|default:0 }}" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-success" style="width: {{ course.progress_percent|default:0 }}%">{{ course.progress_percent|default:0 }}%</div>
+                                </div>
+                                <a href="{% url 'courses:course_learning' course.id %}" class="btn btn-primary btn-lg w-100 btn-gradient">
                                     Continue Learning
                                 </a>
                             </div>
@@ -79,31 +83,31 @@
                             <div class="pricing-info p-4">
                                 {% if course.discounted_price %}
                                     <div class="price-discount d-flex align-items-center mb-2">
-                                        <span class="original-price text-muted me-2">${{ course.price }}</span>
+                                        <span class="original-price text-white-60 me-2">${{ course.price }}</span>
                                         <span class="discount-badge badge bg-danger">
                                             {{ course.discount_percent }}% OFF
                                         </span>
                                     </div>
-                                    <div class="current-price display-5 fw-bold mb-3">${{ course.discounted_price }}</div>
+                                    <div class="current-price display-5 fw-bold mb-3 text-white">${{ course.discounted_price }}</div>
                                 {% else %}
-                                    <div class="current-price display-5 fw-bold mb-3">${{ course.price }}</div>
+                                    <div class="current-price display-5 fw-bold mb-3 text-white">${{ course.price }}</div>
                                 {% endif %}
                                 
                                 <div class="includes-list mb-4">
-                                    <h5 class="fw-bold mb-3">This course includes:</h5>
-                                    <ul class="list-unstyled">
-                                        <li class="mb-2"><i class="fas fa-play-circle text-primary me-2"></i> {{ course.total_lessons }} on-demand videos</li>
-                                        <li class="mb-2"><i class="fas fa-file-alt text-primary me-2"></i> {{ course.resources.count }} downloadable resources</li>
-                                        <li class="mb-2"><i class="fas fa-infinity text-primary me-2"></i> Full lifetime access</li>
-                                        <li class="mb-2"><i class="fas fa-mobile-alt text-primary me-2"></i> Access on mobile and TV</li>
-                                        <li class="mb-2"><i class="fas fa-certificate text-primary me-2"></i> Certificate of completion</li>
+                                    <h5 class="fw-bold mb-3 text-white">This course includes:</h5>
+                                    <ul class="list-unstyled text-white-80">
+                                        <li class="mb-2"><i class="fas fa-play-circle text-primary me-2" aria-hidden="true"></i> {{ course.total_lessons }} on-demand videos</li>
+                                        <li class="mb-2"><i class="fas fa-file-alt text-primary me-2" aria-hidden="true"></i> {{ course.resources.count }} downloadable resources</li>
+                                        <li class="mb-2"><i class="fas fa-infinity text-primary me-2" aria-hidden="true"></i> Full lifetime access</li>
+                                        <li class="mb-2"><i class="fas fa-mobile-alt text-primary me-2" aria-hidden="true"></i> Access on mobile and TV</li>
+                                        <li class="mb-2"><i class="fas fa-certificate text-primary me-2" aria-hidden="true"></i> Certificate of completion</li>
                                     </ul>
                                 </div>
                                 
                                 {% if user.is_authenticated %}
                                     <form action="{% url 'payments:checkout' pk=course.id %}" method="post">
-                                    {% csrf_token %}
-                                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 btn-enroll btn-gradient" data-course-id="{{ course.id }}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 btn-gradient pulse" data-course-id="{{ course.id }}">
                                             Enroll Now
                                         </button>
                                     </form>
@@ -113,8 +117,8 @@
                                     </a>
                                 {% endif %}
                                 
-                                <div class="money-back-guarantee text-center text-muted small">
-                                    <i class="fas fa-shield-alt text-success me-1"></i>
+                                <div class="money-back-guarantee text-center text-white-60 small">
+                                    <i class="fas fa-shield-alt text-success me-1" aria-hidden="true"></i>
                                     30-Day Money-Back Guarantee
                                 </div>
                             </div>
@@ -124,46 +128,65 @@
             </div>
         </div>
     </section>
-    <section class="course-content">
+    
+    <section class="course-content" role="region" aria-label="Course Content">
         <div class="container">
             <!-- Course Sections Accordion -->
             <div class="course-sections">
-                <h2 class="section-title">Course Content</h2>
+                <h2 class="section-title text-white">Course Content</h2>
                 <div class="accordion" id="courseAccordion">
                     {% for section in course.sections.all %}
-                    <div class="accordion-item shadow-sm border-0">
+                    <div class="accordion-item shadow-sm border-0 bg-dark-800">
                         <h3 class="accordion-header" id="heading{{ section.id }}">
-                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" 
-                                    type="button" 
-                                    data-bs-toggle="collapse" 
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} bg-dark-800 text-white"
+                                    type="button"
+                                    data-bs-toggle="collapse"
                                     data-bs-target="#collapse{{ section.id }}"
-                                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" 
+                                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
                                     aria-controls="collapse{{ section.id }}">
                                 <div class="section-header">
                                     <span class="section-title">{{ section.title }}</span>
-                                    <span class="section-meta">
+                                    <span class="section-meta text-white-60">
                                         {{ section.lessons.count }} lessons • {{ section.duration }}
                                     </span>
                                 </div>
                             </button>
                         </h3>
-                        <div id="collapse{{ section.id }}" 
-                             class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
-                             aria-labelledby="heading{{ section.id }}" 
+                        <div id="collapse{{ section.id }}"
+                             class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                             aria-labelledby="heading{{ section.id }}"
                              data-bs-parent="#courseAccordion">
-                            <div class="accordion-body">
+                            <div class="accordion-body bg-dark-700">
                                 <ul class="lesson-list">
                                     {% for lesson in section.lessons.all %}
-                                    <li class="lesson-item {% if lesson.is_preview %}preview-lesson{% endif %}">
+                                    <li class="lesson-item {% if lesson.is_preview %}preview-lesson{% endif %} text-white-90" {% if lesson.is_preview %}data-bs-toggle="modal" data-bs-target="#previewModal{{ lesson.id }}" role="button" tabindex="0"{% endif %}>
                                         <div class="lesson-info">
-                                            <i class="fas fa-play-circle lesson-icon"></i>
-                                            <span class="lesson-title">{{ lesson.title }}</span>
+                                            <i class="fas fa-play-circle lesson-icon text-primary" aria-hidden="true"></i>
+                                            <span class="lesson-title text-white">{{ lesson.title }}</span>
                                             {% if lesson.is_preview %}
-                                                <span class="preview-badge">Preview</span>
+                                                <span class="preview-badge bg-primary-10 text-white">Preview</span>
                                             {% endif %}
                                         </div>
-                                        <span class="lesson-duration">{{ lesson.duration }}</span>
+                                        <span class="lesson-duration text-white-60">{{ lesson.duration }}</span>
                                     </li>
+                                    {% if lesson.is_preview %}
+                                    <!-- Preview Modal -->
+                                    <div class="modal fade" id="previewModal{{ lesson.id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ lesson.id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content bg-dark-800 text-white">
+                                                <div class="modal-header border-dark-600">
+                                                    <h5 class="modal-title" id="previewModalLabel{{ lesson.id }}">{{ lesson.title }} - Preview</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="ratio ratio-16x9">
+                                                        <iframe src="{{ lesson.preview_url|default:'#' }}" title="{{ lesson.title }} preview" allowfullscreen></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -175,38 +198,39 @@
             
             <!-- Instructor Section -->
             <div class="instructor-section">
-                <h2 class="section-title">Instructor</h2>
-                <div class="instructor-card shadow-sm border-0">
+                <h2 class="section-title text-white">Instructor</h2>
+                <div class="instructor-card shadow-sm border-0 bg-dark-800">
                     <div class="instructor-info">
                         <div class="instructor-avatar">
-                            <img src="{{ course.instructor.profile.image.url|default:'/static/images/default_profile.jpg' }}" 
+                            <img src="{{ course.instructor.profile.image.url|default:'/static/images/default_profile.jpg' }}"
                                  alt="{{ course.instructor.get_full_name }}"
-                                 class="rounded-circle">
+                                 class="rounded-circle"
+                                 loading="lazy">
                         </div>
                         <div class="instructor-details">
-                            <h3>{{ course.instructor.get_full_name }}</h3>
-                            <p class="instructor-title">{{ course.instructor.profile.title|default:"Instructor" }}</p>
+                            <h3 class="text-white">{{ course.instructor.get_full_name }}</h3>
+                            <p class="instructor-title text-white-60">{{ course.instructor.profile.title|default:"Instructor" }}</p>
                             <div class="instructor-rating">
                                 <div class="stars">
                                     {% for i in "12345" %}
                                         {% if forloop.counter <= course.instructor.average_rating %}
-                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning" aria-hidden="true"></i>
                                         {% else %}
-                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning" aria-hidden="true"></i>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <span class="rating-text">
+                                <span class="rating-text text-white-80">
                                     {{ course.instructor.average_rating|floatformat:1 }} Instructor Rating
                                 </span>
                             </div>
-                            <div class="instructor-stats">
-                                <span><i class="fas fa-user-graduate me-1"></i> {{ course.instructor.total_students }} Students</span>
-                                <span><i class="fas fa-play-circle me-1"></i> {{ course.instructor.course_count }} Courses</span>
+                            <div class="instructor-stats text-white-80">
+                                <span><i class="fas fa-user-graduate me-1" aria-hidden="true"></i> {{ course.instructor.total_students }} Students</span>
+                                <span><i class="fas fa-play-circle me-1" aria-hidden="true"></i> {{ course.instructor.course_count }} Courses</span>
                             </div>
                         </div>
                     </div>
-                    <div class="instructor-bio">
+                    <div class="instructor-bio text-white-80">
                         {{ course.instructor.profile.bio|default:"No biography available."|linebreaks }}
                     </div>
                 </div>
@@ -215,49 +239,61 @@
             <!-- Reviews Section -->
             {% if course.reviews.exists %}
             <div class="reviews-section">
-                <h2 class="section-title">Student Reviews</h2>
-                <div class="average-rating">
+                <h2 class="section-title text-white">Student Reviews</h2>
+                <div class="average-rating text-white">
                     <div class="rating-value">{{ course.average_rating|floatformat:1 }}</div>
                     <div class="stars">
                         {% for i in "12345" %}
                             {% if forloop.counter <= course.average_rating %}
-                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning" aria-hidden="true"></i>
                             {% else %}
-                                <i class="far fa-star text-warning"></i>
+                                <i class="far fa-star text-warning" aria-hidden="true"></i>
                             {% endif %}
                         {% endfor %}
                     </div>
                     <div class="rating-count">{{ course.reviews.count }} reviews</div>
                 </div>
                 
+                <div class="review-filter mb-3">
+                    <label for="reviewSort" class="form-label sr-only">Sort reviews</label>
+                    <select id="reviewSort" class="form-select w-auto bg-dark-700 text-white border-dark-600" aria-label="Sort reviews">
+                        <option value="recent">Most Recent</option>
+                        <option value="highest">Highest Rated</option>
+                        <option value="lowest">Lowest Rated</option>
+                    </select>
+                </div>
+                
                 <div class="reviews-list">
                     {% for review in course.reviews.all|slice:":5" %}
-                    <div class="review-card shadow-sm border-0">
+                    <div class="review-card shadow-sm border-0 bg-dark-800">
                         <div class="reviewer-info">
                             <div class="reviewer-avatar">
                                 {% if review.user.profile.image %}
-                                    <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.get_full_name }}" class="rounded-circle">
+                                    <img src="{{ review.user.profile.image.url }}"
+                                         alt="{{ review.user.get_full_name }}"
+                                         class="rounded-circle"
+                                         loading="lazy">
                                 {% else %}
-                                    <div class="avatar-initials">
+                                    <div class="avatar-initials bg-primary text-white">
                                         {{ review.user.get_full_name|slice:":1" }}
                                     </div>
                                 {% endif %}
                             </div>
                             <div class="reviewer-details">
-                                <h4>{{ review.user.get_full_name }}</h4>
+                                <h4 class="text-white">{{ review.user.get_full_name }}</h4>
                                 <div class="review-rating">
                                     {% for i in "12345" %}
                                         {% if forloop.counter <= review.rating %}
-                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning" aria-hidden="true"></i>
                                         {% else %}
-                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning" aria-hidden="true"></i>
                                         {% endif %}
                                     {% endfor %}
-                                    <span class="review-date">{{ review.created_at|date:"F j, Y" }}</span>
+                                    <span class="review-date text-white-60">{{ review.created_at|date:"F j, Y" }}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="review-content">
+                        <div class="review-content text-white-90">
                             <h5>{{ review.title }}</h5>
                             <p>{{ review.content }}</p>
                         </div>
@@ -267,7 +303,7 @@
                 
                 {% if course.reviews.count > 5 %}
                 <div class="text-center mt-4">
-                    <a href="#" class="btn btn-outline-primary btn-gradient">View All Reviews</a>
+                    <a href="#" class="btn btn-outline-primary btn-gradient border-primary text-white">View All Reviews</a>
                 </div>
                 {% endif %}
             </div>
@@ -276,37 +312,42 @@
             <!-- Related Courses -->
             {% if related_courses %}
             <div class="related-courses">
-                <h2 class="section-title">You May Also Like</h2>
-                <div class="row">
-                    {% for course in related_courses %}
-                    <div class="col-md-4 mb-4">
-                        <div class="related-course-card shadow-sm border-0">
-                            <a href="{{ course.get_absolute_url }}">
-                                <img src="{{ course.thumbnail.url|default:'/static/images/default-course.jpg' }}" 
-                                     alt="{{ course.title }}" 
-                                     class="img-fluid rounded-top"
-                                     style="height: 150px; object-fit: cover;">
-                            </a>
-                            <div class="course-info p-3">
-                                <h3><a href="{{ course.get_absolute_url }}" class="text-decoration-none">{{ course.title }}</a></h3>
-                                <p class="instructor-name">{{ course.instructor.get_full_name }}</p>
-                                <div class="course-meta">
-                                    <span class="rating">
-                                        <i class="fas fa-star text-warning"></i> {{ course.average_rating|floatformat:1 }}
-                                    </span>
-                                    <span class="price">
-                                        {% if course.discounted_price %}
-                                            <span class="current-price">${{ course.discounted_price }}</span>
-                                            <span class="original-price text-muted">${{ course.price }}</span>
-                                        {% else %}
-                                            <span class="current-price">${{ course.price }}</span>
-                                        {% endif %}
-                                    </span>
+                <h2 class="section-title text-white">You May Also Like</h2>
+                <div class="swiper related-courses-carousel">
+                    <div class="swiper-wrapper">
+                        {% for course in related_courses %}
+                        <div class="swiper-slide">
+                            <div class="related-course-card shadow-sm border-0 bg-dark-800">
+                                <a href="{{ course.get_absolute_url }}">
+                                    <img src="{{ course.thumbnail.url|default:'/static/images/default-course.jpg' }}"
+                                         alt="{{ course.title }}"
+                                         class="img-fluid rounded-top"
+                                         loading="lazy">
+                                </a>
+                                <div class="course-info p-3">
+                                    <h3><a href="{{ course.get_absolute_url }}" class="text-decoration-none text-white">{{ course.title }}</a></h3>
+                                    <p class="instructor-name text-white-60">{{ course.instructor.get_full_name }}</p>
+                                    <div class="course-meta text-white">
+                                        <span class="rating">
+                                            <i class="fas fa-star text-warning" aria-hidden="true"></i> {{ course.average_rating|floatformat:1 }}
+                                        </span>
+                                        <span class="price">
+                                            {% if course.discounted_price %}
+                                                <span class="current-price">${{ course.discounted_price }}</span>
+                                                <span class="original-price text-white-60">${{ course.price }}</span>
+                                            {% else %}
+                                                <span class="current-price">${{ course.price }}</span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <div class="swiper-button-next text-white"></div>
+                    <div class="swiper-button-prev text-white"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
             {% endif %}
@@ -315,344 +356,310 @@
 </div>
 
 <style>
+/* CSS Variables for Theming */
+:root {
+    --primary: #4F46E5;
+    --primary-10: rgba(79, 70, 229, 0.1);
+    --accent: #F59E0B;
+    --neutral: #0F172A;
+    --dark-700: #1E293B;
+    --dark-800: #334155;
+    --dark-900: #475569;
+    --text: #FFFFFF;
+    --text-80: rgba(255, 255, 255, 0.8);
+    --text-60: rgba(255, 255, 255, 0.6);
+    --muted: #94A3B8;
+    --success: #10B981;
+    --danger: #EF4444;
+    --card-bg: rgba(30, 41, 59, 0.95);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --border-dark: rgba(255, 255, 255, 0.1);
+}
+
+/* Utility Classes */
+.text-white { color: var(--text) !important; }
+.text-white-80 { color: var(--text-80) !important; }
+.text-white-60 { color: var(--text-60) !important; }
+.bg-dark-700 { background-color: var(--dark-700) !important; }
+.bg-dark-800 { background-color: var(--dark-800) !important; }
+.bg-dark-900 { background-color: var(--dark-900) !important; }
+.border-dark-600 { border-color: var(--border-dark) !important; }
+
 /* General Styles */
 .course-detail-container {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #1a202c;
+    color: var(--text);
     line-height: 1.6;
-    background-color: #f9fafb;
+    background-color: var(--neutral);
+    padding-bottom: 3rem;
 }
 
 /* Header Styles */
 .course-header {
-    padding: 2.5rem 0;
-    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-    border-bottom: 1px solid #e2e8f0;
-    margin-bottom: 2rem;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, var(--neutral) 0%, var(--dark-700) 100%);
+    border-bottom: 1px solid var(--border-dark);
 }
 
+/* Course Title */
 .course-title {
-    font-size: 2.25rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 800;
     margin-bottom: 1.5rem;
-    color: #1a202c;
-    letter-spacing: -0.025em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Course Banner */
 .course-banner {
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 1.5rem;
     transition: transform 0.3s ease;
+    box-shadow: var(--shadow);
 }
 
 .course-banner img {
+    max-height: 240px;
     width: 100%;
-    height: auto;
-    max-height: 200px;
     object-fit: cover;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .course-banner img:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
+/* Course Metadata */
 .course-meta {
-    margin-bottom: 1.5rem;
+    font-size: clamp(0.875rem, 2vw, 1rem);
 }
 
 .course-meta i {
-    font-size: 1.1rem;
-    margin-right: 0.5rem;
+    color: var(--accent);
 }
 
-/* Learning & Requirements Content */
-.learning-content,
-.requirements-content {
-    line-height: 1.7;
-    font-size: 1rem;
-    color: #4a5568;
-}
-
-.learning-content ul,
-.requirements-content ul {
-    padding-left: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.learning-content li,
-.requirements-content li {
-    margin-bottom: 0.75rem;
-    position: relative;
-}
-
-/* Card Styles */
+/* Cards */
 .card {
-    border-radius: 12px;
-    background: white;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-dark);
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
+/* Section Titles */
 .section-title {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-weight: 700;
-    color: #1a202c;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin-top: 0.5rem;
+    border-radius: 2px;
 }
 
 /* Enrollment Card */
 .enrollment-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
     position: sticky;
-    top: 1.5rem;
+    top: 2rem;
     transition: transform 0.3s ease;
+    overflow: hidden;
 }
 
 .enrollment-card:hover {
-    transform: translateY(-4px);
-}
-
-.enrolled-status {
-    padding: 2.5rem 1.5rem;
-}
-
-.enrolled-status i {
-    font-size: 3.5rem;
-    color: #48bb78;
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
 .pricing-info {
-    padding: 2rem;
+    padding: 2.5rem;
 }
 
-.price-discount {
-    margin-bottom: 0.75rem;
-}
-
-.original-price {
-    text-decoration: line-through;
-    color: #718096;
-    font-size: 1.1rem;
+.current-price {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
 }
 
 .discount-badge {
     font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
-}
-
-.current-price {
-    font-size: 2.75rem;
-    font-weight: 800;
-    color: #1a202c;
-    margin-bottom: 1.5rem;
-}
-
-.includes-list h5 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
-    color: #1a202c;
-}
-
-.includes-list ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.includes-list li {
-    margin-bottom: 0.875rem;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    color: #4a5568;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
 }
 
 .includes-list i {
-    color: #3182ce;
-    font-size: 1.2rem;
+    color: var(--primary);
 }
 
-.money-back-guarantee {
-    margin-top: 1.5rem;
-    font-size: 0.875rem;
-    color: #718096;
+/* Progress Bar */
+.progress {
+    height: 0.5rem;
+    border-radius: 8px;
+    background-color: var(--dark-800);
 }
 
-.money-back-guarantee i {
-    color: #48bb78;
+.progress-bar {
+    background: var(--success);
 }
 
-/* Course Content */
-.course-content {
-    padding: 3rem 0;
-}
-
-.accordion-item {
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    background: white;
+/* Button Gradient with Pulse Animation */
+.btn-gradient {
+    background: linear-gradient(90deg, var(--primary) 0%, #7C3AED 100%);
+    border: none;
+    border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    font-weight: 600;
 }
 
-.accordion-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.btn-gradient:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    color: white;
+}
+
+.btn-gradient.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+/* Accordion */
+.accordion-item {
+    background: var(--dark-800);
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-dark);
 }
 
 .accordion-button {
+    border-radius: 16px !important;
     font-weight: 600;
-    padding: 1.25rem;
-    background: white;
-    border-radius: 12px !important;
-    color: #1a202c;
 }
 
 .accordion-button:not(.collapsed) {
-    background: white;
-    color: #1a202c;
+    color: var(--primary);
+}
+
+.accordion-button:focus {
     box-shadow: none;
-}
-
-.section-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.section-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.section-meta {
-    font-size: 0.875rem;
-    color: #718096;
-}
-
-.lesson-list {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0;
+    border-color: var(--primary);
 }
 
 .lesson-item {
+    transition: background 0.2s ease;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1.25rem;
-    border-bottom: 1px solid #edf2f7;
-    transition: background 0.2s ease;
 }
 
 .lesson-item:hover {
-    background: #f7fafc;
+    background: var(--primary-10);
 }
 
-.lesson-item:last-child {
-    border-bottom: none;
-}
-
-.lesson-info {
-    display: flex;
-    align-items: center;
-}
-
-.lesson-icon {
-    color: #4a5568;
-    margin-right: 1rem;
-    font-size: 1.1rem;
-}
-
-.lesson-title {
-    font-weight: 500;
-    color: #2d3748;
-}
-
-.preview-lesson .lesson-icon {
-    color: #3182ce;
+.preview-lesson {
+    cursor: pointer;
 }
 
 .preview-badge {
-    background: #e9f5ff;
-    color: #3182ce;
+    background: var(--primary-10);
+    color: var(--primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
     font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    margin-left: 0.75rem;
-}
-
-.lesson-duration {
-    font-size: 0.875rem;
-    color: #718096;
+    font-weight: 600;
 }
 
 /* Instructor Section */
 .instructor-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-}
-
-.instructor-info {
-    display: flex;
-    margin-bottom: 1.5rem;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border-dark);
 }
 
 .instructor-avatar img {
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
+    border: 3px solid var(--border-dark);
     object-fit: cover;
-    border: 2px solid #e2e8f0;
 }
 
-.instructor-details h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+.instructor-details {
+    flex: 1;
+    padding-left: 1.5rem;
 }
 
 .instructor-title {
-    color: #718096;
-    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
 }
 
-.instructor-rating {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.75rem;
+.instructor-stats span {
+    margin-right: 1rem;
 }
 
-.rating-text {
-    font-size: 0.875rem;
-    color: #718096;
-    margin-left: 0.5rem;
-}
-
-.instructor-stats {
-    display: flex;
-    gap: 1.5rem;
-    font-size: 0.875rem;
-    color: #718096;
-}
-
-.instructor-bio {
-    line-height: 1.7;
-    color: #4a5568;
+.instructor-stats i {
+    color: var(--primary);
 }
 
 /* Reviews Section */
-.reviews-section {
-    margin-top: 3rem;
+.review-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-dark);
+}
+
+.reviewer-avatar img, .avatar-initials {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.reviewer-details {
+    flex: 1;
+    padding-left: 1rem;
+}
+
+.review-rating {
+    margin-top: 0.25rem;
+}
+
+.review-date {
+    margin-left: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.review-content h5 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 .average-rating {
@@ -663,123 +670,76 @@
 
 .rating-value {
     font-size: 3rem;
-    font-weight: 800;
+    font-weight: 700;
     margin-right: 1rem;
-    color: #1a202c;
+}
+
+.stars {
+    margin-right: 1rem;
 }
 
 .rating-count {
-    font-size: 0.875rem;
-    color: #718096;
-    margin-left: 1rem;
+    font-size: 0.9rem;
 }
 
-.review-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Related Courses Carousel */
+.related-courses-carousel {
+    padding-bottom: 2rem;
 }
 
-.review-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.reviewer-info {
-    display: flex;
-    margin-bottom: 1rem;
-}
-
-.reviewer-avatar img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border: 2px solid #e2e8f0;
-}
-
-.avatar-initials {
-    width: 50px;
-    height: 50px;
-    background: #3182ce;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 1.25rem;
+.swiper-button-next, .swiper-button-prev {
+    color: var(--text) !important;
+    background: var(--dark-800);
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 2px solid #e2e8f0;
+    box-shadow: var(--shadow);
 }
 
-.reviewer-details h4 {
+.swiper-button-next::after, .swiper-button-prev::after {
     font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
 }
 
-.review-rating {
-    display: flex;
-    align-items: center;
+.swiper-pagination-bullet {
+    background: var(--text-60);
+    opacity: 1;
 }
 
-.review-date {
-    font-size: 0.875rem;
-    color: #718096;
-    margin-left: 0.75rem;
-}
-
-.review-content h5 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.review-content p {
-    color: #4a5568;
-    line-height: 1.7;
-}
-
-/* Related Courses */
-.related-courses {
-    margin-top: 3rem;
+.swiper-pagination-bullet-active {
+    background: var(--primary);
 }
 
 .related-course-card {
-    background: white;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .related-course-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+}
+
+.related-course-card img {
+    height: 160px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.related-course-card:hover img {
+    transform: scale(1.05);
 }
 
 .course-info {
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 .course-info h3 {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
-}
-
-.course-info h3 a {
-    color: #1a202c;
-    text-decoration: none;
-}
-
-.course-info h3 a:hover {
-    color: #3182ce;
 }
 
 .instructor-name {
     font-size: 0.875rem;
-    color: #718096;
     margin-bottom: 0.75rem;
 }
 
@@ -789,60 +749,35 @@
     align-items: center;
 }
 
-.course-meta .rating {
-    color: #f6ad55;
-    font-weight: 600;
-}
-
-.course-meta .price {
-    text-align: right;
-}
-
-.current-price {
-    font-weight: 600;
-    color: #1a202c;
-}
-
 .original-price {
     text-decoration: line-through;
-    color: #718096;
     font-size: 0.875rem;
     margin-left: 0.5rem;
 }
 
-/* Button Gradient */
-.btn-gradient {
-    background: linear-gradient(90deg, #3182ce 0%, #63b3ed 100%);
-    border: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Form Elements */
+.form-select {
+    background-color: var(--dark-700);
+    border-color: var(--border-dark);
+    color: var(--text);
 }
 
-.btn-gradient:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
 }
 
-.btn-outline-primary {
-    border-color: #3182ce;
-    color: #3182ce;
-    transition: background 0.3s ease, color 0.3s ease;
+/* Modal */
+.modal-content {
+    border: 1px solid var(--border-dark);
 }
 
-.btn-outline-primary:hover {
-    background: #3182ce;
-    color: white;
+.modal-header {
+    border-bottom-color: var(--border-dark);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 991.98px) {
-    .course-title {
-        font-size: 1.75rem;
-    }
-    
-    .course-banner img {
-        max-height: 180px;
-    }
-    
     .enrollment-card {
         position: static;
         margin-top: 2rem;
@@ -851,38 +786,31 @@
 
 @media (max-width: 767.98px) {
     .course-title {
-        font-size: 1.5rem;
+        font-size: clamp(1.5rem, 3.5vw, 1.75rem);
     }
     
     .course-banner img {
-        max-height: 160px;
-    }
-    
-    .current-price {
-        font-size: 2rem;
+        max-height: 200px;
     }
     
     .instructor-info {
         flex-direction: column;
+        align-items: center;
         text-align: center;
     }
     
     .instructor-avatar {
-        margin-right: 0;
         margin-bottom: 1rem;
     }
     
     .instructor-details {
+        padding-left: 0;
         text-align: center;
-    }
-    
-    .instructor-rating, .instructor-stats {
-        justify-content: center;
     }
     
     .average-rating {
         flex-direction: column;
-        text-align: center;
+        align-items: flex-start;
     }
     
     .rating-value {
@@ -890,10 +818,60 @@
         margin-bottom: 0.5rem;
     }
     
-    .rating-count {
-        margin-left: 0;
-        margin-top: 0.5rem;
+    .stars {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
     }
 }
 </style>
+
+<!-- Include Swiper.js for Carousel -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize course carousel
+        const swiper = new Swiper('.related-courses-carousel', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                992: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Review sorting functionality
+        const reviewSort = document.getElementById('reviewSort');
+        if (reviewSort) {
+            reviewSort.addEventListener('change', function() {
+                // Implement review sorting logic here
+                console.log('Sorting reviews by:', this.value);
+            });
+        }
+
+        // Preview modal video handling
+        const previewModals = document.querySelectorAll('.modal');
+        previewModals.forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function () {
+                const iframe = this.querySelector('iframe');
+                if (iframe) {
+                    const src = iframe.src;
+                    iframe.src = '';
+                    iframe.src = src;
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
