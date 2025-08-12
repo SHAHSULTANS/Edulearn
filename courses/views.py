@@ -1,9 +1,10 @@
+from time import timezone
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .models import Course, Section, Lesson
+from .models import Course, Progress, Section, Lesson
 from .forms import CourseForm, SectionForm, LessonForm
 from courses.models import Category
 
@@ -70,6 +71,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from .models import Course, Enrollment
 
+
 class PublicCourseDetailView(DetailView):
     model = Course
     template_name = 'courses/public_course_detail.html'
@@ -97,6 +99,73 @@ class PublicCourseDetailView(DetailView):
 
         return context
 
+
+
+
+
+class CourseLearningView(LoginRequiredMixin, DetailView):
+    model = Course
+    template_name = 'courses/course_learning.html'
+    context_object_name = 'course'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Course, pk=self.kwargs['pk'])
+
+    def get(self, request, *args, **kwargs):
+        course = self.get_object()
+        if not Enrollment.objects.filter(student=self.request.user, course=course).exists():
+            messages.error(self.request, "You must be enrolled to access this course.")
+            return redirect('courses:course_detail', pk=course.pk)
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.object
+        user = self.request.user
+
+        # Get all sections and lessons
+        context['sections'] = course.sections.all()
+        
+        # Get progress for each lesson
+        progress = Progress.objects.filter(student=user, lesson__section__course=course)
+        context['progress'] = {p.lesson.id: p.completed for p in progress}
+
+        # Calculate completion percentage
+        total_lessons = sum(section.lessons.count() for section in course.sections.all())
+        completed_lessons = progress.filter(completed=True).count()
+        context['completion_percentage'] = (completed_lessons / total_lessons * 100) if total_lessons > 0 else 0
+
+        # Get first accessible lesson (preview or enrolled)
+        for section in course.sections.all():
+            for lesson in section.lessons.all():
+                if lesson.is_preview or Enrollment.objects.filter(student=user, course=course).exists():
+                    context['current_lesson'] = lesson
+                    break
+            if 'current_lesson' in context:
+                break
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        course = self.get_object()
+        lesson_id = request.POST.get('lesson_id')
+        lesson = get_object_or_404(Lesson, id=lesson_id, section__course=course)
+
+        # Mark lesson as completed
+        progress, created = Progress.objects.get_or_create(
+            student=request.user,
+            lesson=lesson,
+            defaults={'completed': True, 'completed_at': timezone.now()}
+        )
+        if not created and not progress.completed:
+            progress.completed = True
+            progress.completed_at = timezone.now()
+            progress.save()
+
+        messages.success(request, f"Lesson '{lesson.title}' marked as completed!")
+        return redirect('courses:course_learning', pk=course.pk)
+    
+    
 def instructor_dashboard(request):
     if not request.user.is_instructor:
         return redirect('home')
