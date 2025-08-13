@@ -1,202 +1,538 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="container py-5">
-  <!-- Section Header with Filter Controls -->
-  <div class="row mb-4 align-items-center">
-    <div class="col-md-6">
-      <h2 class="fw-bold">Popular Courses</h2>
-      <p class="text-muted">Learn from industry experts</p>
-    </div>
-    <div class="col-md-6 text-md-end">
-      <div class="d-flex justify-content-md-end gap-2">
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
-            <i class="fas fa-filter me-2"></i>Filter
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-filter="all">All Categories</a></li>
-            {% for category in categories %}
-            <li><a class="dropdown-item" href="#" data-filter="{{ category.id }}">{{ category.name }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
-            <i class="fas fa-sort me-2"></i>Sort By
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-sort="popular">Most Popular</a></li>
-            <li><a class="dropdown-item" href="#" data-sort="newest">Newest</a></li>
-            <li><a class="dropdown-item" href="#" data-sort="rating">Highest Rated</a></li>
-            <li><a class="dropdown-item" href="#" data-sort="price-low">Price: Low to High</a></li>
-            <li><a class="dropdown-item" href="#" data-sort="price-high">Price: High to Low</a></li>
-          </ul>
-        </div>
-        <a href="" class="btn btn-outline-primary">View All</a>
-      </div>
-    </div>
-  </div>
+{% block title %}EduLearn - Discover Online Courses{% endblock title %}
 
-  <!-- Course Grid -->
-  <div class="row" id="courseGrid">
-    {% for course in courses %}
-    <div class="col-lg-3 col-md-6 mb-4 course-item" data-category="{{ course.category.id }}" 
-         data-rating="{{ course.rating }}" data-price="{{ course.price }}" data-date="{{ course.created_at|date:'Y-m-d' }}">
-      <div class="course-card card h-100 border-0 shadow-sm hover-shadow-lg transition-all">
-        <div class="position-relative">
-          <a href="{% url "courses:public_course_detail" course.id%}">
-            <img src="{{ course.thumbnail.url|default:'/static/edulearn.svg' }}" 
-                 class="card-img-top course-thumbnail" 
-                 alt="{{ course.title }}"
-                 loading="lazy">
-          </a>
-          
-          <!-- Badges -->
-          <div class="course-badges position-absolute top-10 start-10 d-flex flex-column gap-1">
-            {% if course.is_bestseller %}
-            <span class="badge bg-danger">Bestseller</span>
-            {% endif %}
-            {% if course.is_new %}
-            <span class="badge bg-success">New</span>
-            {% endif %}
-            {% if course.discount_percent > 50 %}
-            <span class="badge bg-warning text-dark">Hot Deal</span>
-            {% endif %}
+{% block extra_css %}
+<style>
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #7C3AED 100%);
+    color: var(--light-color);
+    padding: 4rem 0;
+  }
+  .hero-section h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .hero-section p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+  }
+  .hero-section .input-group {
+    max-width: 600px;
+  }
+  .hero-section img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Category Card */
+  .category-card {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    min-height: 150px; /* Ensure consistent card height */
+  }
+  .category-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+  }
+  .category-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  .category-card h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  .category-card p {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+  }
+
+  /* Course Card */
+  .course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    height: 100%; /* Ensure cards stretch to equal height */
+  }
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  .course-card .course-thumbnail {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+  }
+  .course-card .course-badges {
+    top: 10px;
+    left: 10px;
+  }
+  .course-card .course-badges .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .course-card .wishlist-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    top: 10px;
+    right: 10px;
+  }
+  .course-card:hover .wishlist-btn {
+    opacity: 1;
+  }
+  .course-card .card-body {
+    padding: 1rem;
+  }
+  .course-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .course-card .instructor-name {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+  }
+  .course-card .rating i {
+    font-size: 0.8rem;
+  }
+  .course-card .course-meta {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+  }
+  .course-card .progress {
+    height: 5px;
+  }
+  .course-card .card-footer {
+    background: var(--light-color);
+    border-top: 0;
+    padding: 0 1rem 1rem;
+  }
+
+  /* Feature Card */
+  .feature-card {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    min-height: 200px; /* Ensure consistent card height */
+  }
+  .feature-card:hover {
+    box-shadow: var(--shadow-hover);
+  }
+  .feature-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+  }
+  .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  .feature-card p {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+  }
+
+  /* Testimonial Card */
+  .testimonial-card {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 200px; /* Ensure consistent card height */
+  }
+  .testimonial-card img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+  }
+  .testimonial-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  .testimonial-card .rating i {
+    font-size: 0.9rem;
+  }
+  .testimonial-card p {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--primary-color);
+    color: var(--light-color);
+    padding: 4rem 0;
+  }
+  .cta-section h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .cta-section p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+  }
+
+  /* Ensure no text overlap */
+  .container, .card-body, .card-footer {
+    position: relative;
+    z-index: 1;
+  }
+  .course-badges, .wishlist-btn {
+    z-index: 2;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h1>Learn New Skills Online</h1>
+          <p>Find the perfect course for your personal and professional development</p>
+          {% comment %} <div class="input-group mb-3">
+            <input type="text" class="form-control search-box" placeholder="Search for courses..." aria-label="Search">
+            <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+          </div> {% endcomment %}
+          <div class="d-flex flex-wrap gap-2">
+            <span class="text-light">Popular searches:</span>
+            <a href="#" class="category-badge">Python</a>
+            <a href="#" class="category-badge">Web Design</a>
+            <a href="#" class="category-badge">Business</a>
           </div>
-          
-          <!-- Wishlist Button -->
-          <button class="btn btn-sm btn-light position-absolute top-10 end-10 rounded-circle wishlist-btn" 
-                  data-course-id="{{ course.id }}">
-            <i class="far fa-heart"></i>
-          </button>
         </div>
-        
-        <div class="card-body p-3">
-          <h5 class="card-title mb-1">
-            <a href="{{ course.get_absolute_url }}" class="text-dark text-decoration-none course-title">
-              {{ course.title|truncatechars:50 }}
-            </a>
-          </h5>
-          <p class="text-muted small mb-2">{{ course.instructor.get_full_name }}</p>
-          
-          <!-- Rating -->
-          <div class="d-flex align-items-center mb-2">
-            <span class="text-warning small">
-              {% with full_stars=course.rating|floatformat:0 %}
-                {% for i in "12345" %}
-                  {% if forloop.counter <= full_stars %}
-                    <i class="fas fa-star"></i>
-                  {% else %}
-                    <i class="far fa-star"></i>
-                  {% endif %}
-                {% endfor %}
-              {% endwith %}
-            </span>
-            <span class="text-muted small ms-1">
-              {{ course.rating|floatformat:1 }} ({{ course.enrollment_count }})
-            </span>
-          </div>
-          
-          <!-- Course Meta -->
-          <div class="course-meta d-flex small text-muted mb-2">
-            <span class="me-2">
-              <i class="far fa-clock me-1"></i> {{ course.total_lessons }} lessons
-            </span>
-            <span>
-              <i class="fas fa-signal me-1"></i> {{ course.get_level_display }}
-            </span>
-          </div>
-          
-          <!-- Progress Bar (if enrolled) -->
-          {% if request.user in course.students.all %}
-          <div class="progress mb-2" style="height: 5px;">
-            <div class="progress-bar bg-success" 
-                 style="width: {{ course.user_progress }}%" 
-                 role="progressbar"></div>
-          </div>
-          <small class="text-muted">{{ course.user_progress }}% complete</small>
-          {% endif %}
-          
-          <!-- Price -->
-          <div class="d-flex align-items-center mt-3">
-            {% if course.discounted_price %}
-              <span class="h5 mb-0 text-dark">${{ course.discounted_price }}</span>
-              <span class="ms-2 text-decoration-line-through text-muted small">
-                ${{ course.price }}
-              </span>
-              <span class="ms-2 badge bg-success small">
-                {{ course.discount_percent }}% off
-              </span>
-            {% else %}
-              <span class="h5 mb-0 text-dark">${{ course.price }}</span>
-            {% endif %}
-          </div>
-        </div>
-        
-        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
-          {% if request.user in course.students.all %}
-            <a href="{{ course.get_absolute_url }}" class="btn btn-success w-100">
-              <i class="fas fa-play-circle me-2"></i> Continue Learning
-            </a>
-          {% else %}
-            <button class="btn btn-primary w-100 add-to-cart" data-course-id="{{ course.id }}">
-              <i class="fas fa-shopping-cart me-2"></i> Add to Cart
-            </button>
-          {% endif %}
+        <div class="col-lg-6 text-center">
+          <img src="{% static 'images/hero-image.svg' %}" alt="Online Learning" class="img-fluid">
         </div>
       </div>
     </div>
-    {% empty %}
-    <div class="col-12 text-center py-5">
-      <img src="{% static 'images/no-courses.svg' %}" alt="No courses" class="img-fluid mb-4" style="max-width: 300px;">
-      <h4 class="text-muted">No courses found</h4>
-      <p class="text-muted">Check back later or try different filters</p>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h3 fw-bold">Explore Categories</h2>
+        <p class="text-white">Browse courses by popular categories to find what interests you</p>
+      </div>
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+        {% for category in categories %}
+        <div class="col">
+          <a href="#" class="category-card text-decoration-none">
+            <i class="{{ category.icon|default:'fas fa-laptop-code' }}"></i>
+            <h3>{{ category.name }}</h3>
+            <p>{{ category.course_count }} courses</p>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
-  </div>
-  
-  <!-- Pagination -->
-  {% if is_paginated %}
-  <nav aria-label="Course pagination" class="mt-5">
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?page=1" aria-label="First">
-            <span aria-hidden="true">&laquo;&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
+  </section>
+
+  <!-- Popular Courses Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+          <h2 class="fw-bold">Popular Courses</h2>
+          <p class="text-muted">Learn from industry experts</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="d-flex justify-content-md-end gap-2">
+            <div class="dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                <i class="fas fa-filter me-2"></i>Filter
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" data-filter="all">All Categories</a></li>
+                {% for category in categories %}
+                <li><a class="dropdown-item" href="#" data-filter="{{ category.id }}">{{ category.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                <i class="fas fa-sort me-2"></i>Sort By
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" data-sort="popular">Most Popular</a></li>
+                <li><a class="dropdown-item" href="#" data-sort="newest">Newest</a></li>
+                <li><a class="dropdown-item" href="#" data-sort="rating">Highest Rated</a></li>
+                <li><a class="dropdown-item" href="#" data-sort="price-low">Price: Low to High</a></li>
+                <li><a class="dropdown-item" href="#" data-sort="price-high">Price: High to Low</a></li>
+              </ul>
+            </div>
+            <a href="" class="btn btn-outline-primary">View All</a>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4" id="courseGrid">
+        {% for course in courses %}
+        <div class="col course-item" data-category="{{ course.category.id }}" 
+             data-rating="{{ course.rating }}" data-price="{{ course.price }}" 
+             data-date="{{ course.created_at|date:'Y-m-d' }}">
+          <div class="course-card card h-100 border-0 shadow-sm">
+            <div class="position-relative">
+              <a href="{% url 'courses:public_course_detail' course.id %}">
+                <img src="{{ course.thumbnail.url|default:'/static/images/edulearn.svg' }}" 
+                     class="card-img-top course-thumbnail" 
+                     alt="{{ course.title }}"
+                     loading="lazy">
+              </a>
+              <div class="course-badges position-absolute top-10 start-10 d-flex flex-column gap-1">
+                {% if course.is_bestseller %}
+                <span class="badge bg-danger">Bestseller</span>
+                {% endif %}
+                {% if course.is_new %}
+                <span class="badge bg-success">New</span>
+                {% endif %}
+                {% if course.discount_percent > 50 %}
+                <span class="badge bg-warning text-dark">Hot Deal</span>
+                {% endif %}
+              </div>
+              <button class="btn btn-sm btn-light position-absolute wishlist-btn" 
+                      data-course-id="{{ course.id }}">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="card-body p-3">
+              <h5 class="card-title mb-1">
+                <a href="{% url 'courses:public_course_detail' course.id %}" 
+                   class="text-dark text-decoration-none course-title">
+                  {{ course.title|truncatechars:50 }}
+                </a>
+              </h5>
+              <p class="instructor-name mb-2">{{ course.instructor.get_full_name }}</p>
+              <div class="d-flex align-items-center mb-2 rating">
+                {% with full_stars=course.rating|floatformat:0 %}
+                  {% for i in "12345" %}
+                    {% if forloop.counter <= full_stars %}
+                      <i class="fas fa-star text-warning"></i>
+                    {% else %}
+                      <i class="far fa-star text-warning"></i>
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
+                <span class="text-muted small ms-1">{{ course.rating|floatformat:1 }} ({{ course.enrollment_count }})</span>
+              </div>
+              <div class="course-meta d-flex small mb-2">
+                <span class="me-2"><i class="far fa-clock me-1"></i> {{ course.total_lessons }} lessons</span>
+                <span><i class="fas fa-signal me-1"></i> {{ course.get_level_display }}</span>
+              </div>
+              {% if request.user in course.students.all %}
+              <div class="mb-2">
+                <div class="progress" style="height: 5px;">
+                  <div class="progress-bar bg-success" style="width: {{ course.user_progress }}%" role="progressbar"></div>
+                </div>
+                <small class="text-muted">{{ course.user_progress }}% complete</small>
+              </div>
+              {% endif %}
+              <div class="d-flex align-items-center mt-3">
+                {% if course.discounted_price %}
+                  <span class="h5 mb-0 text-dark">${{ course.discounted_price }}</span>
+                  <span class="ms-2 text-decoration-line-through text-muted small">${{ course.price }}</span>
+                  <span class="ms-2 badge bg-success small">{{ course.discount_percent }}% off</span>
+                {% else %}
+                  <span class="h5 mb-0 text-dark">${{ course.price }}</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="card-footer pt-0 pb-3 px-3">
+              {% if request.user in course.students.all %}
+                <a href="{% url 'courses:course_learning' course.id %}" class="btn btn-success w-100">
+                  <i class="fas fa-play-circle me-2"></i> Continue Learning
+                </a>
+              {% else %}
+                <button class="btn btn-primary w-100 add-to-cart" data-course-id="{{ course.id }">
+                  <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+          <img src="{% static 'images/no-courses.svg' %}" alt="No courses" class="img-fluid mb-4" style="max-width: 300px;">
+          <h4 class="text-muted">No courses found</h4>
+          <p class="text-muted">Check back later or try different filters</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% if is_paginated %}
+      <nav aria-label="Course pagination" class="mt-5">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1" aria-label="First">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
       {% endif %}
-      
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-        {% endif %}
-      {% endfor %}
-      
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-            <span aria-hidden="true">&raquo;&raquo;</span>
-          </a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-  {% endif %}
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h3 fw-bold">Why Learn With Us</h2>
+        <p class="text-white">We provide the best learning experience for students worldwide</p>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="feature-card">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Expert Instructors</h3>
+            <p>Learn from industry professionals with real-world experience</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="feature-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Hands-on Projects</h3>
+            <p>Apply what you learn with practical projects and exercises</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="feature-card">
+            <i class="fas fa-certificate"></i>
+            <h3>Certification</h3>
+            <p>Earn certificates to showcase your new skills</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h3 fw-bold">What Our Students Say</h2>
+        <p class="text-muted">Hear from thousands of happy students worldwide</p>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="testimonial-card">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="rounded-circle me-3">
+              <div>
+                <h4>Sarah Johnson</h4>
+                <div class="rating text-warning">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p>"The courses are well-structured and the instructors are knowledgeable. I was able to land a new job after completing the Web Development track!"</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="testimonial-card">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Chen" class="rounded-circle me-3">
+              <div>
+                <h4>Michael Chen</h4>
+                <div class="rating text-warning">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p>"I appreciate the hands-on projects that helped me build a portfolio. The Python course was especially helpful for my data analysis work."</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="testimonial-card">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Patel" class="rounded-circle me-3">
+              <div>
+                <h4>Priya Patel</h4>
+                <div class="rating text-warning">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+              </div>
+            </div>
+            <p>"The mobile app makes it easy to learn on the go. I completed the Digital Marketing course during my commute and it changed my career path."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <h2>Ready to Start Learning?</h2>
+      <p>Join thousands of students advancing their careers with our courses</p>
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+        <a href="" class="btn btn-primary px-4 py-2">Browse Courses</a>
+        <a href="{% url 'register' %}" class="btn btn-outline-primary px-4 py-2">Sign Up Now</a>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- Quick View Modal -->
@@ -214,38 +550,18 @@
   </div>
 </div>
 
-<style>
-  .course-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .course-card:hover {
-    transform: translateY(-5px);
-  }
-  .hover-shadow-lg:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  .course-thumbnail {
-    height: 180px;
-    object-fit: cover;
-  }
-  .wishlist-btn {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .course-card:hover .wishlist-btn {
-    opacity: 1;
-  }
-  .course-badges .badge {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.5rem;
-  }
-</style>
+<!-- Toast Notification -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body">
+      <span id="toastMessage"></span>
+      <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // Filter courses
@@ -289,7 +605,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
       
-      // Re-append sorted courses
       courses.forEach(course => container.appendChild(course));
     });
   });
@@ -353,13 +668,10 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Update cart count
           const cartCount = document.getElementById('cart-count');
           if (cartCount) {
             cartCount.textContent = data.cart_count;
           }
-          
-          // Show success toast
           const toast = new bootstrap.Toast(document.getElementById('cartToast'));
           document.getElementById('toastMessage').textContent = 'Course added to cart!';
           toast.show();
