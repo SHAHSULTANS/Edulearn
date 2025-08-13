@@ -1,17 +1,369 @@
-{% extends 'base.html' %} {% load static %} {% block title %}
-<title>EduLearn - Terms of Service</title>
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+EduLearn - Terms of Service
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .legal-page {
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    padding-top: 80px; /* Prevent overlap with fixed navbar */
+    background: var(--light-color);
+  }
+
+  .legal-subnav {
+    background: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+    position: sticky;
+    top: 0px; /* Below fixed navbar */
+    z-index: 99;
+  }
+
+  .legal-subnav .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .legal-nav {
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-link {
+    color: var(--muted-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-color);
+  }
+
+  .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .nav-link.active:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+  }
+
+  .legal-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    gap: 30px;
+  }
+
+  .legal-sidebar {
+    width: 280px;
+    padding-right: 20px;
+    position: sticky;
+    top: 150px; /* Below subnav */
+    align-self: flex-start;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+
+  .sidebar-content {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 8px 12px;
+    color: var(--muted-color);
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: all 0.2s;
+  }
+
+  .toc-link:hover,
+  .toc-link:focus,
+  .toc-link.active {
+    background: var(--light-color);
+    color: var(--primary-color);
+  }
+
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #7C3AED 100%);
+    color: var(--light-color);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: var(--light-color);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-secondary {
+    border: 1px solid var(--border-color);
+    color: var(--muted-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-secondary:hover {
+    background: var(--light-gray);
+    transform: translateY(-2px);
+  }
+
+  .legal-content {
+    flex: 1;
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+  }
+
+  .content-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+
+  .content-header h1 {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 10px;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 20px;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+  }
+
+  .meta-info i {
+    margin-right: 5px;
+  }
+
+  .legal-section {
+    margin-bottom: 40px;
+  }
+
+  .legal-section h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+
+  .legal-section h3 {
+    font-weight: 600;
+    margin: 20px 0 10px;
+    font-size: 1.2rem;
+  }
+
+  .legal-section p {
+    margin-bottom: 15px;
+  }
+
+  .highlight-box {
+    background: var(--light-gray);
+    border-left: 4px solid var(--primary-color);
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .highlight-box.warning {
+    border-left-color: var(--warning-color);
+    background: #fff8e1;
+  }
+
+  .highlight-box.info {
+    border-left-color: var(--info-color);
+    background: #e3f2fd;
+  }
+
+  .highlight-box i {
+    font-size: 1.2rem;
+    margin-top: 2px;
+  }
+
+  .refund-policy {
+    background: var(--light-gray);
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+  }
+
+  .refund-policy h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .refund-policy ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  .contact-methods {
+    margin-top: 15px;
+  }
+
+  .contact-methods p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .acceptance-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .acceptance-box {
+    background: var(--light-gray);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .acceptance-box h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  .acceptance-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .legal-container {
+      flex-direction: column;
+    }
+
+    .legal-sidebar {
+      width: 100%;
+      position: static;
+      margin-bottom: 30px;
+      padding-right: 0;
+    }
+
+    .sidebar-actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .legal-subnav .container {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .legal-nav {
+      width: 100%;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .legal-content {
+      padding: 20px;
+    }
+
+    .acceptance-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .meta-info {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .legal-nav {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="legal-page">
-  <!-- Header with Navigation -->
-  <div class="legal-header">
+  <!-- Sub-Navigation -->
+  <div class="legal-subnav">
     <div class="container">
-      <a href="{% url 'home' %}" class="logo">
-        <img src="{% static 'edulear1n.svg' %}" alt="EduLearn Logo" />
-      </a>
       <div class="legal-nav">
-        <a href="{% url "privacy_policy" %}" class="nav-link">Privacy Policy</a>
+        <a href="{% url 'privacy_policy' %}" class="nav-link">Privacy Policy</a>
         <a href="{% url 'terms_of_service' %}" class="nav-link active">Terms of Service</a>
-        <a href="{% url "cookie_policy" %}" class="nav-link">Cookie Policy</a>
+        <a href="{% url 'cookie_policy' %}" class="nav-link">Cookie Policy</a>
       </div>
     </div>
   </div>
@@ -133,7 +485,7 @@
             Your use of the Service is at your sole risk. The Service is
             provided on an "AS IS" and "AS AVAILABLE" basis.
           </p>
-          <div class="highlight-box warning">
+          <div class="highlight-box warning text-primary">
             <i class="fas fa-exclamation-circle"></i>
             <p>
               EduLearn does not warrant that the Service will be uninterrupted,
@@ -142,13 +494,13 @@
           </div>
         </section>
 
-        <section id="changes" class="legal-section">
+        <section id="changes" class="legal-section ">
           <h2>7. Changes to Terms</h2>
           <p>
             We reserve the right to modify these Terms at any time. We will
             provide notice of any changes by posting the new Terms on this page.
           </p>
-          <div class="highlight-box info">
+          <div class="highlight-box info text-primary">
             <i class="fas fa-info-circle"></i>
             <p>
               Your continued use of the Service after any changes constitutes
@@ -178,12 +530,8 @@
               understood, and agree to be bound by these Terms of Service.
             </p>
             <div class="acceptance-actions">
-              <a href="{% url 'register' %}" class="btn btn-primary"
-                >I Accept - Create Account</a
-              >
-              <a href="{% url 'home' %}" class="btn btn-outline-secondary"
-                >Back to Home</a
-              >
+              <a href="{% url 'register' %}" class="btn btn-primary">I Accept - Create Account</a>
+              <a href="{% url 'home' %}" class="btn btn-outline-secondary">Back to Home</a>
             </div>
           </div>
         </div>
@@ -191,352 +539,9 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_css %}
-<style>
-  :root {
-    --primary-color: #5624d0;
-    --secondary-color: #f5f5f5;
-    --accent-color: #a435f0;
-    --text-color: #2d2f31;
-    --light-gray: #f8f9fa;
-    --border-color: #e1e1e1;
-  }
+{% endblock %}
 
-  .legal-page {
-    font-family: "Roboto", sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
-  }
-
-  .legal-header {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .legal-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .logo img {
-    height: 40px;
-  }
-
-  .legal-nav {
-    display: flex;
-    gap: 25px;
-  }
-
-  .nav-link {
-    color: #666;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 5px 0;
-    position: relative;
-  }
-
-  .nav-link.active {
-    color: var(--primary-color);
-    font-weight: 600;
-  }
-
-  .nav-link.active:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary-color);
-  }
-
-  .legal-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-
-  .legal-sidebar {
-    width: 280px;
-    padding-right: 30px;
-    position: sticky;
-    top: 80px;
-    align-self: flex-start;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-  }
-
-  .sidebar-content {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .toc-link {
-    display: block;
-    padding: 8px 12px;
-    color: #555;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    transition: all 0.2s;
-  }
-
-  .toc-link:hover,
-  .toc-link:focus {
-    background: var(--light-gray);
-    color: var(--primary-color);
-  }
-
-  .sidebar-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 25px;
-  }
-
-  .btn {
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .btn-outline-primary {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    background: white;
-  }
-
-  .btn-outline-primary:hover {
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .btn-outline-secondary {
-    border: 1px solid #ddd;
-    color: #555;
-    background: white;
-  }
-
-  .btn-outline-secondary:hover {
-    background: #f5f5f5;
-  }
-
-  .legal-content {
-    flex: 1;
-    background: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .content-header {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-  }
-
-  .content-header h1 {
-    font-weight: 700;
-    color: var(--text-color);
-    margin-bottom: 10px;
-  }
-
-  .meta-info {
-    display: flex;
-    gap: 20px;
-    color: #666;
-    font-size: 0.9rem;
-  }
-
-  .meta-info i {
-    margin-right: 5px;
-  }
-
-  .legal-section {
-    margin-bottom: 40px;
-  }
-
-  .legal-section h2 {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-  }
-
-  .legal-section h3 {
-    font-weight: 600;
-    margin: 20px 0 10px;
-    font-size: 1.2rem;
-  }
-
-  .legal-section p {
-    margin-bottom: 15px;
-  }
-
-  .highlight-box {
-    background: #f8f9fa;
-    border-left: 4px solid var(--primary-color);
-    padding: 15px;
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .highlight-box.warning {
-    border-left-color: #ffc107;
-    background: #fff8e1;
-  }
-
-  .highlight-box.info {
-    border-left-color: #17a2b8;
-    background: #e3f2fd;
-  }
-
-  .highlight-box i {
-    font-size: 1.2rem;
-    margin-top: 2px;
-  }
-
-  .refund-policy {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 6px;
-    margin: 15px 0;
-  }
-
-  .refund-policy h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .refund-policy ul {
-    padding-left: 20px;
-    margin: 10px 0;
-  }
-
-  .contact-methods {
-    margin-top: 15px;
-  }
-
-  .contact-methods p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .acceptance-section {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .acceptance-box {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .acceptance-box h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-  }
-
-  .acceptance-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  .btn-primary {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 992px) {
-    .legal-container {
-      flex-direction: column;
-    }
-
-    .legal-sidebar {
-      width: 100%;
-      position: static;
-      margin-bottom: 30px;
-      padding-right: 0;
-    }
-
-    .sidebar-actions {
-      flex-direction: row;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .legal-nav {
-      gap: 15px;
-    }
-
-    .legal-content {
-      padding: 20px;
-    }
-
-    .acceptance-actions {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .legal-header .container {
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .legal-nav {
-      width: 100%;
-      justify-content: space-around;
-    }
-
-    .meta-info {
-      flex-direction: column;
-      gap: 5px;
-    }
-  }
-</style>
-{% endblock %} {% block extra_js %}
+{% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Smooth scrolling for table of contents links
@@ -548,7 +553,7 @@
 
         if (targetElement) {
           window.scrollTo({
-            top: targetElement.offsetTop - 100,
+            top: targetElement.offsetTop - 160, /* Adjusted for navbar and subnav */
             behavior: "smooth",
           });
 
@@ -565,12 +570,11 @@
         window.print();
       });
 
-    // Download as PDF button (would need a proper implementation)
+    // Download as PDF button (placeholder)
     document
       .querySelector(".download-btn")
       ?.addEventListener("click", function () {
         alert("PDF download functionality would be implemented here");
-        // In a real implementation, this would generate/download a PDF
       });
 
     // Highlight current section in TOC while scrolling
@@ -582,9 +586,7 @@
 
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        if (pageYOffset >= sectionTop - 150) {
+        if (pageYOffset >= sectionTop - 160) { /* Adjusted for navbar and subnav */
           current = "#" + section.getAttribute("id");
         }
       });
