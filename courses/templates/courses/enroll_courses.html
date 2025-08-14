@@ -1,0 +1,344 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+EduLearn - My Courses
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .my-courses-page {
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    padding-top: 80px; /* Prevent overlap with fixed navbar */
+    background: var(--light-color);
+  }
+
+  .hero-section {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #7C3AED 100%);
+    color: var(--light-color);
+    padding: 3rem 0;
+    text-align: center;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    height: 100%;
+    background: var(--light-color);
+    box-shadow: var(--shadow);
+  }
+
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .course-card .course-thumbnail {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .course-card .card-body {
+    padding: 1.5rem;
+  }
+
+  .course-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .course-card .instructor-name {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .course-card .progress {
+    height: 8px;
+    border-radius: 4px;
+  }
+
+  .course-card .progress-bar {
+    background: var(--primary-color);
+  }
+
+  .course-card .progress-text {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+    margin-top: 0.5rem;
+  }
+
+  .course-card .btn-continue {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #7C3AED 100%);
+    color: var(--light-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .course-card .btn-continue:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .filter-sort-bar {
+    background: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .filter-sort-bar .dropdown-toggle {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  .filter-sort-bar .dropdown-toggle:hover {
+    background: var(--light-gray);
+  }
+
+  .filter-sort-bar .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+
+  .filter-sort-bar .dropdown-item:hover {
+    background: var(--light-gray);
+    color: var(--primary-color);
+  }
+
+  .no-courses {
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .no-courses img {
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+  }
+
+  .no-courses h4 {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .no-courses p {
+    color: var(--muted-color);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .hero-section h1 {
+      font-size: 2rem;
+    }
+
+    .filter-sort-bar .d-flex {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .course-card .card-body {
+      padding: 1rem;
+    }
+
+    .course-card .card-title {
+      font-size: 1rem;
+    }
+
+    .course-card .btn-continue {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-section h1 {
+      font-size: 1.75rem;
+    }
+
+    .hero-section p {
+      font-size: 1rem;
+    }
+
+    .filter-sort-bar .dropdown {
+      width: 100%;
+    }
+
+    .filter-sort-bar .dropdown-toggle {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="my-courses-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1>My Enrolled Courses</h1>
+      <p>Track your progress and continue learning with your enrolled courses.</p>
+    </div>
+  </section>
+
+  <!-- Filter and Sort Bar -->
+  <section class="filter-sort-bar">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-filter me-2"></i> Filter by Category
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+            <li><a class="dropdown-item" href="#" data-filter="all">All Categories</a></li>
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="#" data-filter="{{ category.id }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-sort me-2"></i> Sort by
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+            <li><a class="dropdown-item" href="#" data-sort="progress-desc">Progress: High to Low</a></li>
+            <li><a class="dropdown-item" href="#" data-sort="progress-asc">Progress: Low to High</a></li>
+            <li><a class="dropdown-item" href="#" data-sort="newest">Newest</a></li>
+            <li><a class="dropdown-item" href="#" data-sort="title">Title (A-Z)</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enrolled Courses -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4" id="courseGrid">
+        {% for course in enrolled_courses %}
+        <div class="col course-item" data-category="{{ course.category.id }}" 
+             data-progress="{{ course.user_progress }}" 
+             data-date="{{ course.enrollment_date|date:'Y-m-d' }}"
+             data-title="{{ course.title|lower }}">
+          <div class="course-card card h-100">
+            <a href="{% url 'courses:course_learning' course.id %}">
+              <img src="{{ course.thumbnail.url|default:'/static/images/edulearn.svg' }}" 
+                   class="course-thumbnail" 
+                   alt="{{ course.title }}"
+                   loading="lazy">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url 'courses:course_learning' course.id %}" 
+                   class="text-decoration-none">
+                  {{ course.title|truncatechars:50 }}
+                </a>
+              </h5>
+              <p class="instructor-name">{{ course.instructor.get_full_name }}</p>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" 
+                     style="width: {{ course.user_progress }}%" 
+                     aria-valuenow="{{ course.user_progress }}" 
+                     aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+              <p class="progress-text">{{ course.user_progress }}% Complete</p>
+              <a href="{% url 'courses:course_learning' course.id %}" 
+                 class="btn btn-continue">
+                <i class="fas fa-play-circle me-2"></i> Continue Learning
+              </a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12 no-courses">
+          <img src="{% static 'images/no-courses.svg' %}" alt="No courses" class="img-fluid">
+          <h4>No Enrolled Courses</h4>
+          <p>Explore our course catalog to find courses that interest you!</p>
+          <a href="" class="btn btn-primary">
+            Browse Courses
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Filter courses
+  document.querySelectorAll('[data-filter]').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      const filterValue = this.getAttribute('data-filter');
+      
+      document.querySelectorAll('.course-item').forEach(course => {
+        if (filterValue === 'all' || course.getAttribute('data-category') === filterValue) {
+          course.style.display = 'block';
+        } else {
+          course.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Sort courses
+  document.querySelectorAll('[data-sort]').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      const sortBy = this.getAttribute('data-sort');
+      const container = document.getElementById('courseGrid');
+      const courses = Array.from(document.querySelectorAll('.course-item'));
+      
+      courses.sort((a, b) => {
+        switch(sortBy) {
+          case 'progress-desc':
+            return parseFloat(b.getAttribute('data-progress')) - parseFloat(a.getAttribute('data-progress'));
+          case 'progress-asc':
+            return parseFloat(a.getAttribute('data-progress')) - parseFloat(b.getAttribute('data-progress'));
+          case 'newest':
+            return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
+          case 'title':
+            return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
+          default:
+            return 0;
+        }
+      });
+      
+      courses.forEach(course => container.appendChild(course));
+    });
+  });
+});
+</script>
+{% endblock %}

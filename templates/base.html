@@ -220,7 +220,7 @@
 <body>
   <!-- Header/Navigation -->
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
       <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">
           <i class="fas fa-graduation-cap me-2" aria-hidden="true"></i>EduLearn
@@ -255,7 +255,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="#">My Profile</a></li>
-                <li><a class="dropdown-item" href="#">My Courses</a></li>
+                <li><a class="dropdown-item" href="{% url "courses:enrolled_courses" %}">My Courses</a></li>
                 {% if user.is_instructor %}
                 <li><a class="dropdown-item" href="{% url 'courses:course_create' %}">Create Course</a></li>
                 <li><a class="dropdown-item" href="{% url 'courses:instructor_dashboard' %}">Instructor Dashboard</a></li>

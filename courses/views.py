@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 
+import courses
 from reviews.forms import ReviewForm
 from reviews.models import Review
 from .models import Course, Progress, Section, Lesson
@@ -73,8 +74,45 @@ from .models import Course
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from .models import Course, Enrollment
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def enrolled_course(request):
+    """
+    Display the user's enrolled courses with categories for filtering.
+    """
+    # Fetch courses for the logged-in user via Enrollment
+    enrolled_courses = Course.objects.filter(
+        enrollment__student=request.user  # Enrollment মডেলের মাধ্যমে ফিল্টার
+    ).select_related('instructor', 'category')
 
+    # Fetch all categories for filtering
+    categories = Category.objects.all()
+
+    context = {
+        'enrolled_courses': enrolled_courses,
+        'categories': categories,
+    }
+
+    return render(request, 'courses/enroll_courses.html', context)
+    
+    
+    
+    """
+    Display the user's enrolled courses with categories for filtering.
+    """
+    # Fetch enrolled courses for the authenticated user
+    enrolled_courses = Course.objects.filter(student=request.user).select_related('instructor', 'category')
+    print(enrolled_course)
+    # Fetch all categories for filtering
+    categories = Category.objects.all()
+    
+    context = {
+        'enrolled_courses': enrolled_courses,
+        'categories': categories,
+    }
+    
+    return render(request, 'courses/enroll_courses.html', context)
 class PublicCourseDetailView(DetailView):
     model = Course
     template_name = 'courses/public_course_detail.html'

@@ -1,4 +1,5 @@
 from django.urls import path
+from courses import views
 from courses.views import (
     CourseCreateView, CourseDetailView, CourseEditView, CourseLearningView, PublicCourseDetailView, instructor_dashboard,
     section_create, SectionEditView, SectionDeleteView, LessonCreateView,
@@ -23,5 +24,5 @@ urlpatterns = [
     path('course/<int:course_id>/section/<int:section_id>/lesson/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
     
     
-    
+    path('enrolled-courses/', views.enrolled_course, name='enrolled_courses'),
 ]
