@@ -1,21 +1,377 @@
-{% extends 'base.html' %} {% load static %} {% block title %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
 <title>EduLearn - Privacy Policy</title>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root {
+    --primary-color: #5624d0;
+    --secondary-color: #f5f5f5;
+    --accent-color: #a435f0;
+    --text-color: #1a1c1e;
+    --light-color: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-color: #d1d5db;
+    --muted-color: #4b5563;
+  }
+
+  .legal-page {
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    line-height: 1.7;
+    background: var(--light-gray);
+  }
+
+  .legal-header {
+    background: var(--light-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .legal-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .logo img {
+    height: 45px;
+  }
+
+  .legal-nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--muted-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-color);
+  }
+
+  .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .nav-link.active:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  }
+
+  .legal-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    gap: 2rem;
+  }
+
+  .legal-sidebar {
+    width: 300px;
+    padding-right: 1.5rem;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .sidebar-content {
+    background: var(--light-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-content h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .toc-link:hover,
+  .toc-link:focus {
+    background: var(--light-gray);
+    color: var(--primary-color);
+    transform: translateX(5px);
+  }
+
+  .toc-link.active {
+    background: var(--light-gray);
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    color: var(--light-color);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: var(--light-color);
+  }
+
+  .btn-outline-secondary {
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-secondary:hover {
+    background: var(--light-gray);
+    transform: translateY(-2px);
+  }
+
+  .legal-content {
+    flex: 1;
+    background: var(--light-color);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .content-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .content-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .meta-info i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .legal-section h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .legal-section p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .legal-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .legal-section ul li {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .acceptance-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .acceptance-box {
+    background: #f0f7ff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .acceptance-box h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .acceptance-box p {
+    font-size: 0.95rem;
+    color: var(--text-color);
+  }
+
+  .acceptance-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .legal-container {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .legal-sidebar {
+      width: 100%;
+      position: static;
+      padding-right: 0;
+    }
+
+    .sidebar-actions {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .legal-nav {
+      gap: 1rem;
+    }
+
+    .legal-content {
+      padding: 1.5rem;
+    }
+
+    .content-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .legal-section h2 {
+      font-size: 1.5rem;
+    }
+
+    .acceptance-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legal-header .container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .legal-nav {
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .meta-info {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="legal-page">
   <!-- Header with Navigation -->
   <div class="legal-header">
     <div class="container">
-      <a href="{% url 'home' %}" class="logo">
-        <img src="{% static 'edulear1n.svg' %}" alt="EduLearn Logo" />
+      <a href="#" class="logo">
+        <img src="{% static 'edulearn.svg' %}" alt="EduLearn Logo" />
       </a>
       <div class="legal-nav">
-        <a href="{% url 'privacy_policy' %}" class="nav-link active"
-          >Privacy Policy</a
-        >
-        <a href="{% url 'terms_of_service' %}" class="nav-link"
-          >Terms of Service</a
-        >
-        <a href="{% url "cookie_policy" %}" class="nav-link">Cookie Policy</a>
+        <a href="#" class="nav-link active">Privacy Policy</a>
+        <a href="#" class="nav-link">Terms of Service</a>
+        <a href="#" class="nav-link">Cookie Policy</a>
       </div>
     </div>
   </div>
@@ -27,9 +383,7 @@
         <h5>Table of Contents</h5>
         <ul class="toc-list">
           <li><a href="#introduction" class="toc-link">1. Introduction</a></li>
-          <li>
-            <a href="#data_collected" class="toc-link">2. Data We Collect</a>
-          </li>
+          <li><a href="#data_collected" class="toc-link">2. Data We Collect</a></li>
           <li><a href="#data_usage" class="toc-link">3. How We Use Data</a></li>
           <li><a href="#data_sharing" class="toc-link">4. Data Sharing</a></li>
           <li><a href="#cookies" class="toc-link">5. Cookies</a></li>
@@ -128,374 +482,39 @@
             If you have any questions or concerns about this Privacy Policy,
             contact us at:
           </p>
-          <p><i class="fas fa-envelope"></i> privacy@edulearn.com</p>
-          <p><i class="fas fa-phone"></i> +1 (555) 234-5678</p>
+          <div class="contact-methods">
+            <p><i class="fas fa-envelope"></i> privacy@edulearn.com</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 234-5678</p>
+          </div>
         </section>
 
-        <div class="acceptance-section">
-          <div class="acceptance-box">
+        <div class="acceptance-section ">
+          <div class="acceptance-box bg-dark">
             <h4>Acceptance of Privacy Policy</h4>
             <p>By using our services, you agree to this Privacy Policy.</p>
             <div class="acceptance-actions">
-              <a href="{% url 'register' %}" class="btn btn-primary"
-                >I Understand - Create Account</a
-              >
-              <a href="{% url 'home' %}" class="btn btn-outline-secondary"
-                >Back to Home</a
-              >
+              <a href="#" class="btn btn-primary">I Understand - Create Account</a>
+              <a href="#" class="btn btn-outline-secondary">Back to Home</a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="actionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body">
+        <span id="toastMessage"></span>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %} {% block extra_css %}
-<style>
-  :root {
-    --primary-color: #5624d0;
-    --secondary-color: #f5f5f5;
-    --accent-color: #a435f0;
-    --text-color: #2d2f31;
-    --light-gray: #f8f9fa;
-    --border-color: #e1e1e1;
-  }
+{% endblock %}
 
-  .legal-page {
-    font-family: "Roboto", sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
-  }
-
-  .legal-header {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .legal-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .logo img {
-    height: 40px;
-  }
-
-  .legal-nav {
-    display: flex;
-    gap: 25px;
-  }
-
-  .nav-link {
-    color: #666;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 5px 0;
-    position: relative;
-  }
-
-  .nav-link.active {
-    color: var(--primary-color);
-    font-weight: 600;
-  }
-
-  .nav-link.active:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary-color);
-  }
-
-  .legal-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-
-  .legal-sidebar {
-    width: 280px;
-    padding-right: 30px;
-    position: sticky;
-    top: 80px;
-    align-self: flex-start;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-  }
-
-  .sidebar-content {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .toc-link {
-    display: block;
-    padding: 8px 12px;
-    color: #555;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    transition: all 0.2s;
-  }
-
-  .toc-link:hover,
-  .toc-link:focus {
-    background: var(--light-gray);
-    color: var(--primary-color);
-  }
-
-  .sidebar-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 25px;
-  }
-
-  .btn {
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .btn-outline-primary {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    background: white;
-  }
-
-  .btn-outline-primary:hover {
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .btn-outline-secondary {
-    border: 1px solid #ddd;
-    color: #555;
-    background: white;
-  }
-
-  .btn-outline-secondary:hover {
-    background: #f5f5f5;
-  }
-
-  .legal-content {
-    flex: 1;
-    background: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .content-header {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-  }
-
-  .content-header h1 {
-    font-weight: 700;
-    color: var(--text-color);
-    margin-bottom: 10px;
-  }
-
-  .meta-info {
-    display: flex;
-    gap: 20px;
-    color: #666;
-    font-size: 0.9rem;
-  }
-
-  .meta-info i {
-    margin-right: 5px;
-  }
-
-  .legal-section {
-    margin-bottom: 40px;
-  }
-
-  .legal-section h2 {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-  }
-
-  .legal-section h3 {
-    font-weight: 600;
-    margin: 20px 0 10px;
-    font-size: 1.2rem;
-  }
-
-  .legal-section p {
-    margin-bottom: 15px;
-  }
-
-  .highlight-box {
-    background: #f8f9fa;
-    border-left: 4px solid var(--primary-color);
-    padding: 15px;
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .highlight-box.warning {
-    border-left-color: #ffc107;
-    background: #fff8e1;
-  }
-
-  .highlight-box.info {
-    border-left-color: #17a2b8;
-    background: #e3f2fd;
-  }
-
-  .highlight-box i {
-    font-size: 1.2rem;
-    margin-top: 2px;
-  }
-
-  .refund-policy {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 6px;
-    margin: 15px 0;
-  }
-
-  .refund-policy h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .refund-policy ul {
-    padding-left: 20px;
-    margin: 10px 0;
-  }
-
-  .contact-methods {
-    margin-top: 15px;
-  }
-
-  .contact-methods p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .acceptance-section {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .acceptance-box {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .acceptance-box h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-  }
-
-  .acceptance-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  .btn-primary {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 992px) {
-    .legal-container {
-      flex-direction: column;
-    }
-
-    .legal-sidebar {
-      width: 100%;
-      position: static;
-      margin-bottom: 30px;
-      padding-right: 0;
-    }
-
-    .sidebar-actions {
-      flex-direction: row;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .legal-nav {
-      gap: 15px;
-    }
-
-    .legal-content {
-      padding: 20px;
-    }
-
-    .acceptance-actions {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .legal-header .container {
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .legal-nav {
-      width: 100%;
-      justify-content: space-around;
-    }
-
-    .meta-info {
-      flex-direction: column;
-      gap: 5px;
-    }
-  }
-</style>
-{% endblock %} {% block extra_js %}
+{% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Smooth scrolling for table of contents links
@@ -510,27 +529,10 @@
             top: targetElement.offsetTop - 100,
             behavior: "smooth",
           });
-
-          // Update URL without page reload
           history.pushState(null, null, targetId);
         }
       });
     });
-
-    // Print button functionality
-    document
-      .querySelector(".print-btn")
-      ?.addEventListener("click", function () {
-        window.print();
-      });
-
-    // Download as PDF button (would need a proper implementation)
-    document
-      .querySelector(".download-btn")
-      ?.addEventListener("click", function () {
-        alert("PDF download functionality would be implemented here");
-        // In a real implementation, this would generate/download a PDF
-      });
 
     // Highlight current section in TOC while scrolling
     const sections = document.querySelectorAll(".legal-section");
@@ -538,22 +540,34 @@
 
     window.addEventListener("scroll", function () {
       let current = "";
-
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
         if (pageYOffset >= sectionTop - 150) {
           current = "#" + section.getAttribute("id");
         }
       });
-
       tocLinks.forEach((link) => {
         link.classList.remove("active");
         if (link.getAttribute("href") === current) {
           link.classList.add("active");
         }
       });
+    });
+
+    // Print button functionality
+    document.querySelector(".print-btn")?.addEventListener("click", function () {
+      window.print();
+      const toast = new bootstrap.Toast(document.getElementById("actionToast"));
+      document.getElementById("toastMessage").textContent = "Printing Privacy Policy...";
+      toast.show();
+    });
+
+    // Download button functionality (placeholder)
+    document.querySelector(".download-btn")?.addEventListener("click", function () {
+      const toast = new bootstrap.Toast(document.getElementById("actionToast"));
+      document.getElementById("toastMessage").textContent = "PDF download functionality requires backend setup.";
+      toast.show();
+      // Example: window.location.href = '/download/privacy-policy.pdf';
     });
   });
 </script>

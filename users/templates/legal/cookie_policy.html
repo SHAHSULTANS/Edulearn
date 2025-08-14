@@ -1,21 +1,542 @@
-{% extends 'base.html' %} {% load static %} {% block title %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
 <title>EduLearn - Cookie Policy</title>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root {
+    --primary-color: #5624d0;
+    --secondary-color: #f5f5f5;
+    --accent-color: #a435f0;
+    --text-color: #1a1c1e;
+    --light-color: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-color: #d1d5db;
+    --muted-color: #4b5563;
+  }
+
+  .legal-page {
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    line-height: 1.7;
+    background: var(--light-gray);
+  }
+
+  .legal-header {
+    background: var(--light-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .legal-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .logo img {
+    height: 45px;
+  }
+
+  .legal-nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--muted-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-color);
+  }
+
+  .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .nav-link.active:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  }
+
+  .legal-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    gap: 2rem;
+  }
+
+  .legal-sidebar {
+    width: 300px;
+    padding-right: 1.5rem;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .sidebar-content {
+    background: var(--light-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-content h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .toc-link:hover,
+  .toc-link:focus {
+    background: var(--light-gray);
+    color: var(--primary-color);
+    transform: translateX(5px);
+  }
+
+  .cookie-controls {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .cookie-option {
+    margin-bottom: 1rem;
+  }
+
+  .cookie-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .cookie-switch input {
+    display: none;
+  }
+
+  .cookie-switch .slider {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    background: var(--border-color);
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .cookie-switch .slider:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--light-color);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+  }
+
+  .cookie-switch input:checked + .slider {
+    background: var(--primary-color);
+  }
+
+  .cookie-switch input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+
+  .cookie-switch input:disabled + .slider {
+    background: var(--muted-color);
+    cursor: not-allowed;
+  }
+
+  .cookie-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  .cookie-desc {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+    margin-top: 0.25rem;
+  }
+
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    color: var(--light-color);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: var(--light-color);
+  }
+
+  .btn-outline-secondary {
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: var(--light-color);
+  }
+
+  .btn-outline-secondary:hover {
+    background: var(--light-gray);
+    transform: translateY(-2px);
+  }
+
+  .legal-content {
+    flex: 1;
+    background: var(--light-color);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .content-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .content-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .meta-info i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .legal-section h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .legal-section h3 {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .legal-section p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .legal-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .legal-section ul li {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .highlight-box {
+    background: #f0f7ff;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 0.75rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .highlight-box.warning {
+    border-left-color: #f59e0b;
+    background: #fef3c7;
+  }
+
+  .highlight-box.info {
+    border-left-color: #0284c7;
+    background: #e0f2fe;
+  }
+
+  .highlight-box i {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+  }
+
+  .highlight-box.warning i {
+    color: #f59e0b;
+  }
+
+  .highlight-box.info i {
+    color: #0284c7;
+  }
+
+  .cookie-type {
+    margin-bottom: 1.5rem;
+  }
+
+  .cookie-examples {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+    margin-top: 0.5rem;
+  }
+
+  .third-party-table {
+    margin: 1.5rem 0;
+  }
+
+  .third-party-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--light-color);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .third-party-table th,
+  .third-party-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .third-party-table th {
+    background: var(--light-gray);
+    color: var(--text-color);
+    font-weight: 600;
+  }
+
+  .third-party-table td a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .third-party-table td a:hover {
+    text-decoration: underline;
+  }
+
+  .browser-instructions {
+    margin: 1.5rem 0;
+  }
+
+  .browser-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--light-color);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .tab-btn.active,
+  .tab-btn:hover {
+    background: var(--primary-color);
+    color: var(--light-color);
+    border-color: var(--primary-color);
+  }
+
+  .tab-content {
+    display: none;
+    padding: 1rem;
+    background: var(--light-gray);
+    border-radius: 6px;
+  }
+
+  .tab-content ol {
+    padding-left: 1.5rem;
+    color: var(--text-color);
+  }
+
+  .contact-methods p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+  }
+
+  .contact-methods i {
+    color: var(--primary-color);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .legal-container {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .legal-sidebar {
+      width: 100%;
+      position: static;
+      padding-right: 0;
+    }
+
+    .sidebar-actions {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .legal-nav {
+      gap: 1rem;
+    }
+
+    .legal-content {
+      padding: 1.5rem;
+    }
+
+    .content-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .legal-section h2 {
+      font-size: 1.5rem;
+    }
+
+    .btn {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legal-header .container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .legal-nav {
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .meta-info {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .browser-tabs {
+      flex-direction: column;
+    }
+
+    .sidebar-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
 <div class="legal-page">
   <!-- Header with Navigation -->
   <div class="legal-header">
     <div class="container">
-      <a href="{% url 'home' %}" class="logo">
-        <img src="{% static 'edulear1n.svg' %}" alt="EduLearn Logo" />
+      <a href="#" class="logo">
+        <img src="{% static 'edulearn.svg' %}" alt="EduLearn Logo" />
       </a>
       <div class="legal-nav">
-        <a href="{% url 'privacy_policy' %}" class="nav-link">Privacy Policy</a>
-        <a href="{% url 'terms_of_service' %}" class="nav-link"
-          >Terms of Service</a
-        >
-        <a href="{% url 'cookie_policy' %}" class="nav-link active"
-          >Cookie Policy</a
-        >
+        <a href="{% url "privacy_policy" %}" class="nav-link">Privacy Policy</a>
+        <a href="{% url "terms_of_service" %}" class="nav-link">Terms of Service</a>
+        <a href="{% url "cookie_policy" %}" class="nav-link active">Cookie Policy</a>
       </div>
     </div>
   </div>
@@ -26,21 +547,11 @@
       <div class="sidebar-content">
         <h5>Table of Contents</h5>
         <ul class="toc-list">
-          <li>
-            <a href="#what-are-cookies" class="toc-link">1. What Are Cookies</a>
-          </li>
-          <li>
-            <a href="#how-we-use" class="toc-link">2. How We Use Cookies</a>
-          </li>
-          <li>
-            <a href="#types-of-cookies" class="toc-link">3. Types of Cookies</a>
-          </li>
-          <li>
-            <a href="#third-party" class="toc-link">4. Third-Party Cookies</a>
-          </li>
-          <li>
-            <a href="#managing-cookies" class="toc-link">5. Managing Cookies</a>
-          </li>
+          <li><a href="#what-are-cookies" class="toc-link">1. What Are Cookies</a></li>
+          <li><a href="#how-we-use" class="toc-link">2. How We Use Cookies</a></li>
+          <li><a href="#types-of-cookies" class="toc-link">3. Types of Cookies</a></li>
+          <li><a href="#third-party" class="toc-link">4. Third-Party Cookies</a></li>
+          <li><a href="#managing-cookies" class="toc-link">5. Managing Cookies</a></li>
           <li><a href="#changes" class="toc-link">6. Changes to Policy</a></li>
           <li><a href="#contact" class="toc-link">7. Contact Us</a></li>
         </ul>
@@ -74,16 +585,15 @@
           <button class="btn btn-primary save-btn">Save Preferences</button>
         </div>
         <div class="sidebar-actions">
-            <button class="btn btn-outline-primary print-btn">
+          <button class="btn btn-outline-primary print-btn">
             <i class="fas fa-print"></i> Print Policy
-            </button>
-            <button class="btn btn-outline-secondary download-btn">
+          </button>
+          <button class="btn btn-outline-secondary download-btn">
             <i class="fas fa-download"></i> Download PDF
-            </button>
+          </button>
         </div>
       </div>
     </div>
-
 
     <div class="legal-content">
       <div class="content-header">
@@ -107,9 +617,8 @@
             websites work more efficiently and to provide information to the
             site owners.
           </p>
-
-          <div class="highlight-box info">
-            <i class="fas fa-info-circle"></i>
+          <div class="highlight-box info text-bg-dark">
+            <i class="fas fa-info-circle text-dark"></i>
             <p>
               Cookies cannot be used to run programs or deliver viruses to your
               computer. They are uniquely assigned to you and can only be read
@@ -132,7 +641,6 @@
 
         <section id="types-of-cookies" class="legal-section">
           <h2>3. Types of Cookies We Use</h2>
-
           <div class="cookie-type">
             <h3>3.1 Strictly Necessary Cookies</h3>
             <p>
@@ -143,7 +651,6 @@
               <strong>Examples:</strong> Session cookies, authentication cookies
             </div>
           </div>
-
           <div class="cookie-type">
             <h3>3.2 Performance Cookies</h3>
             <p>
@@ -154,7 +661,6 @@
               <strong>Examples:</strong> Google Analytics cookies
             </div>
           </div>
-
           <div class="cookie-type">
             <h3>3.3 Functionality Cookies</h3>
             <p>
@@ -165,7 +671,6 @@
               <strong>Examples:</strong> Language preference cookies
             </div>
           </div>
-
           <div class="cookie-type">
             <h3>3.4 Targeting/Advertising Cookies</h3>
             <p>
@@ -185,8 +690,7 @@
             statistics of the service, deliver advertisements, and provide other
             services.
           </p>
-
-          <div class="highlight-box">
+          <div class="highlight-box warning bg-dark">
             <i class="fas fa-exclamation-triangle"></i>
             <p>
               Third-party cookies are not under our control. Please refer to the
@@ -194,7 +698,6 @@
               about their cookies.
             </p>
           </div>
-
           <div class="third-party-table">
             <table>
               <thead>
@@ -209,33 +712,21 @@
                   <td>Google Analytics</td>
                   <td>Website analytics</td>
                   <td>
-                    <a
-                      href="https://policies.google.com/privacy"
-                      target="_blank"
-                      >View Policy</a
-                    >
+                    <a href="https://policies.google.com/privacy" target="_blank">View Policy</a>
                   </td>
                 </tr>
                 <tr>
                   <td>Facebook Pixel</td>
                   <td>Advertising</td>
                   <td>
-                    <a
-                      href="https://www.facebook.com/policy.php"
-                      target="_blank"
-                      >View Policy</a
-                    >
+                    <a href="https://www.facebook.com/policy.php" target="_blank">View Policy</a>
                   </td>
                 </tr>
                 <tr>
                   <td>Hotjar</td>
                   <td>User behavior analytics</td>
                   <td>
-                    <a
-                      href="https://www.hotjar.com/legal/policies/privacy/"
-                      target="_blank"
-                      >View Policy</a
-                    >
+                    <a href="https://www.hotjar.com/legal/policies/privacy/" target="_blank">View Policy</a>
                   </td>
                 </tr>
               </tbody>
@@ -250,24 +741,14 @@
             all cookies that are already on your computer and you can set most
             browsers to prevent them from being placed.
           </p>
-
           <div class="browser-instructions">
             <h3>Browser-Specific Instructions:</h3>
             <div class="browser-tabs">
-              <button class="tab-btn active" onclick="openTab(event, 'chrome')">
-                Chrome
-              </button>
-              <button class="tab-btn" onclick="openTab(event, 'firefox')">
-                Firefox
-              </button>
-              <button class="tab-btn" onclick="openTab(event, 'safari')">
-                Safari
-              </button>
-              <button class="tab-btn" onclick="openTab(event, 'edge')">
-                Edge
-              </button>
+              <button class="tab-btn active" onclick="openTab(event, 'chrome')">Chrome</button>
+              <button class="tab-btn" onclick="openTab(event, 'firefox')">Firefox</button>
+              <button class="tab-btn" onclick="openTab(event, 'safari')">Safari</button>
+              <button class="tab-btn" onclick="openTab(event, 'edge')">Edge</button>
             </div>
-
             <div id="chrome" class="tab-content" style="display: block">
               <ol>
                 <li>Click the three dots in the top right corner</li>
@@ -276,7 +757,6 @@
                 <li>Adjust your preferences</li>
               </ol>
             </div>
-
             <div id="firefox" class="tab-content">
               <ol>
                 <li>Click the menu button and select "Options"</li>
@@ -284,7 +764,6 @@
                 <li>Under "Cookies and Site Data" adjust your preferences</li>
               </ol>
             </div>
-
             <div id="safari" class="tab-content">
               <ol>
                 <li>Choose Safari > Preferences</li>
@@ -292,7 +771,6 @@
                 <li>Adjust your cookie preferences</li>
               </ol>
             </div>
-
             <div id="edge" class="tab-content">
               <ol>
                 <li>Click the three dots in the top right corner</li>
@@ -302,7 +780,6 @@
               </ol>
             </div>
           </div>
-
           <p>
             If you do this, however, you may have to manually adjust some
             preferences every time you visit a site and some services and
@@ -334,367 +811,19 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_css %}
-<style>
-  :root {
-    --primary-color: #5624d0;
-    --secondary-color: #f5f5f5;
-    --accent-color: #a435f0;
-    --text-color: #2d2f31;
-    --light-gray: #f8f9fa;
-    --border-color: #e1e1e1;
-  }
+{% endblock %}
 
-  .legal-page {
-    font-family: "Roboto", sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
-  }
-
-  .legal-header {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .legal-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .logo img {
-    height: 40px;
-  }
-
-  .legal-nav {
-    display: flex;
-    gap: 25px;
-  }
-
-  .nav-link {
-    color: #666;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 5px 0;
-    position: relative;
-  }
-
-  .nav-link.active {
-    color: var(--primary-color);
-    font-weight: 600;
-  }
-
-  .nav-link.active:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary-color);
-  }
-
-  .legal-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-
-  .legal-sidebar {
-    width: 280px;
-    padding-right: 30px;
-    position: sticky;
-    top: 80px;
-    align-self: flex-start;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-  }
-
-  .sidebar-content {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .toc-link {
-    display: block;
-    padding: 8px 12px;
-    color: #555;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    transition: all 0.2s;
-  }
-
-  .toc-link:hover,
-  .toc-link:focus {
-    background: var(--light-gray);
-    color: var(--primary-color);
-  }
-
-  .sidebar-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 25px;
-  }
-
-  .btn {
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .btn-outline-primary {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    background: white;
-  }
-
-  .btn-outline-primary:hover {
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .btn-outline-secondary {
-    border: 1px solid #ddd;
-    color: #555;
-    background: white;
-  }
-
-  .btn-outline-secondary:hover {
-    background: #f5f5f5;
-  }
-
-  .legal-content {
-    flex: 1;
-    background: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .content-header {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-  }
-
-  .content-header h1 {
-    font-weight: 700;
-    color: var(--text-color);
-    margin-bottom: 10px;
-  }
-
-  .meta-info {
-    display: flex;
-    gap: 20px;
-    color: #666;
-    font-size: 0.9rem;
-  }
-
-  .meta-info i {
-    margin-right: 5px;
-  }
-
-  .legal-section {
-    margin-bottom: 40px;
-  }
-
-  .legal-section h2 {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-  }
-
-  .legal-section h3 {
-    font-weight: 600;
-    margin: 20px 0 10px;
-    font-size: 1.2rem;
-  }
-
-  .legal-section p {
-    margin-bottom: 15px;
-  }
-
-  .highlight-box {
-    background: #f8f9fa;
-    border-left: 4px solid var(--primary-color);
-    padding: 15px;
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .highlight-box.warning {
-    border-left-color: #ffc107;
-    background: #fff8e1;
-  }
-
-  .highlight-box.info {
-    border-left-color: #17a2b8;
-    background: #e3f2fd;
-  }
-
-  .highlight-box i {
-    font-size: 1.2rem;
-    margin-top: 2px;
-  }
-
-  .refund-policy {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 6px;
-    margin: 15px 0;
-  }
-
-  .refund-policy h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .refund-policy ul {
-    padding-left: 20px;
-    margin: 10px 0;
-  }
-
-  .contact-methods {
-    margin-top: 15px;
-  }
-
-  .contact-methods p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .acceptance-section {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .acceptance-box {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .acceptance-box h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-  }
-
-  .acceptance-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  .btn-primary {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 992px) {
-    .legal-container {
-      flex-direction: column;
-    }
-
-    .legal-sidebar {
-      width: 100%;
-      position: static;
-      margin-bottom: 30px;
-      padding-right: 0;
-    }
-
-    .sidebar-actions {
-      flex-direction: row;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .legal-nav {
-      gap: 15px;
-    }
-
-    .legal-content {
-      padding: 20px;
-    }
-
-    .acceptance-actions {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .legal-header .container {
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .legal-nav {
-      width: 100%;
-      justify-content: space-around;
-    }
-
-    .meta-info {
-      flex-direction: column;
-      gap: 5px;
-    }
-  }
-</style>
-{% endblock %} {% block extra_js %}
+{% block extra_js %}
 <script>
   function openTab(evt, tabName) {
-    // Hide all tab content
     const tabContents = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContents.length; i++) {
       tabContents[i].style.display = "none";
     }
-
-    // Remove active class from all tab buttons
     const tabButtons = document.getElementsByClassName("tab-btn");
     for (let i = 0; i < tabButtons.length; i++) {
       tabButtons[i].className = tabButtons[i].className.replace(" active", "");
     }
-
-    // Show the current tab and add active class to the button
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
   }
@@ -708,15 +837,45 @@
       ".cookie-option:nth-child(3) input"
     ).checked;
 
-    // In a real implementation, this would save to localStorage or make an API call
-    alert(
-      `Preferences saved!\nAnalytics: ${
-        analyticsChecked ? "ON" : "OFF"
-      }\nMarketing: ${marketingChecked ? "ON" : "OFF"}`
-    );
+    // Save preferences to localStorage
+    localStorage.setItem("analyticsCookies", analyticsChecked);
+    localStorage.setItem("marketingCookies", marketingChecked);
 
-    // You would typically reload the page or update the cookie consent banner
-    // location.reload();
+    // Show confirmation toast
+    const toast = new bootstrap.Toast(document.createElement('div'));
+    const toastHTML = `
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+          Cookie preferences saved! Analytics: ${analyticsChecked ? "ON" : "OFF"}, Marketing: ${marketingChecked ? "ON" : "OFF"}
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    `;
+    document.querySelector(".toast-container")?.insertAdjacentHTML("beforeend", toastHTML);
+    const newToast = document.querySelector(".toast:last-child");
+    new bootstrap.Toast(newToast).show();
+
+    // In a real implementation, make an API call to save preferences
+    // fetch('/save-cookie-preferences/', { ... });
+  });
+
+  // Load saved preferences
+  document.addEventListener("DOMContentLoaded", function () {
+    const analyticsChecked = localStorage.getItem("analyticsCookies") === "true";
+    const marketingChecked = localStorage.getItem("marketingCookies") === "true";
+    document.querySelector(".cookie-option:nth-child(2) input").checked = analyticsChecked;
+    document.querySelector(".cookie-option:nth-child(3) input").checked = marketingChecked;
+  });
+
+  // Print and Download buttons
+  document.querySelector(".print-btn")?.addEventListener("click", function () {
+    window.print();
+  });
+
+  document.querySelector(".download-btn")?.addEventListener("click", function () {
+    // Placeholder for PDF download (requires backend implementation)
+    alert("PDF download functionality requires backend setup.");
+    // Example: window.location.href = '/download/cookie-policy.pdf';
   });
 </script>
 {% endblock %}
