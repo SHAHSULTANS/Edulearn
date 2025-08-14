@@ -1,209 +1,235 @@
-Here is your content fully converted into **Markdown syntax** for use in a `README.md` file:
+````markdown
+# Edulearn - Online Learning Platform
+
+**Edulearn** is a full-featured online learning platform inspired by Udemy and Coursera. It allows instructors to create courses, manage lessons and sections, accept payments, and lets students enroll, learn, and review courses. Built with **Django**, it provides a robust, scalable, and secure backend.
 
 ---
 
-```markdown
-# 📚 EduLearn
+## **Table of Contents**
 
-EduLearn is a Django-based online course platform that enables users to browse, enroll in, and review courses. Instructors can create and manage courses, sections, and lessons, while the platform supports secure payments and user authentication. This README provides clear instructions to set up and run the project.
-
----
-
-## 📑 Table of Contents
-
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Setup Instructions](#setup-instructions)
-- [Running the Project](#running-the-project)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Setup Instructions](#setup-instructions)
+5. [Project Structure](#project-structure)
+6. [URL Routing and Endpoints](#url-routing-and-endpoints)
+7. [Modules](#modules)
+   - Users
+   - Courses
+   - Payments
+   - Reviews
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ---
 
-## 🚀 Features
+## **Project Overview**
 
-- **User Management**: Register, log in, and manage profiles with password reset functionality.
-- **Course Management**: Create, edit, and view courses, sections, and lessons.
-- **Payments**: Secure course checkout with success and cancel pages.
-- **Reviews**: Users can rate and review courses.
-- **Responsive UI**: Built with Bootstrap for a mobile-friendly experience.
-- **Admin Panel**: Manage content via Django’s admin interface.
-- **API Support**: Access course data using Django REST Framework.
+Edulearn is an online course management system where:
 
----
-
-## 📁 Project Structure
-
-A simplified overview of the project’s key directories and files:
-
-```
-
-EduLearn/
-├── app/                    # Migration-related files
-├── core/                   # Core app for shared functionality
-│   ├── models.py           # Core database models
-│   ├── views.py            # Core request handling
-│   └── management/         # Custom commands (e.g., runserver.py)
-├── courses/                # Course management
-│   ├── models.py           # Course, section, lesson, and enrollment models
-│   ├── views.py            # Course-related views
-│   ├── templates/courses/  # Templates (e.g., course\_detail.html)
-│   ├── static/             # CSS and JavaScript files
-│   └── migrations/         # Database migrations
-├── jobapp/                 # Main project settings
-│   ├── settings.py         # Django configuration
-│   ├── urls.py             # URL routing
-│   ├── manage.py           # Django management script
-│   └── Procfile            # Deployment configuration
-├── payments/               # Payment processing
-│   ├── models.py           # Payment models
-│   └── templates/payments/ # Payment templates (e.g., checkout.html)
-├── reviews/                # Course review system
-│   ├── models.py           # Review models
-│   └── views.py            # Review views
-├── users/                  # User authentication
-│   ├── forms.py            # User forms
-│   ├── templates/users/    # User templates (e.g., login.html)
-│   └── static/             # User-related static files
-├── media/                  # Uploaded files (e.g., course thumbnails)
-├── static/                 # Static files (Bootstrap CSS/JS)
-└── templates/              # Base templates (e.g., base.html)
-
-````
+- **Students** can browse courses, enroll, complete lessons, and leave reviews.
+- **Instructors** can create courses, add sections and lessons, and track student progress.
+- **Admins** can manage users, courses, payments, and reviews.
+- Integrated **Stripe payments** allow secure course checkout.
 
 ---
 
-## 📦 Prerequisites
+## **Features**
 
-- Python (version specified in `runtime.txt`, typically 3.8+)
-- pip (Python package manager)
-- virtualenv (recommended)
-- SQLite (included with Python)
-- Git (optional, for cloning)
+- User registration, login, logout, and password reset.
+- Instructor dashboard for course creation and management.
+- Course sections and lessons with CRUD functionality.
+- Public and private course views.
+- Student enrollment and learning progress tracking.
+- Review system for courses.
+- Stripe integration for payments.
+- Admin panel for managing users, courses, and payments.
+- Privacy, Terms of Service, and Cookie Policy pages.
 
 ---
 
-## ⚙️ Setup Instructions
+## **Tech Stack**
 
-### 1. Clone the Repository
+- Python 3.x
+- Django 5.x
+- PostgreSQL / SQLite
+- Stripe (for payments)
+- HTML, CSS, JavaScript (Frontend templates)
+
+---
+
+## **Setup Instructions**
+
+1. Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd EduLearn
+git clone https://github.com/yourusername/edulearn.git
+cd edulearn
+```
 ````
 
-### 2. Create a Virtual Environment
+2. Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
 ```
 
-### 3. Install Dependencies
+3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
+4. Set up environment variables in `.env` file:
+
+```
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+DATABASE_URL=postgres://user:password@localhost:5432/edulearn
+STRIPE_SECRET_KEY=your_stripe_secret
+STRIPE_PUBLIC_KEY=your_stripe_public_key
+```
+
+5. Apply migrations:
 
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5. Create a Superuser
+6. Create a superuser:
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. (Optional) Populate the Database
-
-```bash
-python manage.py populate_db
-```
-
-### 7. Collect Static Files
-
-```bash
-python manage.py collectstatic
-```
-
----
-
-## ▶️ Running the Project
-
-Start the development server:
+7. Run the development server:
 
 ```bash
 python manage.py runserver
 ```
 
-Then visit:
-
-* 🌐 `http://localhost:8000` – Home Page
-* 🔐 `http://localhost:8000/admin/` – Admin Panel
+Access the project at `http://127.0.0.1:8000/`.
 
 ---
 
-## 🛠️ Troubleshooting
+## **Project Structure**
 
-### ❗ Migration Errors
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
 ```
-
-### ❗ Static Files Not Loading
-
-* Check `STATIC_URL` and `STATIC_ROOT` in `settings.py`.
-* Run:
-
-```bash
-python manage.py collectstatic
-```
-
-### ❗ Database Issues
-
-* Ensure `db.sqlite3` is writable.
-* Or delete it and re-run migrations.
-
----
-
-## 🤝 Contributing
-
-1. **Fork** the repository
-2. **Create a branch**:
-
-   ```bash
-   git checkout -b feature/your-feature
-   ```
-3. **Commit changes**:
-
-   ```bash
-   git commit -m "Add feature"
-   ```
-4. **Push** to the branch:
-
-   ```bash
-   git push origin feature/your-feature
-   ```
-5. **Open a pull request**
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
+edulearn/
+│
+├── edulearn/               # Project settings
+├── users/                  # User management (auth, profile)
+├── courses/                # Course management (sections, lessons)
+├── payments/               # Stripe integration and booking
+├── reviews/                # Course reviews
+├── templates/              # HTML templates
+├── static/                 # CSS, JS, images
+└── manage.py
 ```
 
 ---
 
+## **URL Routing and Endpoints**
+
+### **Home & Users**
+
+| URL                     | Method   | Purpose                 |
+| ----------------------- | -------- | ----------------------- |
+| `/`                     | GET      | Home dashboard          |
+| `/user/login/`          | GET/POST | User login              |
+| `/user/logout/`         | GET/POST | Logout user             |
+| `/user/register/`       | GET/POST | User registration       |
+| `/user/terms/`          | GET      | Terms of service        |
+| `/user/privacy/`        | GET      | Privacy policy          |
+| `/user/cookie-policy/`  | GET      | Cookie policy           |
+| `/user/password-reset/` | GET/POST | Password reset workflow |
+
+### **Courses**
+
+| URL                                                                    | Method    | Purpose                          |
+| ---------------------------------------------------------------------- | --------- | -------------------------------- |
+| `/courses/instructor-dashboard/`                                       | GET       | Instructor dashboard             |
+| `/courses/create/`                                                     | GET/POST  | Create course                    |
+| `/courses/course/<id>/`                                                | GET       | Course detail (instructor)       |
+| `/courses/pcourse/<id>/`                                               | GET       | Public course detail             |
+| `/courses/learning/<id>/`                                              | GET       | Course learning page             |
+| `/courses/course/<id>/edit/`                                           | GET/PATCH | Edit course                      |
+| `/courses/course/<id>/manage/`                                         | GET       | Manage course (sections/lessons) |
+| `/courses/course/<course_id>/section/create/`                          | GET/POST  | Create section                   |
+| `/courses/course/<course_id>/section/<id>/edit/`                       | PATCH     | Edit section                     |
+| `/courses/course/<course_id>/section/<id>/delete/`                     | DELETE    | Delete section                   |
+| `/courses/course/<course_id>/section/<section_id>/lesson/create/`      | POST      | Create lesson                    |
+| `/courses/course/<course_id>/section/<section_id>/lesson/<id>/edit/`   | PATCH     | Edit lesson                      |
+| `/courses/course/<course_id>/section/<section_id>/lesson/<id>/delete/` | DELETE    | Delete lesson                    |
+
+### **Payments**
+
+| URL                        | Method | Purpose                        |
+| -------------------------- | ------ | ------------------------------ |
+| `/payments/checkout/<id>/` | POST   | Create Stripe checkout session |
+| `/payments/success/<id>/`  | GET    | Payment success page           |
+| `/payments/cancel/<id>/`   | GET    | Payment cancel page            |
+
+### **Reviews**
+
+| URL                                          | Method | Purpose              |
+| -------------------------------------------- | ------ | -------------------- |
+| `/reviews/course/<course_id>/review/create/` | POST   | Create course review |
+
+---
+
+## **Modules Overview**
+
+### **Users Module**
+
+- Registration, login/logout, password reset
+- Profile management
+- Terms, privacy, cookie policies
+
+### **Courses Module**
+
+- Instructor can create, edit, and manage courses, sections, and lessons
+- Public and private course views
+- Learning progress for students
+
+### **Payments Module**
+
+- Stripe integration for secure course payments
+- Payment success/cancel handling
+
+### **Reviews Module**
+
+- Students can create reviews for courses
+- Optional edit/delete features for reviews
+
+---
+
+## **Contributing**
+
+- Fork the repository
+- Create a new branch: `git checkout -b feature/your-feature`
+- Commit changes: `git commit -m "Add some feature"`
+- Push to branch: `git push origin feature/your-feature`
+- Open a Pull Request
+
+---
+
+## **License**
+
+MIT License © 2025 Your Name
+
+---
+
+## **Notes**
+
+- Ensure `DEBUG=False` in production
+- Set proper Stripe webhook endpoint for live payments
+- Use PostgreSQL or MySQL for production database
+
+---
+
+This `README.md` provides a **complete, professional documentation** for developers or QA to understand **Edulearn** and its routing, modules, and workflows.
+
+---
